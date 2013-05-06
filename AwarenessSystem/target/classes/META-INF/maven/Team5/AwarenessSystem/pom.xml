@@ -59,5 +59,15 @@
 			<artifactId>google-api-services-calendar</artifactId>
 			<version>v3-rev40-1.14.2-beta</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
+			<version>1.5.0-beta</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.14.1-beta</version>
+		</dependency>
 	</dependencies>
 </project>
