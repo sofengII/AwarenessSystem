@@ -1,5 +1,0 @@
-- Macht es Sinn die Einarbeitung der Technologien aufzuteilen? Oder sollte jeder alle Technologien beherschen?
-
-- Einarbeitung in die Technologien als eigene Funktion/Thema?
-
-- Sollte eine Aufgabe nur einem Inkrement zugeteilt sein?
