@@ -29,6 +29,11 @@
 			<version>0.8.2</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-api</artifactId>
+			<version>2.1.11</version>
+		</dependency>
+		<dependency>
 			<groupId>org.richfaces.core</groupId>
 			<artifactId>richfaces-core-api</artifactId>
 			<version>4.3.1.Final</version>
