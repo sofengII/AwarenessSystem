@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+	<ui:define name="content">
+		<f:view>
+			<h:form>
+				<rich:panel >
+					<h:panelGrid columns="2" cellpadding="5px">
+						<h:outputText value="User name: " />
+						<h:inputText value="#{User.name}">
+							<f:validateLength minimum="1" maximum="30" />
+						</h:inputText>
+						<h:outputText value="Password: " />
+						<h:inputText value="#{User.password}" />
+						<a4j:commandButton value="Login" reRender="greeting" />
+
+						<h:panelGroup id="greeting">
+							<h:outputText value="Hello, " rendered="#{not empty User.name}" />
+							<h:outputText value="#{User.name}" />
+							<h:outputText value="!" rendered="#{not empty User.name}" />
+						</h:panelGroup>
+					</h:panelGrid>
+				</rich:panel>
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
