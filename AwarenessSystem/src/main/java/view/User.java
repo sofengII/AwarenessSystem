@@ -2,7 +2,6 @@ package view;
 
 import javax.faces.bean.ManagedBean;
 
-@ManagedBean
 public class User {
 	
 	private String name = "";

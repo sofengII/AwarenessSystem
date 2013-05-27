@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition template="/WEB-INF/templates/loginTemplate.xhtml"
+<ui:composition template="/WEB-INF/templates/backgroundTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -10,16 +10,10 @@
 	<ui:define name="content">
 		<f:view>
 			<h:form>
-				<rich:panel >
+				<rich:panel>
 					<h:panelGrid columns="2" cellpadding="5px">
-						<h:outputText value="User name: " />
-						<h:inputText value="#{user.name}">
-							<f:validateLength minimum="1" maximum="30" />
-						</h:inputText>
-						<h:outputText value="Password: " />
-						<h:inputText value="#{user.password}" />
-						<a4j:commandButton value="Login" action="login" />
-						<a4j:commandButton value="Register" action="register" />
+						<h:outputText value="User name: #{user.name}" />
+						<h:outputText value="Password: #{user.password}" />
 					</h:panelGrid>
 				</rich:panel>
 			</h:form>

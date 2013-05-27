@@ -1,0 +1,32 @@
+/* Core styles for the page */
+body {
+  background-color: #F1F1F1;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-size: 1.0em;
+  color:#363636;
+  background: #FF4500;
+}
+#headline {
+	height: 50px;
+	margin-top: -25px;
+	top: 20%;
+	background: #008080;	
+}
+.headlineClass {
+	background: #008080;
+	font-size: 20pt;
+	font-style: italic;
+	color: #FFFFFF;	
+}
+#headlinePanel {
+	width: 100%;
+}
+#content {
+  width: 500px;
+  height: 250px;
+  position: absolute;
+  margin-left: -250px;
+  margin-top: -125px;
+  left: 50%;
+  top: 50%;
+}
