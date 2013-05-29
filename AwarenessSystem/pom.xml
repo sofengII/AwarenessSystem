@@ -63,6 +63,11 @@
 			<artifactId>google-api-services-calendar</artifactId>
 			<version>v3-rev40-1.14.2-beta</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.gdata</groupId>
+			<artifactId>core</artifactId>
+			<version>1.47.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>AwarenessSystem</finalName>

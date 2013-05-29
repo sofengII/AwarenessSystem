@@ -1,0 +1,12 @@
+
+rechtsclick auf projekt -> Run as.. -> Maven clean
+
+danach rechtsclick auf projekt -> Run as.. -> Maven install
+
+dann erzeugt er ein "target"-Verzeichnis wo ein "awarenessSystem.war" drin is
+
+dass dann einfach in den "webapps" folder vom tomcat kopieren
+
+und dann auf der konsole "startup" eingeben
+
+und im browser die URL: "localhost:8080/AwarenessSystem/"
