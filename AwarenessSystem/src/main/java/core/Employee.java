@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import com.google.gdata.data.DateTime;
+
 /**
  * This class implements methods for an employee. 
  * 
@@ -48,14 +50,16 @@ public class Employee implements IEmployee {
 	 * @param employeeID id of an employee
 	 * @param name name of an employee
 	 * @param picturePath path to the picture
-	 * @param link link to google calendar of an employee
+	 * @param link private link to google calendar of an employee
+	 * @param startWeek startDate of the visible Week
+	 * @param endWeek endDate of the visible Week
 	 */
-	public Employee(int employeeID, String name, String picturePath, String link){		
+	public Employee(int employeeID, String name, String picturePath, String link, DateTime startWeek, DateTime endWeek){		
 		this.employeeID = employeeID;
 		this.name = name;
 		this.thumbnail = new ImageIcon(picturePath).getImage();
 		this.projectName = "";
-		this.calendar = new Calendar(link);
+		this.calendar = new Calendar(link,startWeek,endWeek);
 		this.setAvaliable(avaliable.UNINITIALIZED);
 	}
 
@@ -66,13 +70,15 @@ public class Employee implements IEmployee {
 	 * @param picturePath path to the picture
 	 * @param link link to google calendar of an employee
 	 * @param projectName name of the project 
+	 * @param startWeek startDate of the visible Week
+	 * @param endWeek endDate of the visible Week
 	 */
-	public Employee(int employeeID, String name, String picturePath, String link, String projectName){	
+	public Employee(int employeeID, String name, String picturePath, String link, DateTime startWeek, DateTime endWeek, String projectName){	
 		this.employeeID = employeeID;
 		this.name = name;
 		this.thumbnail = new ImageIcon(picturePath).getImage();
 		this.projectName = projectName;
-		this.calendar = new Calendar(link);
+		this.calendar = new Calendar(link,startWeek,endWeek);
 		this.setAvaliable(avaliable.UNINITIALIZED);
 	}
 
@@ -93,8 +99,7 @@ public class Employee implements IEmployee {
 
 	@Override
 	public List<IAppointment> getAppointments() {
-		//TODO calendar.getAppointments....
-		return null;
+		return calendar.getAppointments();
 	}
 
 	@Override

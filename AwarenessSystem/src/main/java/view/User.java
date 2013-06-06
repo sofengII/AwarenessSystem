@@ -1,5 +1,7 @@
 package view;
 
+import google.Appointment;
+
 import java.util.List;
 
 import core.EmployeeManager;
@@ -28,7 +30,6 @@ public class User implements IUser{
 	 * favorite list of the user
 	 */
 	private List<EmployeeManager> empolyees;
-
 	
 	public User(String name, String password, List<EmployeeManager> empolyees) {
 		this.name = name;

@@ -1,6 +1,6 @@
 package google;
 
-import java.util.Date;
+import com.google.gdata.data.DateTime;
 
 /**
  * This interface defines methods to handle an Appointment
@@ -14,13 +14,13 @@ public interface IAppointment {
 	 * Getter for the start time of an appointment
 	 * @return
 	 */
-	public Date getStartTime();
+	public DateTime getStartTime();
 	
 	/**
 	 * Getter for the end time of an appointment
 	 * @return
 	 */
-	public Date getEndTime();
+	public DateTime getEndTime();
 	
 	
 }

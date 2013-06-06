@@ -1,7 +1,5 @@
 package google;
 
-import java.util.Date;
-
 import com.google.gdata.data.DateTime;
 
 /**
@@ -32,15 +30,13 @@ public class Appointment implements IAppointment {
 	}
 	
 	@Override
-	public Date getStartTime() {
-		// TODO Auto-generated method stub
-		return null;
+	public DateTime getStartTime() {
+		return startDate;
 	}
 
 	@Override
-	public Date getEndTime() {
-		// TODO Auto-generated method stub
-		return null;
+	public DateTime getEndTime() {
+		return endDate;
 	}
 
 }
