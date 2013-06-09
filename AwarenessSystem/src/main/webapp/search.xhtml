@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/WEB-INF/templates/backgroundTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+	<h:outputStylesheet name="css/home.css" />
+	<ui:define name="content">
+		<f:view>
+			<h:form>
+				<rich:panel>
+					<h:panelGroup>
+						<h:selectOneMenu value=""></h:selectOneMenu>
+						<h:selectOneMenu value=""></h:selectOneMenu>
+						<h:selectOneMenu value=""></h:selectOneMenu>
+						<h:selectOneMenu value=""></h:selectOneMenu>
+						<a4j:commandButton value="Suchen" action="search"/>
+					</h:panelGroup>
+					<h:panelGrid>
+						<h:graphicImage value="/resources/images/person_icon.png" width="50px" height="50px"/>
+						<h:selectOneMenu value=""></h:selectOneMenu>
+					</h:panelGrid>
+					<h:dataTable></h:dataTable>
+				</rich:panel>
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>

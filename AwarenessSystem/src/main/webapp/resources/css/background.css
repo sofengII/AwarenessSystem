@@ -4,29 +4,73 @@ body {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 1.0em;
   color:#363636;
-  background: #FF4500;
+  background: #FF8C00;
+  height: 100%;
+  margin:0 ;
+  padding: 0;
 }
-#headline {
-	height: 50px;
-	margin-top: -25px;
+div.headline {
+	height: 80px;
+	margin-top: -40px;
+	margin-bottom: 0px;
 	top: 20%;
-	background: #008080;	
-}
-.headlineClass {
 	background: #008080;
+}
+
+.rf-ot-header {
 	font-size: 20pt;
 	font-style: italic;
-	color: #FFFFFF;	
+	color: white;
+	background-color: #008080;	
 }
-#headlinePanel {
+
+.rf-p-headerPanel{
 	width: 100%;
 }
-#content {
-  width: 500px;
-  height: 250px;
-  position: absolute;
-  margin-left: -250px;
-  margin-top: -125px;
-  left: 50%;
-  top: 50%;
+
+.rf-p-containerPanel{
+	background-color: #FF6103;
+	height: 100%;
+}
+
+.rf-p-navigationPanel{
+	background-color: #FF2400;
+	height: 50%;
+	width:25%;
+	float:left;
+}
+
+.rf-p-contentPanel {
+	background-color: #FFBA75;
+	float:left;
+	height:100%;
+	width:73%;
+}
+
+.rf-cb-navigationButton{
+	color: white;
+	background-color: #008080;
+	width: 100%;
+}
+
+.rf-ot-myFavourites {
+	font-size: 16pt;
+	font-weight: bold;
+	text-align: center;
+}
+
+.rf-p-favouritePanel {
+	background-color: #C9C9C9;
+	float:none;
+}
+
+div.content {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  position: relative;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 0%;
+  padding-top: 0%;
 }

@@ -7,13 +7,49 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:my="http://java.sun.com/jsf/composite/components">
+	<h:outputStylesheet name="css/home.css" />
 	<ui:define name="content">
 		<f:view>
 			<h:form>
 				<rich:panel>
-					<h:panelGrid columns="2" cellpadding="5px">
-						<h:outputText value="User name: #{user.name}" />
-						<h:outputText value="Password: #{user.password}" />
+					<h:panelGroup styleClass="rf-ot-myFavourites">
+						<h:outputText styleClass="rf-ot-myFavourites" value="Meine Favoriten" />
+					</h:panelGroup>
+					<h:panelGrid columns="3" cellpadding="5px">
+						<rich:panel styleClass="rf-p-favouritePanel">
+							<h:graphicImage value="resources/images/person_icon.png" />
+							<a4j:commandButton value="Entfernen"/>
+							<h:outputText value="Nachname" />
+							<h:outputText value="Vorname" />
+						</rich:panel>
+						<rich:panel styleClass="rf-p-favouritePanel">
+							<h:graphicImage value="resources/images/person_icon.png" />
+							<a4j:commandButton value="Entfernen"/>
+							<h:outputText value="Nachname" />
+							<h:outputText value="Vorname" />
+						</rich:panel>
+						<rich:panel styleClass="rf-p-favouritePanel">
+							<h:graphicImage value="resources/images/person_icon.png" />
+							<a4j:commandButton value="Entfernen"/>
+							<h:outputText value="Nachname" />
+							<h:outputText value="Vorname" />
+						</rich:panel>
+						<rich:panel styleClass="rf-p-favouritePanel">
+							<h:graphicImage value="resources/images/person_icon.png" />
+							<a4j:commandButton value="Entfernen"/>
+							<h:outputText value="Nachname" />
+							<h:outputText value="Vorname" />
+						</rich:panel>
+						<rich:panel styleClass="rf-p-favouritePanel">
+							<h:graphicImage value="resources/images/person_icon.png" />
+							<a4j:commandButton value="Entfernen"/>
+							<h:outputText value="Nachname" />
+							<h:outputText value="Vorname" />
+						</rich:panel>
+						<rich:panel styleClass="rf-p-favouritePanel">
+							<h:selectOneMenu value=""></h:selectOneMenu>
+							<a4j:commandButton value="Hinzufügen"/>
+						</rich:panel>
 					</h:panelGrid>
 				</rich:panel>
 			</h:form>

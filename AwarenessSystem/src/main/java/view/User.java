@@ -31,17 +31,14 @@ public class User implements IUser{
 	 */
 	private List<EmployeeManager> empolyees;
 	
-	public User(String name, String password, List<EmployeeManager> empolyees) {
-		this.name = name;
-		this.password = password;
-		this.empolyees = empolyees;
-	}
+	public User() {}
 	
 	@Override
 	public String getName() {
 		return this.name;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -51,6 +48,7 @@ public class User implements IUser{
 		return this.password;
 	}
 	
+	@Override
 	public void setPassword(String password) {
 		this.password = password;
 	}

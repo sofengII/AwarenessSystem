@@ -19,6 +19,12 @@ public interface IUser {
 	 * @return username
 	 */
 	public String getName();
+	
+	/**
+	 * Sets the name of the user.
+	 * @param name the name of the user
+	 */
+	public void setName(String name);
 
 	/**
 	 * This method is used to get the password
@@ -26,6 +32,12 @@ public interface IUser {
 	 */
 	public String getPassword();
 
+	/**
+	 * Sets the password of the user.
+	 * @param password the password of the user
+	 */
+	public void setPassword(String password);
+	
 	/**
 	 * This method is used to add a favorite to the favorites list
 	 * @param empoyee favorite to add

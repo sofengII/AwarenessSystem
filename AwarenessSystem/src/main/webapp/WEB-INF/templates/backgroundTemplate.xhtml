@@ -3,22 +3,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
 <h:head>
 	<title>Awareness System</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<h:outputStylesheet name="css/background.css" />
 </h:head>
 <h:body>
-	<div id="headline" class="headlineClass">
-		<rich:panel id="headlinePanel">
-			<h:outputText value="Awareness System" />
-		</rich:panel>
+	<div class="headline">
+		<h:panelGrid>
+			<!--<rich:panel columns="1" styleClass="rf-p-headerPanel">-->
+				<h:outputText styleClass="rf-ot-header" value="Awareness System" />
+			<!--</rich:panel>-->
+		</h:panelGrid>
 	</div>
-	<div id="content">
-		<ui:insert name="content">
-            [Template content will be inserted here]
-        </ui:insert>
+	<div class="content">
+		<rich:panel styleClass="rf-p-containerPanel">
+			<rich:panel styleClass="rf-p-navigationPanel" id="navigation_panel">
+				<a4j:commandButton styleClass="rf-cb-navigationButton" value="Meine Favoriten" action="myFavourites"/>
+				<a4j:commandButton styleClass="rf-cb-navigationButton" value="Gezielte Suche" action="search"/>
+			</rich:panel>
+			<rich:panel styleClass="rf-p-contentPanel" id="content_panel">
+				<ui:insert name="content"/>
+			</rich:panel>
+		</rich:panel>
 	</div>
 </h:body>
 </html>
