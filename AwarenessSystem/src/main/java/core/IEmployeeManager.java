@@ -43,7 +43,7 @@ public interface IEmployeeManager {
 	 * @return
 	 * @throws NotFoundAppointmentException This exception is thrown if no appointment has been found in the next five days starting at startDate
 	 */
-	public List<IAppointment> getAppointments (List<IEmployee> empolyees, Date startDate, DateTime duration) throws NotFoundAppointmentException;
+	public List<IAppointment> getAppointments (List<IEmployee> employees, DateTime startDate, DateTime duration) throws NotFoundAppointmentException;
 	
 
 	
