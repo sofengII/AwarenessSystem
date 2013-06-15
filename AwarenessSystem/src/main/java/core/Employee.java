@@ -5,11 +5,13 @@ import google.IAppointment;
 import google.ICalendar;
 
 import java.awt.Image;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 
 import com.google.gdata.data.DateTime;
+import com.google.gdata.util.ServiceException;
 
 /**
  * This class implements methods for an employee. 
@@ -44,6 +46,8 @@ public class Employee implements IEmployee {
 	 * google calendar of the employee
 	 */
 	private final ICalendar calendar;
+	
+	private List<IAppointment> freeAppointments;
 	
 	/**
 	 * Constructor for an employee. Every new employee will be initialized with availability UNINITIALIZED.
@@ -101,6 +105,12 @@ public class Employee implements IEmployee {
 	public List<IAppointment> getAppointments() {
 		return calendar.getAppointments();
 	}
+	
+
+	@Override
+	public List<IAppointment> getAppointments(DateTime start, DateTime end) throws IOException, ServiceException {
+		return calendar.getAppointments(start, end);
+	}
 
 	@Override
 	public int getEmployeeID() {
@@ -121,4 +131,20 @@ public class Employee implements IEmployee {
 	public void setProject(String projectName) {
 		this.projectName = projectName;
 	}
+
+	@Override
+	public List<IAppointment> getFreeAppointments() {
+		return freeAppointments;
+	}
+
+	@Override
+	public void addFreeAppointment(IAppointment app) {
+		this.freeAppointments.add(app);
+	}
+	
+	@Override
+	public void resetFreeAppointments(){
+		this.freeAppointments = null;
+	}
+
 }

@@ -4,7 +4,11 @@ import google.IAppointment;
 import google.ICalendar;
 
 import java.awt.Image;
+import java.io.IOException;
 import java.util.List;
+
+import com.google.gdata.data.DateTime;
+import com.google.gdata.util.ServiceException;
 
 /**
  * This interface defines methods and an enum for the availability of employees. 
@@ -74,4 +78,20 @@ public interface IEmployee {
 	 * @return list of appointments
 	 */
 	public List<IAppointment> getAppointments();
+	
+	/**
+	 * Getter for appointments in a time slot from start to end
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws ServiceException 
+	 * @throws IOException 
+	 */
+	public List<IAppointment> getAppointments(DateTime start, DateTime end) throws IOException, ServiceException;
+	
+	public List<IAppointment> getFreeAppointments();
+	
+	public void addFreeAppointment(IAppointment app);
+	
+	public void resetFreeAppointments();
 }

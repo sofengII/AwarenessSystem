@@ -18,9 +18,17 @@ public interface IAppointment {
 	
 	/**
 	 * Getter for the end time of an appointment
-	 * @return
+	 * @return 
 	 */
 	public DateTime getEndTime();
 	
+	/**
+	 * Checks, if another appointment matches with this appointment
+	 * that means if the two appointments have an equal time slot of the size of duration
+	 * @param otherAppointment
+	 * @param duration
+	 * @return If the two appointments match or not
+	 */
+	public boolean matches(IAppointment otherAppointment, DateTime duration);
 	
 }

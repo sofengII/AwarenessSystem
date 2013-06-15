@@ -39,4 +39,31 @@ public class Appointment implements IAppointment {
 		return endDate;
 	}
 
+	@Override
+	public boolean matches(IAppointment otherAppointment, DateTime duration) {
+		
+		//does the other appointment start AFTER this appointment ends?
+		if(otherAppointment.getStartTime().getValue() >= this.getEndTime().getValue()){
+			return false;
+		}
+		else{
+			
+			//does the time slot between the other appointment's start and this appointment's end take shorter than duration?
+			if((this.getEndTime().getValue() - otherAppointment.getStartTime().getValue()) < duration.getValue()){
+				return false;
+			}
+			else{
+				
+				//does the time slot between the other appointment's end and this appointment's start take shorter than duration?
+				if((otherAppointment.getEndTime().getValue() - this.getStartTime().getValue()) < duration.getValue()){
+					return false;
+				}
+				else{
+					
+					//MATCH!
+					return true;
+				}
+			}
+		}
+	}
 }

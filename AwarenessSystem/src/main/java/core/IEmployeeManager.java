@@ -1,9 +1,11 @@
 package core;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import com.google.api.client.util.DateTime;
+import com.google.gdata.data.DateTime;
+import com.google.gdata.util.ServiceException;
 
 import exception.NotFoundAppointmentException;
 import google.IAppointment;
@@ -42,8 +44,10 @@ public interface IEmployeeManager {
 	 * @param duration duration of the appointment
 	 * @return
 	 * @throws NotFoundAppointmentException This exception is thrown if no appointment has been found in the next five days starting at startDate
+	 * @throws ServiceException 
+	 * @throws IOException 
 	 */
-	public List<IAppointment> getAppointments (List<IEmployee> employees, DateTime startDate, DateTime duration) throws NotFoundAppointmentException;
+	public List<IAppointment> getAppointments (List<IEmployee> employees, DateTime startDate, DateTime duration) throws NotFoundAppointmentException, IOException, ServiceException;
 	
 
 	
