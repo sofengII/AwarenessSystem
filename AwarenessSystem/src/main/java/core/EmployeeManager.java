@@ -1,15 +1,18 @@
 package core;
 
+import exception.NotFoundAppointmentException;
+import google.Appointment;
+import google.IAppointment;
+
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gdata.data.DateTime;
 import com.google.gdata.util.ServiceException;
-
-import exception.NotFoundAppointmentException;
-import google.Appointment;
-import google.IAppointment;
 
 /**
  * This class implements methods for managing and searching appointments of employees. 
@@ -40,43 +43,56 @@ public class EmployeeManager implements IEmployeeManager {
 			throws NotFoundAppointmentException, IOException, ServiceException {
 		
 		List<IAppointment> appointments = new ArrayList<IAppointment>();
-		
+		int i = 0;
 		//For every employee...
 		for(IEmployee em : employees){
 			
-			//TO DO: NEUE METHODE IN APPOINTMENT "matches" ZUR ÜBERPRÜFUNG DER ÜBEREINSTIMMUNG VON ZWEI FREIEN ZEITEN
+			//TODO: NEUE METHODE IN APPOINTMENT "matches" ZUR ÜBERPRÜFUNG DER ÜBEREINSTIMMUNG VON ZWEI FREIEN ZEITEN
 			
-			long fiveDaysInMs = 432000000;
+			//sieben Tage
+			long fiveDaysInMs = 604800000;
 			DateTime endDate = new DateTime(startDate.getValue() + fiveDaysInMs);
 			appointments = em.getAppointments(startDate, endDate);
+			
 			IAppointment app = appointments.get(0);
 			appointments.remove(0);
 			
 			//... search for free appointments
 			for(IAppointment nextApp : appointments){
+			//for(int i = appointments.size() - 1 ; i >= 0 ; i--)	{
 				
-				//If the time slot between this appointment and the next one is bigger or equal duration...
-				if(nextApp.getStartTime().getValue() - app.getEndTime().getValue() >= duration.getValue()){
+//				System.out.println("App_Date:  End = " + app.getEndTime());
+//				System.out.println("NextApp_Date: Start = " + nextApp.getStartTime());
+
+				//If the time slot between this appointment and the next one is bigger or equal duration...				
+				if(nextApp.getStartTime().getValue() - 900000 - app.getEndTime().getValue() + 900000 >= duration.getValue()){
 					
-					//Create a new free appointment (take care of the "+ 15 minutes" = "+ 900.000 ms" 
-					DateTime startOfFreeApp = new DateTime(app.getEndTime().getValue() + 900000);
-					DateTime endOfFreeApp = new DateTime(nextApp.getStartTime().getValue() + 900000);
+					//Create a new free appointment (take care of the "+ 15 minutes + GMT+2 (+2h)" = "+ 8.100.000 ms" 
+					//Bei getValue 2h verloren, da andere Zeitzone! GMT +2
+					DateTime startOfFreeApp = new DateTime(app.getEndTime().getValue() + 8100000);
+					//6.300.000 ms = 2 hours - 15 minutes
+					DateTime endOfFreeApp = new DateTime(nextApp.getStartTime().getValue() + 6300000);
 					IAppointment freeApp = new Appointment(startOfFreeApp, endOfFreeApp);
 					em.addFreeAppointment(freeApp);
+					
 				}
+				app = nextApp;
+			}
+			i++;
+			for (IAppointment appoint: em.getFreeAppointments()) {
+				System.out.println("Empl(" + i + ") FreeAppointment Start = " + appoint.getStartTime() + " End = " + appoint.getEndTime());
 			}
 		}
-		
+
 		//Compare all the free appointments of the first employee 
 		//with the free appointments of the other employees 
 		//if there is one (or more) at the same time
-		
-		IEmployee first = employees.get(0);
+		IEmployee first = employees.get(0);				
 		List<IEmployee> remaining = employees;
 		remaining.remove(0);
 		
 		List<IAppointment> freeAppointments = new ArrayList<IAppointment>();
-		
+
 		for(IAppointment free : first.getFreeAppointments()){		//Check all free appointments of the first employee
 			
 			DateTime latestStartTime = free.getStartTime();
@@ -98,6 +114,7 @@ public class EmployeeManager implements IEmployeeManager {
 						if(emFree.getEndTime().getValue() < earliestEndTime.getValue()){		//if emFree ends earlier
 							earliestEndTime = emFree.getEndTime();				//its endTime is the new earliestEndTime
 						}
+						break;
 					}
 				}
 				
@@ -109,9 +126,60 @@ public class EmployeeManager implements IEmployeeManager {
 			
 			if(match){					//if the appointment free matches with every employee
 										//add a new appointment to the freeAppointments list
+//				Date dStart = new Date(latestStartTime.getValue());
+//				Date dEnd = new Date(earliestEndTime.getValue());
+//				
+//				DateFormat df = new SimpleDateFormat("HH");
+//				String sHour = df.format(dStart);
+//				String eHour = df.format(dEnd);
+//				
+//				if(Integer.valueOf(sHour) >= 20) {
+//					
+//				}
+				
 				freeAppointments.add(new Appointment(latestStartTime, earliestEndTime));
 			}
 		}
 		return freeAppointments;
 	}
+	
+	@SuppressWarnings("deprecation")
+	public static void main(String... args) throws IOException, ServiceException, NotFoundAppointmentException
+	{
+
+		//startDate 17.06.2013
+		DateTime start = new DateTime(new Date(113, 5, 17));
+		//endDate 23.06.2013
+		DateTime end = new DateTime(new Date(113,5,23));
+		//duration 1h
+		DateTime duration = new DateTime(3600000);
+		
+		IEmployee e = new Employee(5, "sofengii", "", "https://www.google.com/calendar/feeds/sofengii%40gmail.com/private-2541ddfeaf32c31be3f0fa31e9018acf/basic", start, end);
+		IEmployee e1 = new Employee(6, "test", "", "https://www.google.com/calendar/feeds/2b2mp1lm09agube42sq7bje62k%40group.calendar.google.com/private-bacfe1c6c0dad9de1d578e03a46a5eb6/basic", start, end);
+		
+		List<IEmployee> list = new ArrayList<>();
+		list.add(e);
+		list.add(e1);
+		
+		IEmployeeManager em = new EmployeeManager();
+		int i = 1;
+		System.out.println("Appointments:");
+		for(IEmployee emp: list) {
+			System.out.println("Employee "+ i++ + ":");
+			for(IAppointment a: emp.getAppointments(start, end)) {
+				System.out.println("Start:" + a.getStartTime() + " End: " + a.getEndTime());
+			}
+		}
+		
+		System.out.println("Free:");
+		
+		List<IAppointment> listapp = em.getAppointments(list, start, duration);
+		System.out.println("FreeAppointments:");
+		for(IAppointment a: listapp) {
+			
+			System.out.println("Start:" + a.getStartTime() + "End: " + a.getEndTime());
+		}
+		
+	}
+	
 }

@@ -6,6 +6,7 @@ import google.ICalendar;
 
 import java.awt.Image;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -47,7 +48,7 @@ public class Employee implements IEmployee {
 	 */
 	private final ICalendar calendar;
 	
-	private List<IAppointment> freeAppointments;
+	private List<IAppointment> freeAppointments = new ArrayList<IAppointment>();
 	
 	/**
 	 * Constructor for an employee. Every new employee will be initialized with availability UNINITIALIZED.

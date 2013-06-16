@@ -46,8 +46,7 @@ public class Appointment implements IAppointment {
 		if(otherAppointment.getStartTime().getValue() >= this.getEndTime().getValue()){
 			return false;
 		}
-		else{
-			
+		else{	
 			//does the time slot between the other appointment's start and this appointment's end take shorter than duration?
 			if((this.getEndTime().getValue() - otherAppointment.getStartTime().getValue()) < duration.getValue()){
 				return false;
@@ -59,7 +58,6 @@ public class Appointment implements IAppointment {
 					return false;
 				}
 				else{
-					
 					//MATCH!
 					return true;
 				}

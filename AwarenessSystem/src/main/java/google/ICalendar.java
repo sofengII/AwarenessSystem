@@ -25,6 +25,7 @@ public interface ICalendar {
 	
 	/**
 	 * This method is used to get all appointments between a given start date and an end date
+	 * The Appointments are inserted in reverse order
 	 * @param start The start date of the query
 	 * @param end The end date of the query
 	 * @return list of appointments between start and end

@@ -1,11 +1,11 @@
 package google;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gdata.client.Query.CustomParameter;
 import com.google.gdata.client.calendar.CalendarQuery;
 import com.google.gdata.client.calendar.CalendarService;
 import com.google.gdata.data.DateTime;
@@ -38,7 +38,7 @@ public class Calendar implements ICalendar {
 	public Calendar(String link, DateTime startWeek, DateTime endWeek) {
 
 		if (link.endsWith("/basic"))
-			this.link = link.replace("/basic", "/full");
+			this.link = link.replace("/basic", "/full");		
 		else
 			this.link = link;
 
@@ -58,10 +58,12 @@ public class Calendar implements ICalendar {
 		CalendarService service = new CalendarService("App1");
 
 		URL feedUrl = new URL(link);
-		System.out.println(link);
+
 		CalendarQuery myQuery = new CalendarQuery(feedUrl);
 		myQuery.setMinimumStartTime(start);
 		myQuery.setMaximumStartTime(end);
+		myQuery.addCustomParameter(new CustomParameter("orderby", "starttime"));
+		myQuery.addCustomParameter(new CustomParameter("sortorder", "ascending"));
 
 		CalendarEventFeed resultF = service.query(myQuery,
 				CalendarEventFeed.class);
@@ -77,6 +79,7 @@ public class Calendar implements ICalendar {
 							"There are no DateTime informations. Maybe the link is incorrect");
 				else {
 					for (When w : en.getTimes()) {
+
 						startTime = w.getStartTime();
 						endTime = w.getEndTime();
 					}
@@ -99,26 +102,29 @@ public class Calendar implements ICalendar {
 	}
 
 	@Override
-	public List<IAppointment> getAppointments(DateTime start, DateTime end) throws IOException, ServiceException {
+	public List<IAppointment> getAppointments(DateTime start, DateTime end)
+			throws IOException, ServiceException {
 		CalendarService service = new CalendarService("App1");
 
 		List<IAppointment> apps = new ArrayList<IAppointment>();
 		URL feedUrl = new URL(link);
-		System.out.println(link);
+
 		CalendarQuery myQuery = new CalendarQuery(feedUrl);
 		myQuery.setMinimumStartTime(start);
 		myQuery.setMaximumStartTime(end);
+		myQuery.addCustomParameter(new CustomParameter("orderby", "starttime"));
+		myQuery.addCustomParameter(new CustomParameter("sortorder", "ascending"));
 
 		CalendarEventFeed resultF = service.query(myQuery,
 				CalendarEventFeed.class);
 
-		try{
+		try {
 			if (resultF.getEntries().size() != 0) {
 				for (CalendarEventEntry en : resultF.getEntries()) {
-	
+
 					DateTime startTime = null;
 					DateTime endTime = null;
-	
+
 					if (en.getTimes().size() == 0)
 						throw new NoAppointmentsException(
 								"There are no DateTime informations. Maybe the link is incorrect");
@@ -127,10 +133,10 @@ public class Calendar implements ICalendar {
 							startTime = w.getStartTime();
 							endTime = w.getEndTime();
 						}
-	
+
 						IAppointment appointment = new Appointment(startTime,
 								endTime);
-	
+
 						apps.add(appointment);
 					}
 				}
@@ -139,12 +145,9 @@ public class Calendar implements ICalendar {
 				throw new NoAppointmentsException(
 						"There are no Appointments in this week");
 			}
-		}
-		catch(NoAppointmentsException nae){
+		} catch (NoAppointmentsException nae) {
 			return null;
 		}
 	}
-	
-	
 
 }
