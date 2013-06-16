@@ -8,7 +8,7 @@ import com.google.gdata.data.DateTime;
  * @authors Dominik, Maximilian, Daniela
  * @version 1.0
  */
-public class Appointment implements IAppointment {
+public class Appointment extends DateTime implements IAppointment  {
 
 	/**
 	 * startDate of an appointment
