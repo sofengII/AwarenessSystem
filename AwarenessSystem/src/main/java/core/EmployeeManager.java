@@ -42,55 +42,49 @@ public class EmployeeManager implements IEmployeeManager {
 			DateTime startDate, DateTime duration)
 			throws NotFoundAppointmentException, IOException, ServiceException {
 		
-		List<IAppointment> appointments = new ArrayList<IAppointment>();
-		int i = 0;
-		//For every employee...
-		for(IEmployee em : employees){
-			
-			//TODO: NEUE METHODE IN APPOINTMENT "matches" ZUR ÜBERPRÜFUNG DER ÜBEREINSTIMMUNG VON ZWEI FREIEN ZEITEN
-			
-			//sieben Tage
-			long fiveDaysInMs = 604800000;
-			DateTime endDate = new DateTime(startDate.getValue() + fiveDaysInMs);
-			appointments = em.getAppointments(startDate, endDate);
-			
-			IAppointment app = appointments.get(0);
-			appointments.remove(0);
-			
-			//... search for free appointments
-			for(IAppointment nextApp : appointments){
-			//for(int i = appointments.size() - 1 ; i >= 0 ; i--)	{
-				
-//				System.out.println("App_Date:  End = " + app.getEndTime());
-//				System.out.println("NextApp_Date: Start = " + nextApp.getStartTime());
+		//Calculate the free appointments for all the given employees
+		calculateFreeAppointments(employees, startDate, duration);
+		
+		List<IAppointment> allFreeAppointments = new ArrayList<IAppointment>();
+		
+		List<IEmployee> temp = new ArrayList<IEmployee>();
+		temp.addAll(employees);
 
-				//If the time slot between this appointment and the next one is bigger or equal duration...				
-				if(nextApp.getStartTime().getValue() - 900000 - app.getEndTime().getValue() + 900000 >= duration.getValue()){
-					
-					//Create a new free appointment (take care of the "+ 15 minutes + GMT+2 (+2h)" = "+ 8.100.000 ms" 
-					//Bei getValue 2h verloren, da andere Zeitzone! GMT +2
-					DateTime startOfFreeApp = new DateTime(app.getEndTime().getValue() + 8100000);
-					//6.300.000 ms = 2 hours - 15 minutes
-					DateTime endOfFreeApp = new DateTime(nextApp.getStartTime().getValue() + 6300000);
-					IAppointment freeApp = new Appointment(startOfFreeApp, endOfFreeApp);
-					em.addFreeAppointment(freeApp);
-					
+		for(IEmployee employee : employees){
+			List<IEmployee> remaining = new ArrayList<IEmployee>();
+			remaining.addAll(temp);
+			remaining.remove(employee);
+			List<IAppointment> freeAppointments = findMatches(duration, employee,
+					remaining);
+			
+			//Check if there were found any other free appointments that weren't found before...
+			for(IAppointment a : freeAppointments){
+				boolean found = false;
+				for(IAppointment allA : allFreeAppointments){
+					if(allA.getStartTime().equals(a.getStartTime()) && allA.getEndTime().equals(a.getEndTime())){
+						found = true;
+					}
 				}
-				app = nextApp;
-			}
-			i++;
-			for (IAppointment appoint: em.getFreeAppointments()) {
-				System.out.println("Empl(" + i + ") FreeAppointment Start = " + appoint.getStartTime() + " End = " + appoint.getEndTime());
+				//... and if so...
+				if(!found){
+					//... add it/them.
+					allFreeAppointments.add(a);
+				}
 			}
 		}
+		return allFreeAppointments;
+	}
 
-		//Compare all the free appointments of the first employee 
-		//with the free appointments of the other employees 
-		//if there is one (or more) at the same time
-		IEmployee first = employees.get(0);				
-		List<IEmployee> remaining = employees;
-		remaining.remove(0);
-		
+	/**
+	 * This method compares the free appointments of the "first" employee with all other employees' free appointments
+	 * and returns the matches.
+	 * @param duration
+	 * @param first	The Employee whose free appointments are compared.
+	 * @param remaining
+	 * @return	A List of all matches that were found.
+	 */
+	private List<IAppointment> findMatches(DateTime duration, IEmployee first,
+			List<IEmployee> remaining) {
 		List<IAppointment> freeAppointments = new ArrayList<IAppointment>();
 
 		for(IAppointment free : first.getFreeAppointments()){		//Check all free appointments of the first employee
@@ -142,6 +136,60 @@ public class EmployeeManager implements IEmployeeManager {
 		}
 		return freeAppointments;
 	}
+
+	/**
+	 * This method calculates for every employee his free appointments.
+	 * @param employees
+	 * @param startDate
+	 * @param duration
+	 * @throws IOException
+	 * @throws ServiceException
+	 */
+	private void calculateFreeAppointments(List<IEmployee> employees,
+			DateTime startDate, DateTime duration) throws IOException,
+			ServiceException {
+		List<IAppointment> appointments = new ArrayList<IAppointment>();
+		int i = 0;
+		//For every employee...
+		for(IEmployee em : employees){
+			
+			//TODO: NEUE METHODE IN APPOINTMENT "matches" ZUR ÜBERPRÜFUNG DER ÜBEREINSTIMMUNG VON ZWEI FREIEN ZEITEN
+			
+			//sieben Tage
+			long fiveDaysInMs = 604800000;
+			DateTime endDate = new DateTime(startDate.getValue() + fiveDaysInMs);
+			appointments = em.getAppointments(startDate, endDate);
+			
+			IAppointment app = appointments.get(0);
+			appointments.remove(0);
+			
+			//... search for free appointments
+			for(IAppointment nextApp : appointments){
+			//for(int i = appointments.size() - 1 ; i >= 0 ; i--)	{
+				
+//				System.out.println("App_Date:  End = " + app.getEndTime());
+//				System.out.println("NextApp_Date: Start = " + nextApp.getStartTime());
+
+				//If the time slot between this appointment and the next one is bigger or equal duration...				
+				if(nextApp.getStartTime().getValue() - 900000 - app.getEndTime().getValue() + 900000 >= duration.getValue()){
+					
+					//Create a new free appointment (take care of the "+ 15 minutes + GMT+2 (+2h)" = "+ 8.100.000 ms" 
+					//Bei getValue 2h verloren, da andere Zeitzone! GMT +2
+					DateTime startOfFreeApp = new DateTime(app.getEndTime().getValue() + 8100000);
+					//6.300.000 ms = 2 hours - 15 minutes
+					DateTime endOfFreeApp = new DateTime(nextApp.getStartTime().getValue() + 6300000);
+					IAppointment freeApp = new Appointment(startOfFreeApp, endOfFreeApp);
+					em.addFreeAppointment(freeApp);
+					
+				}
+				app = nextApp;
+			}
+			i++;
+			for (IAppointment appoint: em.getFreeAppointments()) {
+				System.out.println("Empl(" + i + ") FreeAppointment Start = " + appoint.getStartTime() + " End = " + appoint.getEndTime());
+			}
+		}
+	}
 	
 	@SuppressWarnings("deprecation")
 	public static void main(String... args) throws IOException, ServiceException, NotFoundAppointmentException
@@ -174,7 +222,7 @@ public class EmployeeManager implements IEmployeeManager {
 		System.out.println("Free:");
 		
 		List<IAppointment> listapp = em.getAppointments(list, start, duration);
-		System.out.println("FreeAppointments:");
+		System.out.println("All free appointments:");
 		for(IAppointment a: listapp) {
 			
 			System.out.println("Start:" + a.getStartTime() + "End: " + a.getEndTime());
