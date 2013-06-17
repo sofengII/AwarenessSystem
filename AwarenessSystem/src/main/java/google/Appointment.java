@@ -13,11 +13,11 @@ public class Appointment extends DateTime implements IAppointment  {
 	/**
 	 * startDate of an appointment
 	 */
-	private final DateTime startDate;
+	private DateTime startDate;
 	/**
 	 * endDate of an appointment
 	 */
-	private final DateTime endDate;
+	private DateTime endDate;
 	
 	/**
 	 * Constructor for an appointment
@@ -63,5 +63,15 @@ public class Appointment extends DateTime implements IAppointment  {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void setStartTime(DateTime start) {
+		startDate = start;
+	}
+
+	@Override
+	public void setEndTime(DateTime end) {
+		endDate = end;
 	}
 }

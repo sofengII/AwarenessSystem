@@ -23,6 +23,16 @@ public interface IAppointment {
 	public DateTime getEndTime();
 	
 	/**
+	 * Setter for start time, needed by EmployeeManager if a appointment exceed a day
+	 */
+	public void setStartTime(DateTime start);
+	
+	/**
+	 * Getter for end time, needed by EmployeeManager if a appointment exceed a day
+	 */
+	public void setEndTime(DateTime end);
+	
+	/**
 	 * Checks, if another appointment matches with this appointment
 	 * that means if the two appointments have an equal time slot of the size of duration
 	 * @param otherAppointment

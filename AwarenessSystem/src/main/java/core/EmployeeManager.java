@@ -5,7 +5,9 @@ import google.Appointment;
 import google.IAppointment;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -22,6 +24,15 @@ import com.google.gdata.util.ServiceException;
  * @version 1.0
  */
 public class EmployeeManager implements IEmployeeManager {
+
+	/**
+	 * Start of daily work 08:00
+	 */
+	private static final int START_OF_WORK = 8;
+	/**
+	 * End of daily work 20:00
+	 */
+	private static final int END_OF_WORK = 20;
 
 	@Override
 	public IAppointment getAppointment(List<IEmployee> employees)
@@ -75,7 +86,7 @@ public class EmployeeManager implements IEmployeeManager {
 			}
 		}
 
-		// sortList
+		// sort freeAppointmentList
 		Collections.sort(allFreeAppointments, new Comparator<IAppointment>() {
 			public int compare(IAppointment o1, IAppointment o2) {
 				if (o1.getStartTime() == null || o1.getEndTime() == null
@@ -85,6 +96,57 @@ public class EmployeeManager implements IEmployeeManager {
 				return o1.getStartTime().compareTo(o2.getStartTime());
 			}
 		});
+
+		Date dEnd;
+		Date dStart;
+		boolean changed = false;
+
+		// create boarders
+		// TODO check whether the appointment is as long as duration
+		// TODO check whether a appointment exists at start date
+		// TODO altes noch nicht verändertes Ende speichern und ein neuen Termin
+		// erstellen, der von Anfang bis zum gepeicherten ende geht
+		for (int i = 0; i < allFreeAppointments.size(); i++) {
+			IAppointment a = allFreeAppointments.get(i);
+
+			dStart = new Date(a.getStartTime().getValue());
+			dEnd = new Date(a.getEndTime().getValue());
+
+			int dayStart = Integer.valueOf(new SimpleDateFormat("dd")
+					.format(dStart));
+			int dayEnd = Integer.valueOf(new SimpleDateFormat("dd")
+					.format(dEnd));
+			System.out
+					.println("DayStart = " + dayStart + " DayEnd = " + dayEnd);
+
+			if (dayStart < dayEnd) {
+
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(dEnd);
+
+				// +2 because of conversion
+				cal.set(Calendar.HOUR_OF_DAY, END_OF_WORK + 2);
+				cal.set(Calendar.MINUTE, 0);
+				cal.set(Calendar.DAY_OF_MONTH, dayStart);
+
+				a.setEndTime(new DateTime(cal.getTimeInMillis()));
+				changed = true;
+			}
+
+			/*if (changed) {
+
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(dEnd);
+
+				// +2 because of conversion
+				cal.set(Calendar.HOUR_OF_DAY, START_OF_WORK + 2);
+				cal.set(Calendar.MINUTE, 0);
+
+				a.setEndTime(new DateTime(cal.getTimeInMillis()));
+				changed = true;
+			}*/
+			changed = false;
+		}
 
 		return allFreeAppointments;
 	}
@@ -271,9 +333,16 @@ public class EmployeeManager implements IEmployeeManager {
 				"https://www.google.com/calendar/feeds/2b2mp1lm09agube42sq7bje62k%40group.calendar.google.com/private-bacfe1c6c0dad9de1d578e03a46a5eb6/basic",
 				start, end);
 
+		IEmployee e2 = new Employee(
+				7,
+				"Peter",
+				"",
+				"https://www.google.com/calendar/feeds/test191919198%40gmail.com/private-6d3352376d55af9253d4de2ddb7661a9/basic",
+				start, end);
 		List<IEmployee> list = new ArrayList<>();
 		list.add(e);
 		list.add(e1);
+		list.add(e2);
 
 		IEmployeeManager em = new EmployeeManager();
 		int i = 1;
