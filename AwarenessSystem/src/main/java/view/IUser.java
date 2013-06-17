@@ -3,6 +3,7 @@ package view;
 import java.util.List;
 
 import core.EmployeeManager;
+import core.IEmployee;
 
 /**
  * This interface defines methods for users. 
@@ -43,11 +44,11 @@ public interface IUser {
 	 * @param empoyee favorite to add
 	 * @return true if successful, false otherwise
 	 */
-	public boolean addFavorite (EmployeeManager empoyee);
+	public boolean addFavorite (IEmployee empoyee);
 	
 	/**
 	 * This method is used to get the favorites list
 	 * @return favorites list
 	 */
-	public List<EmployeeManager> getFavorites();
+	public List<IEmployee> getFavorites();
 }

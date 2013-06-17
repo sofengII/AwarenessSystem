@@ -2,9 +2,11 @@ package view;
 
 import google.Appointment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import core.EmployeeManager;
+import core.IEmployee;
 
 /**
  * This class implements methods for users. 
@@ -29,7 +31,7 @@ public class User implements IUser{
 	/**
 	 * favorite list of the user
 	 */
-	private List<EmployeeManager> empolyees;
+	private List<IEmployee> favorites = new ArrayList<IEmployee>(5);
 	
 	public User() {}
 	
@@ -54,10 +56,10 @@ public class User implements IUser{
 	}
 
 	@Override
-	public boolean addFavorite(EmployeeManager empoyee) {
+	public boolean addFavorite(IEmployee employee) {
 		
 		try {
-			empolyees.add(empoyee);
+			this.favorites.add(employee);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -68,7 +70,7 @@ public class User implements IUser{
 	}
 
 	@Override
-	public List<EmployeeManager> getFavorites() {
-		return empolyees;
+	public List<IEmployee> getFavorites() {
+		return this.favorites;
 	}
 }
