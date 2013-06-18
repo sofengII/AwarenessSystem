@@ -132,6 +132,9 @@ public class Employee implements IEmployee {
 		Date actualTime = cal.getTime();
 		System.out.println("Date: " + actualTime.toString());
 		*/
+		
+		//+2 wegen Zeitzone
+		cal.set(java.util.Calendar.HOUR_OF_DAY, cal.get(java.util.Calendar.HOUR_OF_DAY) + 2);
 		Date actualTime = cal.getTime();
 		
 		// 15 min
