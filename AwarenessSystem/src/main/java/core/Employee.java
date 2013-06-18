@@ -133,45 +133,43 @@ public class Employee implements IEmployee {
 		System.out.println("Date: " + actualTime.toString());
 		*/
 		
-		//+2 wegen Zeitzone
-		cal.set(java.util.Calendar.HOUR_OF_DAY, cal.get(java.util.Calendar.HOUR_OF_DAY) + 2);
+		cal.set(java.util.Calendar.HOUR_OF_DAY, cal.get(java.util.Calendar.HOUR_OF_DAY));
 		Date actualTime = cal.getTime();
 		
 		// 15 min
 		long fiftyMinutes = 900000;
 		
+		if(calendar.getAppointments().size() == 0) {
+			System.out.println("blöd");
+			avaliable = IEmployee.avaliable.FREE;
+			return;
+		}
 		
-		if (freeAppointments.size() > 0) {
-
-			for (IAppointment appointment : freeAppointments) {
-
+		else {
+			
+			for(IAppointment appointment : calendar.getAppointments()) {
+				
 				// current time is in the 15 minutes gap before a appointment starts
-				if (actualTime.getTime() > appointment.getEndTime().getValue()
-						&& actualTime.getTime() < appointment.getEndTime()
-								.getValue() + fiftyMinutes) {
+				if (actualTime.getTime() < appointment.getStartTime().getValue()
+						&& actualTime.getTime() >= appointment.getStartTime()
+								.getValue() - fiftyMinutes) {
 					avaliable = IEmployee.avaliable.SHORTLYFREE;
 					return;
 				}
-				// current time is between two free appointments
-				else if (appointment.getStartTime().getValue() <= actualTime
+
+				// current time is between two appointments
+				if (appointment.getStartTime().getValue() <= actualTime
 						.getTime()
-						&& actualTime.getTime() < appointment.getEndTime()
-								.getValue()) {
-					avaliable = IEmployee.avaliable.FREE;
+						&& actualTime.getTime() <= appointment.getEndTime()
+								.getValue() + fiftyMinutes) {
+					avaliable = IEmployee.avaliable.BUSY;
 					return;
-
 				}
+				
+				
 			}
-			
-			//Employee has an appointment
-			avaliable = IEmployee.avaliable.BUSY;
-
-		} 
-		//freeAppointments list has no entry's
-		else {
-			avaliable = IEmployee.avaliable.BUSY;
+			avaliable = IEmployee.avaliable.FREE;	
 		}
-
 	}
 
 	@Override
