@@ -1,7 +1,6 @@
 package core;
 
 import google.IAppointment;
-import google.ICalendar;
 
 import java.awt.Image;
 import java.io.IOException;
@@ -28,7 +27,7 @@ public interface IEmployee {
 		FREE,
 		SHORTLYFREE,
 		BUSY,
-		UNINITIALIZED
+		UNINITIALIZED;
 	}
 
 	/**
@@ -36,13 +35,7 @@ public interface IEmployee {
 	 * @return the aval
 	 */
 	public avaliable getAvaliable();
-
-	/**
-	 * Setter for the availability
-	 * @param aval the aval to set
-	 */
-	public void setAvaliable(avaliable aval);
-
+	
 	/**
 	 * Getter for the thumbnail
 	 * @return the thumbnail

@@ -96,7 +96,7 @@ public class EmployeeManager implements IEmployeeManager {
 				return o1.getStartTime().compareTo(o2.getStartTime());
 			}
 		});
-
+/*
 		Date dEnd;
 		Date dStart;
 		boolean changed = false;
@@ -133,20 +133,19 @@ public class EmployeeManager implements IEmployeeManager {
 				changed = true;
 			}
 
-			/*if (changed) {
-
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(dEnd);
-
-				// +2 because of conversion
-				cal.set(Calendar.HOUR_OF_DAY, START_OF_WORK + 2);
-				cal.set(Calendar.MINUTE, 0);
-
-				a.setEndTime(new DateTime(cal.getTimeInMillis()));
-				changed = true;
-			}*/
+			/*
+			 * if (changed) {
+			 * 
+			 * Calendar cal = Calendar.getInstance(); cal.setTime(dEnd);
+			 * 
+			 * // +2 because of conversion cal.set(Calendar.HOUR_OF_DAY,
+			 * START_OF_WORK + 2); cal.set(Calendar.MINUTE, 0);
+			 * 
+			 * a.setEndTime(new DateTime(cal.getTimeInMillis())); changed =
+			 * true; }
+			 
 			changed = false;
-		}
+		}*/
 
 		return allFreeAppointments;
 	}
@@ -224,17 +223,6 @@ public class EmployeeManager implements IEmployeeManager {
 			if (match) { // if the appointment free matches with every employee
 							// add a new appointment to the freeAppointments
 							// list
-							// Date dStart = new
-							// Date(latestStartTime.getValue());
-				// Date dEnd = new Date(earliestEndTime.getValue());
-				//
-				// DateFormat df = new SimpleDateFormat("HH");
-				// String sHour = df.format(dStart);
-				// String eHour = df.format(dEnd);
-				//
-				// if(Integer.valueOf(sHour) >= 20) {
-				//
-				// }
 
 				freeAppointments.add(new Appointment(latestStartTime,
 						earliestEndTime));
@@ -273,11 +261,6 @@ public class EmployeeManager implements IEmployeeManager {
 
 			// ... search for free appointments
 			for (IAppointment nextApp : appointments) {
-				// for(int i = appointments.size() - 1 ; i >= 0 ; i--) {
-
-				// System.out.println("App_Date:  End = " + app.getEndTime());
-				// System.out.println("NextApp_Date: Start = " +
-				// nextApp.getStartTime());
 
 				// If the time slot between this appointment and the next one is
 				// bigger or equal duration...
@@ -301,11 +284,6 @@ public class EmployeeManager implements IEmployeeManager {
 				app = nextApp;
 			}
 			i++;
-			for (IAppointment appoint : em.getFreeAppointments()) {
-				System.out.println("Empl(" + i + ") FreeAppointment Start = "
-						+ appoint.getStartTime() + " End = "
-						+ appoint.getEndTime());
-			}
 		}
 	}
 
@@ -345,17 +323,6 @@ public class EmployeeManager implements IEmployeeManager {
 		list.add(e2);
 
 		IEmployeeManager em = new EmployeeManager();
-		int i = 1;
-		System.out.println("Appointments:");
-		for (IEmployee emp : list) {
-			System.out.println("Employee " + i++ + ":");
-			for (IAppointment a : emp.getAppointments(start, end)) {
-				System.out.println("Start:" + a.getStartTime() + " End: "
-						+ a.getEndTime());
-			}
-		}
-
-		System.out.println("Free:");
 
 		List<IAppointment> listapp = em.getAppointments(list, start, duration);
 		System.out.println("All free appointments:");
@@ -364,7 +331,12 @@ public class EmployeeManager implements IEmployeeManager {
 			System.out.println("Start:" + a.getStartTime() + " End: "
 					+ a.getEndTime());
 		}
-
+		
+		System.out.println("Avaliable:");
+		
+		for(IEmployee empl: list) {
+			System.out.println("ID: " + empl.getEmployeeID() + " Avaliable? " + empl.getAvaliable());
+		}
+		
 	}
-
 }
