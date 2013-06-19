@@ -140,7 +140,13 @@ public class EmployeeManager implements IEmployeeManager {
 		 * 
 		 * changed = false; }
 		 */
-
+		
+		//in the end: reset all free appointment lists of the employees to guarantee
+		//a correct calculation for the next time
+		for(IEmployee reset : employees){
+			reset.resetFreeAppointments();
+		}
+		
 		return allFreeAppointments;
 	}
 
