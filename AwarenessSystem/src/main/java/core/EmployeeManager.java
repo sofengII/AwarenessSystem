@@ -35,17 +35,22 @@ public class EmployeeManager implements IEmployeeManager {
 	private static final int END_OF_WORK = 20;
 
 	@Override
-	public IAppointment getAppointment(List<IEmployee> employees)
-			throws NotFoundAppointmentException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<IAppointment> getAppointments(List<IEmployee> employees)
+			throws NotFoundAppointmentException, IOException, ServiceException {
+		//get the current time
+		DateTime start = new DateTime();
+		//default duration is one hour
+		long oneHour = 3600000;
+		DateTime dur = new DateTime(oneHour);
+		return this.getAppointments(employees, start, dur);
 	}
 
 	@Override
-	public IAppointment getAppointment(List<IEmployee> employees,
-			DateTime duration) throws NotFoundAppointmentException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<IAppointment> getAppointments(List<IEmployee> employees,
+			DateTime duration) throws NotFoundAppointmentException, IOException, ServiceException {
+		//get the current time
+		DateTime start = new DateTime();
+		return this.getAppointments(employees, start, duration);
 	}
 
 	@Override
@@ -236,7 +241,7 @@ public class EmployeeManager implements IEmployeeManager {
 
 		// sieben Tage
 		long sevenDaysInMs = 604800000;
-		long fiftyMinutes = 900000;
+		long fifteenMinutes = 900000;
 		int i = 0;
 		// For every employee...
 		for (IEmployee em : employees) {
@@ -253,8 +258,8 @@ public class EmployeeManager implements IEmployeeManager {
 
 				// If the time slot between this appointment and the next one is
 				// bigger or equal duration...
-				if (nextApp.getStartTime().getValue() - fiftyMinutes
-						- app.getEndTime().getValue() + fiftyMinutes > duration
+				if (nextApp.getStartTime().getValue() - fifteenMinutes
+						- app.getEndTime().getValue() + fifteenMinutes > duration
 							.getValue()) {
 
 					// Create a new free appointment (take care of the

@@ -25,8 +25,10 @@ public interface IEmployeeManager {
 	 * @param employees List of employees for which a joint appointment must be found
 	 * @return
 	 * @throws NotFoundAppointmentException This exception is thrown if no appointment has been found in the next five days
+	 * @throws ServiceException 
+	 * @throws IOException 
 	 */
-	public IAppointment getAppointment (List<IEmployee> employees) throws NotFoundAppointmentException;
+	public List<IAppointment> getAppointments (List<IEmployee> employees) throws NotFoundAppointmentException, IOException, ServiceException;
 	
 	/**
 	 * This method is used to obtain an appointment with consideration of the duration
@@ -34,8 +36,10 @@ public interface IEmployeeManager {
 	 * @param duration duration of the appointment
 	 * @return
 	 * @throws NotFoundAppointmentException This exception is thrown if no appointment has been found in the next five days
+	 * @throws ServiceException 
+	 * @throws IOException 
 	 */
-	public IAppointment getAppointment (List<IEmployee> employees, DateTime duration) throws NotFoundAppointmentException;
+	public List<IAppointment> getAppointments (List<IEmployee> employees, DateTime duration) throws NotFoundAppointmentException, IOException, ServiceException;
 		
 	/**
 	 * This method is used to obtain an appointment with consideration of the start time and duration
