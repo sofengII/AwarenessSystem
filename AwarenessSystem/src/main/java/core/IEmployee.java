@@ -87,4 +87,8 @@ public interface IEmployee {
 	public void addFreeAppointment(IAppointment app);
 	
 	public void resetFreeAppointments();
+	
+	public String toString();
+	
+	
 }

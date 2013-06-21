@@ -4,8 +4,11 @@ import exception.NotFoundAppointmentException;
 import google.Appointment;
 import google.IAppointment;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -37,19 +40,30 @@ public class EmployeeManager implements IEmployeeManager {
 	@Override
 	public List<IAppointment> getAppointments(List<IEmployee> employees)
 			throws NotFoundAppointmentException, IOException, ServiceException {
+
+		Calendar cal = Calendar.getInstance(); 
+		
 		//get the current time
-		DateTime start = new DateTime();
+		DateTime start = new DateTime(cal.getTimeInMillis() + 7200000);
+		
 		//default duration is one hour
-		long oneHour = 3600000;
-		DateTime dur = new DateTime(oneHour);
+		cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY) + 1);
+		
+		//+7200000, because its CEST time zone
+		DateTime dur = new DateTime(cal.getTimeInMillis() + 7200000);
+		
 		return this.getAppointments(employees, start, dur);
 	}
 
 	@Override
 	public List<IAppointment> getAppointments(List<IEmployee> employees,
 			DateTime duration) throws NotFoundAppointmentException, IOException, ServiceException {
+
+		Calendar cal = Calendar.getInstance(); 
+		
 		//get the current time
-		DateTime start = new DateTime();
+		DateTime start = new DateTime(cal.getTimeInMillis() + 7200000);
+		
 		return this.getAppointments(employees, start, duration);
 	}
 
@@ -300,12 +314,58 @@ public class EmployeeManager implements IEmployeeManager {
 		}
 	}
 
+	@Override
+	public List<IEmployee> getEmployees(File file, DateTime startWeek) throws IOException {
+		
+		List<IEmployee> employees = new ArrayList<IEmployee>();
+		
+		if(file.canRead()) {
+			
+			int id = 0;
+			
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			
+			String name;
+			String link;
+			
+			while(true)
+			{
+			String line = br.readLine();
+			
+			if(line == null) {
+				break;
+			}
+			
+			name = line.substring(0,line.indexOf(","));
+			link = line.substring(line.indexOf(",") + 1, line.indexOf(";"));
+			
+			employees.add(new Employee(id++, name, null, link, startWeek, new DateTime(startWeek.getValue() + 432000000)));
+			
+			}
+			br.close();
+			fr.close();
+		}
+		else
+			throw new FileNotFoundException();
+		
+	
+		return employees;
+	}
+	
+	
+	
+	
 	@SuppressWarnings("deprecation")
 	public static void main(String... args) throws IOException,
 			ServiceException, NotFoundAppointmentException {
-
+		
+		
+		IEmployeeManager em = new EmployeeManager();
+			
+		
 		// startDate 17.06.2013
-		DateTime start = new DateTime(new Date(113, 5, 17));
+		DateTime start = new DateTime(new Date(113, 5, 19));
 		// endDate 23.06.2013
 		DateTime end = new DateTime(new Date(113, 5, 23));
 		// duration 1h
@@ -336,7 +396,7 @@ public class EmployeeManager implements IEmployeeManager {
 		list.add(e1);
 		list.add(e2);
 
-		IEmployeeManager em = new EmployeeManager();
+		
 
 		List<IAppointment> listapp = em.getAppointments(list, start, duration);
 		System.out.println("All free appointments:");
@@ -354,4 +414,5 @@ public class EmployeeManager implements IEmployeeManager {
 		}
 
 	}
+
 }

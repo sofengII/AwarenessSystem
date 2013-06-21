@@ -1,7 +1,7 @@
 package core;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import com.google.gdata.data.DateTime;
@@ -54,5 +54,5 @@ public interface IEmployeeManager {
 	public List<IAppointment> getAppointments (List<IEmployee> employees, DateTime startDate, DateTime duration) throws NotFoundAppointmentException, IOException, ServiceException;
 	
 
-	
+	public List<IEmployee> getEmployees(File file, DateTime startWeek) throws IOException;
 }

@@ -72,7 +72,10 @@ public class Employee implements IEmployee {
 			String link, DateTime startWeek, DateTime endWeek) {
 		this.employeeID = employeeID;
 		this.name = name;
-		this.thumbnail = new ImageIcon(picturePath).getImage();
+		if(picturePath != null)
+			this.thumbnail = new ImageIcon(picturePath).getImage();
+		else
+			this.thumbnail = null;
 		this.projectName = "";
 		this.calendar = new Calendar(link, startWeek, endWeek);
 		avaliable = IEmployee.avaliable.UNINITIALIZED;
@@ -223,4 +226,14 @@ public class Employee implements IEmployee {
 		this.freeAppointments = null;
 	}
 
+	@Override
+	public String toString() {
+		
+		String out = "";
+		
+		out += "Name = " + name + " ID = " + employeeID + " Avaliable ? " + avaliable;
+		//out.concat("Name = " + name + " ID = " + employeeID + " Avaliable ? " + avaliable);
+		
+		return out;
+	}
 }
