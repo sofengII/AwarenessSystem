@@ -17,13 +17,44 @@
 						<h:selectOneMenu value=""></h:selectOneMenu>
 						<h:selectOneMenu value=""></h:selectOneMenu>
 						<h:selectOneMenu value=""></h:selectOneMenu>
-						<a4j:commandButton value="Suchen" action="search" reRender="table" styleClass="rf-cb-searchButton"/>
+						<a4j:commandButton value="Suchen" action="#{appointmentTable.getAppointmentStrings_Test(2)}" reRender="table" styleClass="rf-cb-searchButton"/>
 					</h:panelGroup>
 					<h:panelGrid>
 						<h:graphicImage value="/resources/images/person_icon.png" width="50px" height="50px"/>
 						<h:selectOneMenu value=""></h:selectOneMenu>
 					</h:panelGrid>
-					<h:dataTable id="table" rendered="#{not empty appointmentTable.appointmentBeginnings}"></h:dataTable>
+					<h:panelGroup id="table" rendered="#{not empty appointmentTable.appointments}">
+						<h:dataTable value="#{appointmentTable.getAppointmentStrings_Test(2)}" var="app">
+							<h:column>
+								<f:facet name="columnHeader">Mo</f:facet>
+								#{app}
+							</h:column>
+						</h:dataTable>
+						<h:dataTable value="#{appointmentTable.getAppointmentStrings_Test(3)}" var="app">
+							<h:column>
+								<f:facet name="columnHeader">Di</f:facet>
+								#{app}
+							</h:column>
+						</h:dataTable>
+						<h:dataTable value="#{appointmentTable.getAppointmentStrings_Test(4)}" var="app">
+							<h:column>
+								<f:facet name="columnHeader">Mi</f:facet>
+								#{app}
+							</h:column>
+						</h:dataTable>
+						<h:dataTable value="#{appointmentTable.getAppointmentStrings_Test(5)}" var="app">
+							<h:column>
+								<f:facet name="columnHeader">Do</f:facet>
+								#{app}
+							</h:column>
+						</h:dataTable>
+						<h:dataTable value="#{appointmentTable.getAppointmentStrings_Test(6)}" var="app">
+							<h:column>
+								<f:facet name="columnHeader">Fr</f:facet>
+								#{app}
+							</h:column>
+						</h:dataTable>
+					</h:panelGroup>
 				</rich:panel>
 			</h:form>
 		</f:view>
