@@ -71,6 +71,14 @@ public class User implements IUser{
 
 	@Override
 	public List<IEmployee> getFavorites() {
+		for(IEmployee e: this.favorites) {
+			e.getAvaliable();
+		}
 		return this.favorites;
+	}
+
+	@Override
+	public void removeFavorite(IEmployee employee) {
+		this.favorites.remove(employee);
 	}
 }

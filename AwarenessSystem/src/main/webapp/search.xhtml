@@ -17,13 +17,13 @@
 						<h:selectOneMenu value=""></h:selectOneMenu>
 						<h:selectOneMenu value=""></h:selectOneMenu>
 						<h:selectOneMenu value=""></h:selectOneMenu>
-						<a4j:commandButton value="Suchen" action="search"/>
+						<a4j:commandButton value="Suchen" action="search" reRender="table" styleClass="rf-cb-searchButton"/>
 					</h:panelGroup>
 					<h:panelGrid>
 						<h:graphicImage value="/resources/images/person_icon.png" width="50px" height="50px"/>
 						<h:selectOneMenu value=""></h:selectOneMenu>
 					</h:panelGrid>
-					<h:dataTable></h:dataTable>
+					<h:dataTable id="table" rendered="#{not empty appointmentTable.appointmentBeginnings}"></h:dataTable>
 				</rich:panel>
 			</h:form>
 		</f:view>
