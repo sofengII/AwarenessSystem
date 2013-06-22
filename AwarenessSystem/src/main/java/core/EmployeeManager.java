@@ -6,6 +6,7 @@ import google.Appointment;
 import google.IAppointment;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -374,7 +375,9 @@ public class EmployeeManager implements IEmployeeManager {
 
 		List<IEmployee> employees = new ArrayList<IEmployee>();
 
-		FileReader file = new FileReader("employees.dat");
+		File employeesFile = new File("M:/codebase/AwarenessSystem1/AwarenessSystem/resources/employees.dat");
+		System.out.println(employeesFile.getAbsolutePath());
+		FileReader file = new FileReader(employeesFile);
 
 		BufferedReader br = new BufferedReader(file);
 

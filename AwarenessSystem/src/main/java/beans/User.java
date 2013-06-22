@@ -107,7 +107,6 @@ public class User implements IUser{
 	public void removeFavorite(IEmployee employee) {
 		this.favorites.remove(employee);
 	}
-<<<<<<< HEAD
 	
 	public String checkLogin() {
 		if(name.equals("") || password.equals(""))
@@ -172,60 +171,5 @@ public class User implements IUser{
 	@Override
 	public String toString() {
 		return "User: " + this.name;
-=======
-
-	@Override
-	public void logIn() throws IOException, ClassNotFoundException {
-		FileReader file = new FileReader(favoritesFile);
-		BufferedReader br = new BufferedReader(file);
-		
-		int employeeID; 
-		String name; 
-		String picturePath; 
-		String link;
-		
-		while (true) {
-			String line = br.readLine();
-
-			if (line == null) {
-				break;
-			}
-
-			String[] data = line.split(",");
-			employeeID = Integer.parseInt(data[0]);
-			name = data[1];
-			picturePath = data[2];
-			link = data[3];
-
-			this.favorites.add(new Employee(employeeID, name, picturePath, link));
-		}
-		br.close();
-		file.close();
-		System.out.println("Favorites were fetched from the file.");
-	}
-	
-	@Override
-	public void logOff() throws IOException {
-		
-		
-		
-		FileWriter file = new FileWriter(favoritesFile);
-		BufferedWriter bw = new BufferedWriter(file);
-		
-		for(IEmployee favorite : favorites){
-			bw.write(favorite.getEmployeeID()+",");
-			bw.write(favorite.getName()+",");
-			bw.write(favorite.getPicturePath()+",");
-			bw.write(favorite.getLink()+"\n");
-		}
-		bw.flush();
-		bw.close();
-		file.close();
-		
-		//FÜR TESTZWECKE LISTE LÖSCHEN
-		this.favorites.clear();
-				
-		System.out.println("Favorites were saved in the file.");
->>>>>>> branch 'master' of https://github.com/sofengII/AwarenessSystem.git
 	}
 }

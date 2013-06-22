@@ -1,9 +1,12 @@
 package beans;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import core.Employee;
+import core.EmployeeManager;
+import core.IEmployee;
+import core.IEmployeeManager;
 
 public class EmployeeList {
 
@@ -15,10 +18,15 @@ public class EmployeeList {
 	}
 	
 	private void fillEmployees() {
-		this.employees.add(new Employee(1,"Huber",null,null).getName());
-		this.employees.add(new Employee(2,"Meier",null,null).getName());
-		this.employees.add(new Employee(3,"Muster",null,null).getName());
-		this.employees.add(new Employee(4,"Mann",null,null).getName());
+		IEmployeeManager manager = new EmployeeManager();
+		try {
+			List<IEmployee> employeesList = manager.getEmployees();
+			for(IEmployee employee: employeesList) {
+				this.employees.add(employee.getName());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public List<String> getEmployees() {
