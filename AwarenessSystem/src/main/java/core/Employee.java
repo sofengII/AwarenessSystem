@@ -26,6 +26,10 @@ import com.google.gdata.util.ServiceException;
 public class Employee implements IEmployee, Serializable {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6124964934933336864L;
+	/**
 	 * ID of the employee
 	 */
 	private final int employeeID;
@@ -61,7 +65,7 @@ public class Employee implements IEmployee, Serializable {
 
 	/**
 	 * Constructor for an employee. Every new employee will be initialized with
-	 * availability UNINITIALIZED.
+	 * availability UNINITIALIZED. 
 	 * 
 	 * @param employeeID
 	 *            id of an employee
@@ -71,10 +75,6 @@ public class Employee implements IEmployee, Serializable {
 	 *            path to the picture
 	 * @param link
 	 *            private link to google calendar of an employee
-	 * @param startWeek
-	 *            startDate of the visible Week
-	 * @param endWeek
-	 *            endDate of the visible Week
 	 */
 	public Employee(int employeeID, String name, String picturePath, String link) {
 		this.employeeID = employeeID;
@@ -87,6 +87,7 @@ public class Employee implements IEmployee, Serializable {
 		this.projectName = "";
 		this.link = link;
 		avaliable = IEmployee.avaliable.UNINITIALIZED;
+		setCalendar(null);
 	}
 
 	/**
@@ -103,10 +104,6 @@ public class Employee implements IEmployee, Serializable {
 	 *            link to google calendar of an employee
 	 * @param projectName
 	 *            name of the project
-	 * @param startWeek
-	 *            startDate of the visible Week
-	 * @param endWeek
-	 *            endDate of the visible Week
 	 */
 	public Employee(int employeeID, String name, String picturePath,
 			String link, String projectName) {
@@ -117,6 +114,7 @@ public class Employee implements IEmployee, Serializable {
 		this.projectName = projectName;
 		this.link = link;
 		avaliable = IEmployee.avaliable.UNINITIALIZED;
+		setCalendar(null);
 	}
 
 	@Override
