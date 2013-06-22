@@ -18,8 +18,8 @@
 						</h:inputText>
 						<h:outputText value="Password: " />
 						<h:inputText value="#{user.password}" />
-						<a4j:commandButton value="Login" action="#{loginController.checkLogin}" />
-						<a4j:commandButton value="Register" action="register" />
+						<h:commandButton value="Login" action="#{user.checkLogin}" />
+						<h:commandButton value="Register" action="register" />
 					</h:panelGrid>
 				</rich:panel>
 			</h:form>

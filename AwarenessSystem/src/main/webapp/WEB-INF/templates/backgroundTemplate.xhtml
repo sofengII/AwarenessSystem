@@ -13,19 +13,18 @@
 <h:body>
 	<div class="headline">
 		<h:panelGrid>
-			<!--<rich:panel columns="1" styleClass="rf-p-headerPanel">-->
-				<h:outputText styleClass="rf-ot-header" value="Awareness System" />
-			<!--</rich:panel>-->
+			<h:outputText styleClass="rf-ot-header" value="Awareness System" />
 		</h:panelGrid>
 	</div>
 	<div class="content">
 		<rich:panel styleClass="rf-p-containerPanel">
 			<rich:panel styleClass="rf-p-navigationPanel" id="navigation_panel">
-				<a4j:commandButton styleClass="rf-cb-navigationButton" value="Meine Favoriten" action="myFavorites"/>
-				<a4j:commandButton styleClass="rf-cb-navigationButton" value="Gezielte Suche" action="search"/>
+				<h:commandButton id="myFavoritesNavigationButton" styleClass="rf-cb-navigationButton" value="Meine Favoriten" action="myFavorites"/>
+				<h:commandButton id="searchNavigationButton" styleClass="rf-cb-navigationButton" value="Gezielte Suche" action="search"/>
 			</rich:panel>
 			<rich:panel styleClass="rf-p-contentPanel" id="content_panel">
 				<ui:insert name="content"/>
+				<ui:debug/>
 			</rich:panel>
 		</rich:panel>
 	</div>
