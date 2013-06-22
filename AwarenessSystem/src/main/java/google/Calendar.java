@@ -35,10 +35,10 @@ public class Calendar implements ICalendar {
 	 */
 	private List<IAppointment> appointments;
 
-	public Calendar(String link, DateTime startWeek, DateTime endWeek) {
+	public Calendar(String link, DateTime startWeek, DateTime endWeek) throws NoAppointmentsException{
 
 		if (link.endsWith("/basic"))
-			this.link = link.replace("/basic", "/full");		
+			this.link = link.replace("/basic", "/full");
 		else
 			this.link = link;
 
@@ -46,7 +46,7 @@ public class Calendar implements ICalendar {
 
 		try {
 			initializeConnection(startWeek, endWeek);
-		} catch (IOException | ServiceException | NoAppointmentsException e) {
+		} catch (IOException | ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -76,7 +76,7 @@ public class Calendar implements ICalendar {
 
 				if (en.getTimes().size() == 0)
 					throw new NoAppointmentsException(
-							"There are no DateTime informations. Maybe the link is incorrect");
+							"There are no Appointments in this week.");
 				else {
 					for (When w : en.getTimes()) {
 
@@ -103,7 +103,7 @@ public class Calendar implements ICalendar {
 
 	@Override
 	public List<IAppointment> getAppointments(DateTime start, DateTime end)
-			throws IOException, ServiceException {
+			throws IOException, ServiceException, NoAppointmentsException {
 		CalendarService service = new CalendarService("App1");
 
 		List<IAppointment> apps = new ArrayList<IAppointment>();
@@ -118,35 +118,31 @@ public class Calendar implements ICalendar {
 		CalendarEventFeed resultF = service.query(myQuery,
 				CalendarEventFeed.class);
 
-		try {
-			if (resultF.getEntries().size() != 0) {
-				for (CalendarEventEntry en : resultF.getEntries()) {
+		if (resultF.getEntries().size() != 0) {
+			for (CalendarEventEntry en : resultF.getEntries()) {
 
-					DateTime startTime = null;
-					DateTime endTime = null;
+				DateTime startTime = null;
+				DateTime endTime = null;
 
-					if (en.getTimes().size() == 0)
-						throw new NoAppointmentsException(
-								"There are no DateTime informations. Maybe the link is incorrect");
-					else {
-						for (When w : en.getTimes()) {
-							startTime = w.getStartTime();
-							endTime = w.getEndTime();
-						}
-
-						IAppointment appointment = new Appointment(startTime,
-								endTime);
-
-						apps.add(appointment);
+				if (en.getTimes().size() == 0) {
+					throw new NoAppointmentsException(
+							"There are no Appointments in this week");
+				} else {
+					for (When w : en.getTimes()) {
+						startTime = w.getStartTime();
+						endTime = w.getEndTime();
 					}
+
+					IAppointment appointment = new Appointment(startTime,
+							endTime);
+
+					apps.add(appointment);
 				}
-				return apps;
-			} else {
-				throw new NoAppointmentsException(
-						"There are no Appointments in this week");
 			}
-		} catch (NoAppointmentsException nae) {
-			return null;
+			return apps;
+		} else {
+			throw new NoAppointmentsException(
+					"There are no Appointments in this week");
 		}
 	}
 

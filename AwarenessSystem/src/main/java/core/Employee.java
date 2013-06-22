@@ -1,5 +1,6 @@
 package core;
 
+import exception.NoAppointmentsException;
 import google.Calendar;
 import google.IAppointment;
 import google.ICalendar;
@@ -37,6 +38,10 @@ public class Employee implements IEmployee {
 	private final Image thumbnail;
 
 	/**
+	 * private link to his google calendar
+	 */
+	private final String link;
+	/**
 	 * availability of the employee
 	 */
 	private avaliable avaliable;
@@ -47,7 +52,7 @@ public class Employee implements IEmployee {
 	/**
 	 * google calendar of the employee
 	 */
-	private final ICalendar calendar;
+	private ICalendar calendar;
 
 	private List<IAppointment> freeAppointments = new ArrayList<IAppointment>();
 
@@ -68,16 +73,15 @@ public class Employee implements IEmployee {
 	 * @param endWeek
 	 *            endDate of the visible Week
 	 */
-	public Employee(int employeeID, String name, String picturePath,
-			String link, DateTime startWeek, DateTime endWeek) {
+	public Employee(int employeeID, String name, String picturePath, String link) {
 		this.employeeID = employeeID;
 		this.name = name;
-		if(picturePath != null)
+		if (picturePath != null)
 			this.thumbnail = new ImageIcon(picturePath).getImage();
 		else
 			this.thumbnail = null;
 		this.projectName = "";
-		this.calendar = new Calendar(link, startWeek, endWeek);
+		this.link = link;
 		avaliable = IEmployee.avaliable.UNINITIALIZED;
 	}
 
@@ -101,13 +105,12 @@ public class Employee implements IEmployee {
 	 *            endDate of the visible Week
 	 */
 	public Employee(int employeeID, String name, String picturePath,
-			String link, DateTime startWeek, DateTime endWeek,
-			String projectName) {
+			String link, String projectName) {
 		this.employeeID = employeeID;
 		this.name = name;
 		this.thumbnail = new ImageIcon(picturePath).getImage();
 		this.projectName = projectName;
-		this.calendar = new Calendar(link, startWeek, endWeek);
+		this.link = link;
 		avaliable = IEmployee.avaliable.UNINITIALIZED;
 	}
 
@@ -116,63 +119,66 @@ public class Employee implements IEmployee {
 		updateAvaliability();
 		return avaliable;
 	}
-	
+
 	/**
-	 * This method checks whether a employee has an appointment or not 
-	 * and updates his status
+	 * This method checks whether a employee has an appointment or not and
+	 * updates his status
 	 */
 	private void updateAvaliability() {
 
 		java.util.Calendar cal = java.util.Calendar.getInstance();
-		
-		//Zum testen, Zeit vorgeben
-		/*cal.set(java.util.Calendar.DAY_OF_MONTH, 20);
-		//+2 wegen Zeitzone
-		cal.set(java.util.Calendar.HOUR_OF_DAY, 12);
-		cal.set(java.util.Calendar.MINUTE, 10);
-		cal.set(java.util.Calendar.SECOND,0);
-		cal.set(java.util.Calendar.MILLISECOND,0);
+
+		// Zum testen, Zeit vorgeben
+		/*
+		 * cal.set(java.util.Calendar.DAY_OF_MONTH, 20); //+2 wegen Zeitzone
+		 * cal.set(java.util.Calendar.HOUR_OF_DAY, 12);
+		 * cal.set(java.util.Calendar.MINUTE, 10);
+		 * cal.set(java.util.Calendar.SECOND,0);
+		 * cal.set(java.util.Calendar.MILLISECOND,0); Date actualTime =
+		 * cal.getTime(); System.out.println("Date: " + actualTime.toString());
+		 */
+
+		cal.set(java.util.Calendar.HOUR_OF_DAY,
+				cal.get(java.util.Calendar.HOUR_OF_DAY));
 		Date actualTime = cal.getTime();
-		System.out.println("Date: " + actualTime.toString());
-		*/
-		
-		cal.set(java.util.Calendar.HOUR_OF_DAY, cal.get(java.util.Calendar.HOUR_OF_DAY));
-		Date actualTime = cal.getTime();
-		
+
 		// 15 min
 		long fiftyMinutes = 900000;
-		
-		if(calendar.getAppointments().size() == 0) {
-			System.out.println("blöd");
+
+		try {
+			calendar.getAppointments();
+		} catch (NullPointerException e) {
 			avaliable = IEmployee.avaliable.FREE;
 			return;
 		}
-		
-		else {
-			
-			for(IAppointment appointment : calendar.getAppointments()) {
-				
-				// current time is in the 15 minutes gap before a appointment starts
-				if (actualTime.getTime() < appointment.getStartTime().getValue()
-						&& actualTime.getTime() >= appointment.getStartTime()
-								.getValue() - fiftyMinutes) {
-					avaliable = IEmployee.avaliable.SHORTLYFREE;
-					return;
-				}
 
-				// current time is between two appointments
-				if (appointment.getStartTime().getValue() <= actualTime
-						.getTime()
-						&& actualTime.getTime() <= appointment.getEndTime()
-								.getValue() + fiftyMinutes) {
-					avaliable = IEmployee.avaliable.BUSY;
-					return;
-				}
-				
-				
+		for (IAppointment appointment : calendar.getAppointments()) {
+
+			if (appointment.getStartTime() == null
+					&& appointment.getEndTime() == null) {
+				avaliable = IEmployee.avaliable.FREE;
+				return;
 			}
-			avaliable = IEmployee.avaliable.FREE;	
+
+			// current time is in the 15 minutes gap before a appointment starts
+			if (actualTime.getTime() < appointment.getStartTime().getValue()
+					&& actualTime.getTime() >= appointment.getStartTime()
+							.getValue() - fiftyMinutes) {
+				avaliable = IEmployee.avaliable.SHORTLYFREE;
+				return;
+			}
+
+			// current time is between two appointments
+			if (appointment.getStartTime().getValue() <= actualTime.getTime()
+					&& actualTime.getTime() <= appointment.getEndTime()
+							.getValue() + fiftyMinutes) {
+				avaliable = IEmployee.avaliable.BUSY;
+				return;
+			}
+
 		}
+		avaliable = IEmployee.avaliable.FREE;
+
 	}
 
 	@Override
@@ -187,7 +193,8 @@ public class Employee implements IEmployee {
 
 	@Override
 	public List<IAppointment> getAppointments(DateTime start, DateTime end)
-			throws IOException, ServiceException {
+			throws IOException, ServiceException, NoAppointmentsException {
+
 		return calendar.getAppointments(start, end);
 	}
 
@@ -228,12 +235,28 @@ public class Employee implements IEmployee {
 
 	@Override
 	public String toString() {
-		
-		String out = "";
-		
-		out += "Name = " + name + " ID = " + employeeID + " Avaliable ? " + avaliable;
-		//out.concat("Name = " + name + " ID = " + employeeID + " Avaliable ? " + avaliable);
-		
-		return out;
+		return "Name = " + name + " ID = " + employeeID + " Avaliable ? "
+				+ avaliable;
+	}
+
+	@Override
+	public void setCalendar(DateTime startDate) {
+
+		int sixDays = 518400000;
+
+		if (startDate == null) {
+			java.util.Calendar cal = java.util.Calendar.getInstance();
+
+			// get the current time + two hours because of timeZone
+			startDate = new DateTime(cal.getTimeInMillis());
+
+		}
+
+		DateTime endDate = new DateTime(startDate.getValue() + sixDays);
+
+		try {
+			this.calendar = new Calendar(link, startDate, endDate);
+		} catch (NoAppointmentsException e) {
+		}
 	}
 }

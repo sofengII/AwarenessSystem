@@ -34,7 +34,7 @@ public interface ICalendar {
 	 * @throws ServiceException 
 	 * @throws IOException 
 	 */
-	public List<IAppointment> getAppointments(DateTime start, DateTime end) throws IOException, ServiceException;
+	public List<IAppointment> getAppointments(DateTime start, DateTime end) throws IOException, ServiceException, NoAppointmentsException;
 	
 	
 }

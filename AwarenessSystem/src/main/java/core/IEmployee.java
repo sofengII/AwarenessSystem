@@ -1,5 +1,6 @@
 package core;
 
+import exception.NoAppointmentsException;
 import google.IAppointment;
 
 import java.awt.Image;
@@ -67,6 +68,14 @@ public interface IEmployee {
 	public void setProject(String projectName);
 
 	/**
+	 * Setter for the calendar of the employee
+	 * The period starts at startDate and ends five days later
+	 * @param startDate Date of the calendar to start, if it
+	 * is null, the current time will be used
+	 */
+	public void setCalendar(DateTime startDate);
+	
+	/**
 	 * Getter for appointments
 	 * @return list of appointments
 	 */
@@ -80,7 +89,7 @@ public interface IEmployee {
 	 * @throws ServiceException 
 	 * @throws IOException 
 	 */
-	public List<IAppointment> getAppointments(DateTime start, DateTime end) throws IOException, ServiceException;
+	public List<IAppointment> getAppointments(DateTime start, DateTime end) throws IOException, ServiceException, NoAppointmentsException;
 	
 	public List<IAppointment> getFreeAppointments();
 	

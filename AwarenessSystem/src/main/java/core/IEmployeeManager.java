@@ -54,5 +54,5 @@ public interface IEmployeeManager {
 	public List<IAppointment> getAppointments (List<IEmployee> employees, DateTime startDate, DateTime duration) throws NotFoundAppointmentException, IOException, ServiceException;
 	
 
-	public List<IEmployee> getEmployees(File file, DateTime startWeek) throws IOException;
+	public List<IEmployee> getEmployees(File file) throws IOException;
 }
