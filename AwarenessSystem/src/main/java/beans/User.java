@@ -1,4 +1,4 @@
-package view;
+package beans;
 
 import google.Appointment;
 
@@ -16,7 +16,7 @@ import core.IEmployee;
  * @authors Dominik, Maximilian, Daniela
  * @version 1.0
  */
-public class User implements IUser{
+public class User{
 	
 	//TODO Sollte final sein, Username über Ctor erstellen.
 	/**
@@ -35,27 +35,23 @@ public class User implements IUser{
 	
 	public User() {}
 	
-	@Override
 	public String getName() {
 		return this.name;
 	}
 
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	@Override
 	public String getPassword() {
 		return this.password;
 	}
 	
-	@Override
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	@Override
+	//@Override
 	public boolean addFavorite(IEmployee employee) {
 		
 		try {
@@ -69,11 +65,16 @@ public class User implements IUser{
 		return true;
 	}
 
-	@Override
+	//@Override
 	public List<IEmployee> getFavorites() {
 		for(IEmployee e: this.favorites) {
 			e.getAvaliable();
 		}
 		return this.favorites;
+	}
+
+	//@Override
+	public void removeFavorite(IEmployee employee) {
+		this.favorites.remove(employee);
 	}
 }
