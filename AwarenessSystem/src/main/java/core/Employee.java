@@ -37,6 +37,8 @@ public class Employee implements IEmployee, Serializable {
 	 * picture of the employee
 	 */
 	private final Image thumbnail;
+	
+	private final String picturePath;
 
 	/**
 	 * private link to his google calendar
@@ -77,6 +79,7 @@ public class Employee implements IEmployee, Serializable {
 	public Employee(int employeeID, String name, String picturePath, String link) {
 		this.employeeID = employeeID;
 		this.name = name;
+		this.picturePath = picturePath;
 		if (picturePath != null)
 			this.thumbnail = new ImageIcon(picturePath).getImage();
 		else
@@ -109,6 +112,7 @@ public class Employee implements IEmployee, Serializable {
 			String link, String projectName) {
 		this.employeeID = employeeID;
 		this.name = name;
+		this.picturePath = picturePath;
 		this.thumbnail = new ImageIcon(picturePath).getImage();
 		this.projectName = projectName;
 		this.link = link;
@@ -186,6 +190,11 @@ public class Employee implements IEmployee, Serializable {
 	public Image getThumbnail() {
 		return thumbnail;
 	}
+	
+	@Override
+	public String getPicturePath(){
+		return this.picturePath;
+	}
 
 	@Override
 	public List<IAppointment> getAppointments() {
@@ -207,6 +216,10 @@ public class Employee implements IEmployee, Serializable {
 	@Override
 	public String getName() {
 		return name;
+	}
+	
+	public String getLink(){
+		return this.link;
 	}
 
 	@Override

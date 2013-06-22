@@ -1,5 +1,7 @@
 package google;
 
+import java.io.Serializable;
+
 import com.google.gdata.data.DateTime;
 
 /**
@@ -8,7 +10,7 @@ import com.google.gdata.data.DateTime;
  * @authors Dominik, Maximilian, Daniela
  * @version 1.0
  */
-public class Appointment extends DateTime implements IAppointment  {
+public class Appointment extends DateTime implements IAppointment, Serializable  {
 
 	/**
 	 * startDate of an appointment

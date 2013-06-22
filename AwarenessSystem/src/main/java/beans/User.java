@@ -2,15 +2,20 @@ package beans;
 
 import google.Appointment;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.Employee;
 import core.EmployeeManager;
 import core.IEmployee;
 
@@ -74,7 +79,12 @@ public class User implements IUser{
 	public boolean addFavorite(IEmployee employee) {
 		
 		try {
-			this.favorites.add(employee);
+			if(this.favorites.size()<5){
+				this.favorites.add(employee);
+			}
+			else{
+				return false;
+			}
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -99,29 +109,55 @@ public class User implements IUser{
 
 	@Override
 	public void logIn() throws IOException, ClassNotFoundException {
-		FileInputStream file = new FileInputStream(favoritesFile);
-		ObjectInputStream ois = new ObjectInputStream(file);
+		FileReader file = new FileReader(favoritesFile);
+		BufferedReader br = new BufferedReader(file);
 		
-		//Get the number of favorites and fetch them from the file.
-		int numberOfFavorites = (int)ois.readObject();
-		for(int i = 0; i < numberOfFavorites; i++){
-			this.favorites.add((IEmployee)ois.readObject());
+		int employeeID; 
+		String name; 
+		String picturePath; 
+		String link;
+		
+		while (true) {
+			String line = br.readLine();
+
+			if (line == null) {
+				break;
+			}
+
+			String[] data = line.split(",");
+			employeeID = Integer.parseInt(data[0]);
+			name = data[1];
+			picturePath = data[2];
+			link = data[3];
+
+			this.favorites.add(new Employee(employeeID, name, picturePath, link));
 		}
-		ois.close();
+		br.close();
+		file.close();
+		System.out.println("Favorites were fetched from the file.");
 	}
 	
 	@Override
 	public void logOff() throws IOException {
-		FileOutputStream file = new FileOutputStream(favoritesFile);
-		ObjectOutputStream oos = new ObjectOutputStream(file);
 		
-		//Save the number of favorites first to be able to read them more comfortable out of the file later.
-		int numberOfFavorites = favorites.size();
-		oos.writeObject(numberOfFavorites);
+		
+		
+		FileWriter file = new FileWriter(favoritesFile);
+		BufferedWriter bw = new BufferedWriter(file);
 		
 		for(IEmployee favorite : favorites){
-			oos.writeObject(favorite);
+			bw.write(favorite.getEmployeeID()+",");
+			bw.write(favorite.getName()+",");
+			bw.write(favorite.getPicturePath()+",");
+			bw.write(favorite.getLink()+"\n");
 		}
-		oos.close();
+		bw.flush();
+		bw.close();
+		file.close();
+		
+		//FÜR TESTZWECKE LISTE LÖSCHEN
+		this.favorites.clear();
+				
+		System.out.println("Favorites were saved in the file.");
 	}
 }

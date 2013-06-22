@@ -16,6 +16,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import beans.IUser;
+import beans.User;
+
 import com.google.gdata.data.DateTime;
 import com.google.gdata.util.ServiceException;
 
@@ -410,7 +413,7 @@ public class EmployeeManager implements IEmployeeManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void main(String... args) throws IOException, ServiceException, NotFoundAppointmentException {
+	public static void main(String... args) throws IOException, ServiceException, NotFoundAppointmentException, ClassNotFoundException {
 
 		IEmployeeManager em = new EmployeeManager();
 
@@ -443,7 +446,7 @@ public class EmployeeManager implements IEmployeeManager {
 		list.add(e1);
 		list.add(e2);
 
-		List<IAppointment> listapp = em.getAppointments(list, start, duration);
+		/*List<IAppointment> listapp = em.getAppointments(list, start, duration);
 
 		System.out.println("All free appointments:");
 		for (IAppointment a : listapp) {
@@ -455,6 +458,17 @@ public class EmployeeManager implements IEmployeeManager {
 
 		for (IEmployee empl : list) {
 			System.out.println("ID: " + empl.getEmployeeID() + " Avaliable? " + empl.getAvaliable());
+		}*/
+		
+		//Test zum Favoriten-Speichern und -Laden
+		IUser user = new User("Dany");
+		user.addFavorite(e);
+		user.addFavorite(e1);
+		user.logOff();
+		
+		user.logIn();
+		for(IEmployee fav : user.getFavorites()){
+			System.out.println("Favorite: " + fav.getName());
 		}
 
 	}

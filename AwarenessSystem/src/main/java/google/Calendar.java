@@ -1,6 +1,7 @@
 package google;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import exception.NoAppointmentsException;
  * @version 1.0
  * 
  */
-public class Calendar implements ICalendar {
+public class Calendar implements ICalendar, Serializable {
 
 	/**
 	 * link to the google calendar
