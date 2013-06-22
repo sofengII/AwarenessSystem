@@ -44,6 +44,12 @@ public interface IEmployee {
 	public Image getThumbnail();
 	
 	/**
+	 * Getter for the picture path
+	 * @return the picture path
+	 */
+	public String getPicturePath();
+	
+	/**
 	 * Getter for the empolyeeID
 	 * @return the employeeID
 	 */
@@ -54,6 +60,8 @@ public interface IEmployee {
 	 * @return the name
 	 */
 	public String getName();
+	
+	public String getLink();
 
 	/**
 	 * Getter for the projectName

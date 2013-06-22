@@ -6,8 +6,6 @@ import google.Appointment;
 import google.IAppointment;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +13,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import beans.User;
 
 import com.google.gdata.data.DateTime;
 import com.google.gdata.util.ServiceException;
@@ -277,38 +277,36 @@ public class EmployeeManager implements IEmployeeManager {
 
 				if (appointments.size() == 1) {
 					System.out.println("§bla");
-					if(app.getStartTime().getValue() - fifteenMinutes - startDate.getValue() > duration
-							.getValue()) {
-						
+					if (app.getStartTime().getValue() - fifteenMinutes - startDate.getValue() > duration.getValue()) {
+
 						freeApp = new Appointment(new DateTime(startDate.getValue() + twoHours), new DateTime(app
 								.getStartTime().getValue() - fifteenMinutes + twoHours));
-						
+
 						em.addFreeAppointment(freeApp);
-						
-						if(endDate.getValue() - app.getEndTime().getValue() + fifteenMinutes > duration.getValue()) {
-							
-							freeApp = new Appointment(
-									new DateTime(app.getEndTime().getValue() + fifteenMinutes + twoHours), new DateTime(endDate.getValue() + twoHours));
+
+						if (endDate.getValue() - app.getEndTime().getValue() + fifteenMinutes > duration.getValue()) {
+
+							freeApp = new Appointment(new DateTime(app.getEndTime().getValue() + fifteenMinutes
+									+ twoHours), new DateTime(endDate.getValue() + twoHours));
 							em.addFreeAppointment(freeApp);
 						}
 						continue;
 					}
-					
+
 					if (endDate.getValue() - app.getEndTime().getValue() + fifteenMinutes > duration.getValue()) {
-						
+
 						freeApp = new Appointment(
 								new DateTime(app.getEndTime().getValue() + fifteenMinutes + twoHours), endDate);
 						em.addFreeAppointment(freeApp);
 
-						if (app.getStartTime().getValue() - fifteenMinutes - startDate.getValue() > duration
-							.getValue()) {
-							
+						if (app.getStartTime().getValue() - fifteenMinutes - startDate.getValue() > duration.getValue()) {
+
 							em.addFreeAppointment(new Appointment(startDate, new DateTime(app.getStartTime().getValue()
-								- fifteenMinutes + twoHours)));
-										
+									- fifteenMinutes + twoHours)));
+
 							continue;
-					
-						}	
+
+						}
 					}
 				}
 				appointments.remove(0);
@@ -321,17 +319,15 @@ public class EmployeeManager implements IEmployeeManager {
 			boolean first = true;
 			// ... search for free appointments
 			for (IAppointment nextApp : appointments) {
-				
-				if(first) {
-					if(app.getStartTime().getValue() - fifteenMinutes - startDate.getValue() > duration
-							.getValue()) {
-						em.addFreeAppointment(new Appointment(new DateTime(startDate.getValue() + twoHours), new DateTime(app
-								.getStartTime().getValue() - fifteenMinutes + twoHours)));
+
+				if (first) {
+					if (app.getStartTime().getValue() - fifteenMinutes - startDate.getValue() > duration.getValue()) {
+						em.addFreeAppointment(new Appointment(new DateTime(startDate.getValue() + twoHours),
+								new DateTime(app.getStartTime().getValue() - fifteenMinutes + twoHours)));
 					}
 					first = false;
 				}
-				
-				
+
 				// If the time slot between this appointment and the next one is
 				// bigger or equal duration...
 				if (nextApp.getStartTime().getValue() - fifteenMinutes - app.getEndTime().getValue() + fifteenMinutes > duration
@@ -357,12 +353,12 @@ public class EmployeeManager implements IEmployeeManager {
 				}
 				app = nextApp;
 			}
-			
+
 			if (endDate.getValue() - app.getEndTime().getValue() + fifteenMinutes > duration.getValue()) {
-				em.addFreeAppointment(new Appointment(
-						new DateTime(app.getEndTime().getValue() + fifteenMinutes + twoHours), endDate));
+				em.addFreeAppointment(new Appointment(new DateTime(app.getEndTime().getValue() + fifteenMinutes
+						+ twoHours), endDate));
 			}
-			
+
 			/*
 			 * i++;
 			 * 
@@ -374,87 +370,71 @@ public class EmployeeManager implements IEmployeeManager {
 	}
 
 	@Override
-	public List<IEmployee> getEmployees(File file) throws IOException {
+	public List<IEmployee> getEmployees() throws IOException {
 
 		List<IEmployee> employees = new ArrayList<IEmployee>();
 
-		if (file.canRead()) {
+		FileReader file = new FileReader("employees.dat");
 
-			int id = 0;
+		BufferedReader br = new BufferedReader(file);
 
-			FileReader fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
+		int id;
+		String name;
+		String link;
+		String picture;
 
-			String name;
-			String link;
+		while (true) {
+			String line = br.readLine();
 
-			while (true) {
-				String line = br.readLine();
-
-				if (line == null) {
-					break;
-				}
-
-				name = line.substring(0, line.indexOf(","));
-				link = line.substring(line.indexOf(",") + 1, line.indexOf(";"));
-
-				employees.add(new Employee(id++, name, null, link));
-
+			if (line == null) {
+				break;
 			}
-			br.close();
-			fr.close();
-		} else
-			throw new FileNotFoundException();
+
+			String[] data = line.split(",");
+
+			id = Integer.parseInt(data[0]);
+			name = data[1];
+			picture = data[2];
+			link = data[3];
+
+			employees.add(new Employee(id, name, picture, link));
+
+		}
+		br.close();
+		file.close();
 
 		return employees;
 	}
 
-	@SuppressWarnings("deprecation")
-	public static void main(String... args) throws IOException, ServiceException, NotFoundAppointmentException {
+	public static void main(String... args) throws IOException, ServiceException, NotFoundAppointmentException,
+			ClassNotFoundException {
 
 		IEmployeeManager em = new EmployeeManager();
 
-		Calendar cal = Calendar.getInstance();
-
-		// get the current time
-		DateTime start = new DateTime(cal.getTimeInMillis());
-
-		// duration 1h
-		DateTime duration = new DateTime(3600000);
-
-		IEmployee e = new Employee(5, "sofengii", "",
-				"https://www.google.com/calendar/feeds/sofengii%40gmail.com/private-2541ddfeaf32c31be3f0fa31e9018acf/basic");
-
-		IEmployee e1 = new Employee(
-				6,
-				"test",
-				"",
-				"https://www.google.com/calendar/feeds/2b2mp1lm09agube42sq7bje62k%40group.calendar.google.com/private-bacfe1c6c0dad9de1d578e03a46a5eb6/basic");
-
-		IEmployee e2 = new Employee(7, "Peter", "",
-				"https://www.google.com/calendar/feeds/test191919198%40gmail.com/private-6d3352376d55af9253d4de2ddb7661a9/basic");
 		List<IEmployee> list = new ArrayList<>();
 
-		e.setCalendar(null);
-		e1.setCalendar(null);
-		e2.setCalendar(null);
 
-		list.add(e);
-		list.add(e1);
-		list.add(e2);
+		list.addAll(em.getEmployees());
 
-		List<IAppointment> listapp = em.getAppointments(list, start, duration);
-
-		System.out.println("All free appointments:");
-		for (IAppointment a : listapp) {
-
-			System.out.println("Start:" + a.getStartTime() + " End: " + a.getEndTime());
-		}
-
-		System.out.println("Avaliable:");
-
+		/*
 		for (IEmployee empl : list) {
 			System.out.println("ID: " + empl.getEmployeeID() + " Avaliable? " + empl.getAvaliable());
+		}
+
+		for (IEmployee empl : em.getEmployees())
+			System.out.println(empl.getEmployeeID() + ", " + empl.getName() + ", " + empl.getPicturePath() + ", "
+					+ empl.getLink() + ";");
+		*/
+		
+		// Test zum Favoriten-Speichern und -Laden
+		User user = new User("Dany");
+		user.addFavorite(list.get(0));
+		user.addFavorite(list.get(1));
+		user.logOff();
+
+		user.logIn();
+		for (IEmployee fav : user.getFavorites()) {
+			System.out.println("Favorite: " + fav.getName());
 		}
 
 	}

@@ -1,6 +1,5 @@
 package core;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,7 +18,6 @@ import google.IAppointment;
  */
 public interface IEmployeeManager {
 	
-	//TODO exception geworfen wenn kein Termin in den nächsten 5 Tagen gefunden wird?
 	/**
 	 * This method is used to obtain an appointment without consideration of the duration
 	 * @param employees List of employees for which a joint appointment must be found
@@ -54,5 +52,11 @@ public interface IEmployeeManager {
 	public List<IAppointment> getAppointments (List<IEmployee> employees, DateTime startDate, DateTime duration) throws NotFoundAppointmentException, IOException, ServiceException;
 	
 
-	public List<IEmployee> getEmployees(File file) throws IOException;
+	/**
+	 * This method is used to get all employees 
+	 * @return a list of all employees
+	 * @throws IOException
+	 */
+	public List<IEmployee> getEmployees() throws IOException;
+
 }

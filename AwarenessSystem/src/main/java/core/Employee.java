@@ -7,6 +7,7 @@ import google.ICalendar;
 
 import java.awt.Image;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,8 +23,12 @@ import com.google.gdata.util.ServiceException;
  * @authors Dominik, Maximilian, Daniela
  * @version 1.0
  */
-public class Employee implements IEmployee {
+public class Employee implements IEmployee, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6124964934933336864L;
 	/**
 	 * ID of the employee
 	 */
@@ -36,6 +41,8 @@ public class Employee implements IEmployee {
 	 * picture of the employee
 	 */
 	private final Image thumbnail;
+	
+	private final String picturePath;
 
 	/**
 	 * private link to his google calendar
@@ -58,7 +65,7 @@ public class Employee implements IEmployee {
 
 	/**
 	 * Constructor for an employee. Every new employee will be initialized with
-	 * availability UNINITIALIZED.
+	 * availability UNINITIALIZED. 
 	 * 
 	 * @param employeeID
 	 *            id of an employee
@@ -68,14 +75,11 @@ public class Employee implements IEmployee {
 	 *            path to the picture
 	 * @param link
 	 *            private link to google calendar of an employee
-	 * @param startWeek
-	 *            startDate of the visible Week
-	 * @param endWeek
-	 *            endDate of the visible Week
 	 */
 	public Employee(int employeeID, String name, String picturePath, String link) {
 		this.employeeID = employeeID;
 		this.name = name;
+		this.picturePath = picturePath;
 		if (picturePath != null)
 			this.thumbnail = new ImageIcon(picturePath).getImage();
 		else
@@ -83,6 +87,7 @@ public class Employee implements IEmployee {
 		this.projectName = "";
 		this.link = link;
 		avaliable = IEmployee.avaliable.UNINITIALIZED;
+		setCalendar(null);
 	}
 
 	/**
@@ -99,19 +104,17 @@ public class Employee implements IEmployee {
 	 *            link to google calendar of an employee
 	 * @param projectName
 	 *            name of the project
-	 * @param startWeek
-	 *            startDate of the visible Week
-	 * @param endWeek
-	 *            endDate of the visible Week
 	 */
 	public Employee(int employeeID, String name, String picturePath,
 			String link, String projectName) {
 		this.employeeID = employeeID;
 		this.name = name;
+		this.picturePath = picturePath;
 		this.thumbnail = new ImageIcon(picturePath).getImage();
 		this.projectName = projectName;
 		this.link = link;
 		avaliable = IEmployee.avaliable.UNINITIALIZED;
+		setCalendar(null);
 	}
 
 	@Override
@@ -185,6 +188,11 @@ public class Employee implements IEmployee {
 	public Image getThumbnail() {
 		return thumbnail;
 	}
+	
+	@Override
+	public String getPicturePath(){
+		return this.picturePath;
+	}
 
 	@Override
 	public List<IAppointment> getAppointments() {
@@ -206,6 +214,10 @@ public class Employee implements IEmployee {
 	@Override
 	public String getName() {
 		return name;
+	}
+	
+	public String getLink(){
+		return this.link;
 	}
 
 	@Override
