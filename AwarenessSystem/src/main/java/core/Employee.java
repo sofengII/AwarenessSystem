@@ -7,6 +7,7 @@ import google.ICalendar;
 
 import java.awt.Image;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ import com.google.gdata.util.ServiceException;
  * @authors Dominik, Maximilian, Daniela
  * @version 1.0
  */
-public class Employee implements IEmployee {
+public class Employee implements IEmployee, Serializable {
 
 	/**
 	 * ID of the employee

@@ -1,5 +1,7 @@
 package beans;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import core.EmployeeManager;
@@ -57,4 +59,19 @@ public interface IUser {
 	 * @return favorites list
 	 */
 	public List<IEmployee> getFavorites();
+	
+	/**
+	 * This method is called, when the User logs in.
+	 * It fetches the favorites of the User from a file.
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 */
+	public void logIn() throws IOException, ClassNotFoundException;
+	
+	/**
+	 * This method is called, when the User logs off.
+	 * It saves his favorites list into a file.
+	 * @throws IOException 
+	 */
+	public void logOff() throws FileNotFoundException, IOException;
 }
