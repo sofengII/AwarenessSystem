@@ -1,0 +1,30 @@
+body {
+  background-color: #F1F1F1;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-size: 1.0em;
+  color:#363636;
+  background: #FF4500;
+}
+#content {
+  width: 500px;
+  height: 250px;
+  position: absolute;
+  margin-left: -250px;
+  margin-top: -125px;
+  left: 50%;
+  top: 50%;
+  float: left;
+}
+
+.rf-pg-labelInPanelgroup{
+	vertical-align: Top;
+}
+
+.rf-pg-comboBoxInPanelgroup{
+	vertical-align: Bottom;
+}
+
+.rf-cb-searchButton{
+  color: blue;
+  
+}
