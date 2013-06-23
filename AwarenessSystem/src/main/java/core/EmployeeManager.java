@@ -9,10 +9,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import beans.User;
@@ -105,6 +107,93 @@ public class EmployeeManager implements IEmployeeManager {
 			}
 		}
 
+		// Check whether a appointment takes longer than a day
+		List<IAppointment> newAppointments = new ArrayList<IAppointment>();
+
+		for (IAppointment app : allFreeAppointments) {
+
+			Date dStart = new Date(app.getStartTime().getValue());
+			Date dEnd = new Date(app.getEndTime().getValue());
+
+			Calendar c = Calendar.getInstance();
+
+			int dayStart = Integer.valueOf(new SimpleDateFormat("dd").format(dStart));
+			int dayEnd = Integer.valueOf(new SimpleDateFormat("dd").format(dEnd));
+			// System.out.println("DayStart = " + dayStart + " DayEnd = " +
+			// dayEnd);
+
+			if (dayStart != dayEnd) {
+
+				IAppointment newAppointment;
+
+				switch (dayEnd - dayStart) {
+
+				case 1:
+					c.setTime(dEnd);
+
+					c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
+					c.set(Calendar.MINUTE, 0);
+					c.set(Calendar.SECOND, 0);
+					c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) - 1);
+
+					System.out.println(c.getTime());
+
+					// newEnd = new DateTime();
+					app.setEndTime(new DateTime(c.getTimeInMillis() + 7200000));
+
+					c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
+					c.set(Calendar.MINUTE, 0);
+					c.set(Calendar.SECOND, 0);
+					c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+
+					newAppointment = new Appointment(new DateTime(c.getTimeInMillis() + 7200000), new DateTime(
+							dEnd.getTime()));
+					
+					if(newAppointment.getStartTime().getValue() < dEnd.getTime()) {
+						newAppointments.add(newAppointment);
+					}
+					
+					break;
+				case 2:
+					
+//					c.setTime(dEnd);
+//
+//					c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
+//					c.set(Calendar.MINUTE, 0);
+//					c.set(Calendar.SECOND, 0);
+//					c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) - 1);
+//
+//					System.out.println(c.getTime());
+//
+//					// newEnd = new DateTime();
+//					app.setEndTime(new DateTime(c.getTimeInMillis() + 7200000));
+//
+//					c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
+//					c.set(Calendar.MINUTE, 0);
+//					c.set(Calendar.SECOND, 0);
+//					c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+//
+//					newAppointment = new Appointment(new DateTime(c.getTimeInMillis() + 7200000), new DateTime(
+//							dEnd.getTime()));
+//					
+//					if(newAppointment.getStartTime().getValue() < dEnd.getTime()) {
+//						newAppointments.add(newAppointment);
+//					}
+//					
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				}
+
+			}
+		}
+
+		allFreeAppointments.addAll(newAppointments);
+
 		// sort freeAppointmentList
 		Collections.sort(allFreeAppointments, new Comparator<IAppointment>() {
 			public int compare(IAppointment o1, IAppointment o2) {
@@ -114,6 +203,7 @@ public class EmployeeManager implements IEmployeeManager {
 				return o1.getStartTime().compareTo(o2.getStartTime());
 			}
 		});
+
 		/*
 		 * Date dEnd; Date dStart; boolean changed = false;
 		 * 
@@ -276,12 +366,16 @@ public class EmployeeManager implements IEmployeeManager {
 
 				IAppointment freeApp;
 
+				// If there is only one appointment, this takes care of the free
+				// times
 				if (appointments.size() == 1) {
-					System.out.println("§bla");
+
 					if (app.getStartTime().getValue() - fifteenMinutes - startDate.getValue() > duration.getValue()) {
 
-						freeApp = new Appointment(new DateTime(startDate.getValue() + twoHours), new DateTime(app
-								.getStartTime().getValue() - fifteenMinutes + twoHours));
+						DateTime start = new DateTime(startDate.getValue() + twoHours);
+						DateTime end = new DateTime(app.getStartTime().getValue() - fifteenMinutes + twoHours);
+
+						freeApp = new Appointment(start, end);
 
 						em.addFreeAppointment(freeApp);
 
@@ -360,13 +454,6 @@ public class EmployeeManager implements IEmployeeManager {
 						+ twoHours), endDate));
 			}
 
-			/*
-			 * i++;
-			 * 
-			 * for (IAppointment appoint : em.getFreeAppointments()) {
-			 * System.out.println("Empl(" + i + ") FreeAppointment Start = " +
-			 * appoint.getStartTime() + " End = " + appoint.getEndTime()); }
-			 */
 		}
 	}
 
@@ -375,7 +462,8 @@ public class EmployeeManager implements IEmployeeManager {
 
 		List<IEmployee> employees = new ArrayList<IEmployee>();
 
-		File employeesFile = new File("M:/codebase/AwarenessSystem1/AwarenessSystem/resources/employees.dat");
+		File employeesFile = new File(
+				"M:\\codebase\\AwarenessSystem1\\AwarenessSystem\\src\\main\\webapp\\resources\\employees.dat");
 		System.out.println(employeesFile.getAbsolutePath());
 		FileReader file = new FileReader(employeesFile);
 
@@ -414,31 +502,44 @@ public class EmployeeManager implements IEmployeeManager {
 
 		IEmployeeManager em = new EmployeeManager();
 
+		Calendar cal = Calendar.getInstance();
+
 		List<IEmployee> list = new ArrayList<>();
 
+		// get the current time
+		DateTime start = new DateTime(cal.getTimeInMillis());
+
+		// duration 1h
+		DateTime duration = new DateTime(3600000);
 
 		list.addAll(em.getEmployees());
 
+		List<IAppointment> listapp = em.getAppointments(list, start, duration);
+
+		System.out.println("All free appointments:");
+		for (IAppointment a : listapp) {
+			System.out.println("Start:" + a.getStartTime() + " End: " + a.getEndTime());
+		}
+
 		/*
-		for (IEmployee empl : list) {
-			System.out.println("ID: " + empl.getEmployeeID() + " Avaliable? " + empl.getAvaliable());
-		}
+		 * for (IEmployee empl : list) { System.out.println("ID: " +
+		 * empl.getEmployeeID() + " Avaliable? " + empl.getAvaliable()); }
+		 * 
+		 * for (IEmployee empl : em.getEmployees())
+		 * System.out.println(empl.getEmployeeID() + ", " + empl.getName() +
+		 * ", " + empl.getPicturePath() + ", " + empl.getLink() + ";");
+		 */
 
-		for (IEmployee empl : em.getEmployees())
-			System.out.println(empl.getEmployeeID() + ", " + empl.getName() + ", " + empl.getPicturePath() + ", "
-					+ empl.getLink() + ";");
-		*/
-		
 		// Test zum Favoriten-Speichern und -Laden
-		User user = new User("Dany");
-		user.addFavorite(list.get(0));
-		user.addFavorite(list.get(1));
-		user.logOff();
-
-		user.logIn();
-		for (IEmployee fav : user.getFavorites()) {
-			System.out.println("Favorite: " + fav.getName());
-		}
+		// User user = new User("Dany");
+		// user.addFavorite(list.get(0));
+		// user.addFavorite(list.get(1));
+		// user.logOff();
+		//
+		// user.logIn();
+		// for (IEmployee fav : user.getFavorites()) {
+		// System.out.println("Favorite: " + fav.getName());
+		// }
 
 	}
 
