@@ -56,7 +56,7 @@
 	<managed-bean>
 		<managed-bean-name>memberList</managed-bean-name>
 		<managed-bean-class>beans.MemberList</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<navigation-rule>
 		<display-name>WEB-INF/templates/backgroundTemplate.xhtml</display-name>

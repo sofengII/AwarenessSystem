@@ -41,8 +41,8 @@ public class EmployeeManager implements IEmployeeManager {
 	private static final int END_OF_WORK = 20;
 
 	@Override
-	public List<IAppointment> getAppointments(List<IEmployee> employees) throws NotFoundAppointmentException,
-			IOException, ServiceException {
+	public List<IAppointment> getAppointments(List<IEmployee> employees)
+			throws NotFoundAppointmentException, IOException, ServiceException {
 
 		Calendar cal = Calendar.getInstance();
 
@@ -59,8 +59,9 @@ public class EmployeeManager implements IEmployeeManager {
 	}
 
 	@Override
-	public List<IAppointment> getAppointments(List<IEmployee> employees, DateTime duration)
-			throws NotFoundAppointmentException, IOException, ServiceException {
+	public List<IAppointment> getAppointments(List<IEmployee> employees,
+			DateTime duration) throws NotFoundAppointmentException,
+			IOException, ServiceException {
 
 		Calendar cal = Calendar.getInstance();
 
@@ -71,7 +72,8 @@ public class EmployeeManager implements IEmployeeManager {
 	}
 
 	@Override
-	public List<IAppointment> getAppointments(List<IEmployee> employees, DateTime startDate, DateTime duration)
+	public List<IAppointment> getAppointments(List<IEmployee> employees,
+			DateTime startDate, DateTime duration)
 			throws NotFoundAppointmentException, IOException, ServiceException {
 
 		// Calculate the free appointments for all the given employees
@@ -88,14 +90,16 @@ public class EmployeeManager implements IEmployeeManager {
 			remaining.addAll(temp);
 			remaining.remove(employee);
 
-			List<IAppointment> freeAppointments = findMatches(duration, employee, remaining);
+			List<IAppointment> freeAppointments = findMatches(duration,
+					employee, remaining);
 
 			// Check if there were found any other free appointments that
 			// weren't found before...
 			for (IAppointment a : freeAppointments) {
 				boolean found = false;
 				for (IAppointment allA : allFreeAppointments) {
-					if (allA.getStartTime().equals(a.getStartTime()) && allA.getEndTime().equals(a.getEndTime())) {
+					if (allA.getStartTime().equals(a.getStartTime())
+							&& allA.getEndTime().equals(a.getEndTime())) {
 						found = true;
 					}
 				}
@@ -117,8 +121,10 @@ public class EmployeeManager implements IEmployeeManager {
 
 			Calendar c = Calendar.getInstance();
 
-			int dayStart = Integer.valueOf(new SimpleDateFormat("dd").format(dStart));
-			int dayEnd = Integer.valueOf(new SimpleDateFormat("dd").format(dEnd));
+			int dayStart = Integer.valueOf(new SimpleDateFormat("dd")
+					.format(dStart));
+			int dayEnd = Integer.valueOf(new SimpleDateFormat("dd")
+					.format(dEnd));
 			// System.out.println("DayStart = " + dayStart + " DayEnd = " +
 			// dayEnd);
 
@@ -134,7 +140,8 @@ public class EmployeeManager implements IEmployeeManager {
 					c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
 					c.set(Calendar.MINUTE, 0);
 					c.set(Calendar.SECOND, 0);
-					c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) - 1);
+					c.set(Calendar.DAY_OF_MONTH,
+							c.get(Calendar.DAY_OF_MONTH) - 1);
 
 					System.out.println(c.getTime());
 
@@ -144,42 +151,50 @@ public class EmployeeManager implements IEmployeeManager {
 					c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
 					c.set(Calendar.MINUTE, 0);
 					c.set(Calendar.SECOND, 0);
-					c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+					c.set(Calendar.DAY_OF_MONTH,
+							c.get(Calendar.DAY_OF_MONTH) + 1);
 
-					newAppointment = new Appointment(new DateTime(c.getTimeInMillis() + 7200000), new DateTime(
+					newAppointment = new Appointment(new DateTime(
+							c.getTimeInMillis() + 7200000), new DateTime(
 							dEnd.getTime()));
-					
-					if(newAppointment.getStartTime().getValue() < dEnd.getTime()) {
+
+					if (newAppointment.getStartTime().getValue() < dEnd
+							.getTime()) {
 						newAppointments.add(newAppointment);
 					}
-					
+
 					break;
 				case 2:
-					
-//					c.setTime(dEnd);
-//
-//					c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
-//					c.set(Calendar.MINUTE, 0);
-//					c.set(Calendar.SECOND, 0);
-//					c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) - 1);
-//
-//					System.out.println(c.getTime());
-//
-//					// newEnd = new DateTime();
-//					app.setEndTime(new DateTime(c.getTimeInMillis() + 7200000));
-//
-//					c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
-//					c.set(Calendar.MINUTE, 0);
-//					c.set(Calendar.SECOND, 0);
-//					c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
-//
-//					newAppointment = new Appointment(new DateTime(c.getTimeInMillis() + 7200000), new DateTime(
-//							dEnd.getTime()));
-//					
-//					if(newAppointment.getStartTime().getValue() < dEnd.getTime()) {
-//						newAppointments.add(newAppointment);
-//					}
-//					
+
+					// c.setTime(dEnd);
+					//
+					// c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
+					// c.set(Calendar.MINUTE, 0);
+					// c.set(Calendar.SECOND, 0);
+					// c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH)
+					// - 1);
+					//
+					// System.out.println(c.getTime());
+					//
+					// // newEnd = new DateTime();
+					// app.setEndTime(new DateTime(c.getTimeInMillis() +
+					// 7200000));
+					//
+					// c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
+					// c.set(Calendar.MINUTE, 0);
+					// c.set(Calendar.SECOND, 0);
+					// c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH)
+					// + 1);
+					//
+					// newAppointment = new Appointment(new
+					// DateTime(c.getTimeInMillis() + 7200000), new DateTime(
+					// dEnd.getTime()));
+					//
+					// if(newAppointment.getStartTime().getValue() <
+					// dEnd.getTime()) {
+					// newAppointments.add(newAppointment);
+					// }
+					//
 					break;
 				case 3:
 					break;
@@ -197,7 +212,8 @@ public class EmployeeManager implements IEmployeeManager {
 		// sort freeAppointmentList
 		Collections.sort(allFreeAppointments, new Comparator<IAppointment>() {
 			public int compare(IAppointment o1, IAppointment o2) {
-				if (o1.getStartTime() == null || o1.getEndTime() == null || o2.getStartTime() == null
+				if (o1.getStartTime() == null || o1.getEndTime() == null
+						|| o2.getStartTime() == null
 						|| o2.getStartTime() == null)
 					return 0;
 				return o1.getStartTime().compareTo(o2.getStartTime());
@@ -264,7 +280,8 @@ public class EmployeeManager implements IEmployeeManager {
 	 * @param remaining
 	 * @return A List of all matches that were found.
 	 */
-	private List<IAppointment> findMatches(DateTime duration, IEmployee first, List<IEmployee> remaining) {
+	private List<IAppointment> findMatches(DateTime duration, IEmployee first,
+			List<IEmployee> remaining) {
 
 		List<IAppointment> freeAppointments = new ArrayList<IAppointment>();
 
@@ -293,10 +310,11 @@ public class EmployeeManager implements IEmployeeManager {
 															// match, remember
 															// it
 						emMatch = true;
-						if (emFree.getStartTime().getValue() > latestStartTime.getValue()) { // if
-																								// emFree
-																								// begins
-																								// later
+						if (emFree.getStartTime().getValue() > latestStartTime
+								.getValue()) { // if
+												// emFree
+												// begins
+												// later
 							latestStartTime = emFree.getStartTime(); // its
 																		// startTime
 																		// is
@@ -304,10 +322,11 @@ public class EmployeeManager implements IEmployeeManager {
 																		// new
 																		// latestStartTime
 						}
-						if (emFree.getEndTime().getValue() < earliestEndTime.getValue()) { // if
-																							// emFree
-																							// ends
-																							// earlier
+						if (emFree.getEndTime().getValue() < earliestEndTime
+								.getValue()) { // if
+												// emFree
+												// ends
+												// earlier
 							earliestEndTime = emFree.getEndTime(); // its
 																	// endTime
 																	// is the
@@ -329,7 +348,8 @@ public class EmployeeManager implements IEmployeeManager {
 							// add a new appointment to the freeAppointments
 							// list
 
-				freeAppointments.add(new Appointment(latestStartTime, earliestEndTime));
+				freeAppointments.add(new Appointment(latestStartTime,
+						earliestEndTime));
 			}
 		}
 		return freeAppointments;
@@ -344,8 +364,9 @@ public class EmployeeManager implements IEmployeeManager {
 	 * @throws IOException
 	 * @throws ServiceException
 	 */
-	private void calculateFreeAppointments(List<IEmployee> employees, DateTime startDate, DateTime duration)
-			throws IOException, ServiceException {
+	private void calculateFreeAppointments(List<IEmployee> employees,
+			DateTime startDate, DateTime duration) throws IOException,
+			ServiceException {
 		List<IAppointment> appointments = new ArrayList<IAppointment>();
 
 		long sixDays = 518400000;
@@ -370,34 +391,45 @@ public class EmployeeManager implements IEmployeeManager {
 				// times
 				if (appointments.size() == 1) {
 
-					if (app.getStartTime().getValue() - fifteenMinutes - startDate.getValue() > duration.getValue()) {
+					if (app.getStartTime().getValue() - fifteenMinutes
+							- startDate.getValue() > duration.getValue()) {
 
-						DateTime start = new DateTime(startDate.getValue() + twoHours);
-						DateTime end = new DateTime(app.getStartTime().getValue() - fifteenMinutes + twoHours);
+						DateTime start = new DateTime(startDate.getValue()
+								+ twoHours);
+						DateTime end = new DateTime(app.getStartTime()
+								.getValue() - fifteenMinutes + twoHours);
 
 						freeApp = new Appointment(start, end);
 
 						em.addFreeAppointment(freeApp);
 
-						if (endDate.getValue() - app.getEndTime().getValue() + fifteenMinutes > duration.getValue()) {
+						if (endDate.getValue() - app.getEndTime().getValue()
+								+ fifteenMinutes > duration.getValue()) {
 
-							freeApp = new Appointment(new DateTime(app.getEndTime().getValue() + fifteenMinutes
-									+ twoHours), new DateTime(endDate.getValue() + twoHours));
+							freeApp = new Appointment(new DateTime(app
+									.getEndTime().getValue()
+									+ fifteenMinutes
+									+ twoHours), new DateTime(
+									endDate.getValue() + twoHours));
 							em.addFreeAppointment(freeApp);
 						}
 						continue;
 					}
 
-					if (endDate.getValue() - app.getEndTime().getValue() + fifteenMinutes > duration.getValue()) {
+					if (endDate.getValue() - app.getEndTime().getValue()
+							+ fifteenMinutes > duration.getValue()) {
 
-						freeApp = new Appointment(
-								new DateTime(app.getEndTime().getValue() + fifteenMinutes + twoHours), endDate);
+						freeApp = new Appointment(new DateTime(app.getEndTime()
+								.getValue() + fifteenMinutes + twoHours),
+								endDate);
 						em.addFreeAppointment(freeApp);
 
-						if (app.getStartTime().getValue() - fifteenMinutes - startDate.getValue() > duration.getValue()) {
+						if (app.getStartTime().getValue() - fifteenMinutes
+								- startDate.getValue() > duration.getValue()) {
 
-							em.addFreeAppointment(new Appointment(startDate, new DateTime(app.getStartTime().getValue()
-									- fifteenMinutes + twoHours)));
+							em.addFreeAppointment(new Appointment(startDate,
+									new DateTime(app.getStartTime().getValue()
+											- fifteenMinutes + twoHours)));
 
 							continue;
 
@@ -416,24 +448,32 @@ public class EmployeeManager implements IEmployeeManager {
 			for (IAppointment nextApp : appointments) {
 
 				if (first) {
-					if (app.getStartTime().getValue() - fifteenMinutes - startDate.getValue() > duration.getValue()) {
-						em.addFreeAppointment(new Appointment(new DateTime(startDate.getValue() + twoHours),
-								new DateTime(app.getStartTime().getValue() - fifteenMinutes + twoHours)));
+					if (app.getStartTime().getValue() - fifteenMinutes
+							- startDate.getValue() > duration.getValue()) {
+						em.addFreeAppointment(new Appointment(new DateTime(
+								startDate.getValue() + twoHours), new DateTime(
+								app.getStartTime().getValue() - fifteenMinutes
+										+ twoHours)));
 					}
 					first = false;
 				}
 
 				// If the time slot between this appointment and the next one is
 				// bigger or equal duration...
-				if (nextApp.getStartTime().getValue() - fifteenMinutes - app.getEndTime().getValue() + fifteenMinutes > duration
-						.getValue()) {
+				if (nextApp.getStartTime().getValue() - fifteenMinutes
+						- app.getEndTime().getValue() + fifteenMinutes > duration
+							.getValue()) {
 
 					// Create a new free appointment (take care of the
 					// "+ 15 minutes + GMT+2 (+2h)" = "+ 8.100.000 ms"
 					// Bei getValue 2h verloren, da andere Zeitzone! GMT +2
-					DateTime startOfFreeApp = new DateTime(app.getEndTime().getValue() + fifteenMinutes + twoHours);
+					DateTime startOfFreeApp = new DateTime(app.getEndTime()
+							.getValue() + fifteenMinutes + twoHours);
 					// 6.300.000 ms = 2 hours - 15 minutes
-					DateTime endOfFreeApp = new DateTime(nextApp.getStartTime().getValue() - fifteenMinutes + twoHours
+					DateTime endOfFreeApp = new DateTime(nextApp.getStartTime()
+							.getValue()
+							- fifteenMinutes
+							+ twoHours
 							- duration.getValue());
 
 					// endOfFreeApp is equal to startOfFreeApp, if the duration
@@ -442,16 +482,19 @@ public class EmployeeManager implements IEmployeeManager {
 						endOfFreeApp = startOfFreeApp;
 					}
 
-					IAppointment freeApp = new Appointment(startOfFreeApp, endOfFreeApp);
+					IAppointment freeApp = new Appointment(startOfFreeApp,
+							endOfFreeApp);
 					em.addFreeAppointment(freeApp);
 
 				}
 				app = nextApp;
 			}
 
-			if (endDate.getValue() - app.getEndTime().getValue() + fifteenMinutes > duration.getValue()) {
-				em.addFreeAppointment(new Appointment(new DateTime(app.getEndTime().getValue() + fifteenMinutes
-						+ twoHours), endDate));
+			if (endDate.getValue() - app.getEndTime().getValue()
+					+ fifteenMinutes > duration.getValue()) {
+				em.addFreeAppointment(new Appointment(new DateTime(app
+						.getEndTime().getValue() + fifteenMinutes + twoHours),
+						endDate));
 			}
 
 		}
@@ -463,8 +506,8 @@ public class EmployeeManager implements IEmployeeManager {
 		List<IEmployee> employees = new ArrayList<IEmployee>();
 
 		File employeesFile = new File(
-				"M:\\codebase\\AwarenessSystem1\\AwarenessSystem\\src\\main\\webapp\\resources\\employees.dat");
-		System.out.println(employeesFile.getAbsolutePath());
+				"M:\\codebase\\AwarenessSystem1\\AwarenessSystem\\AwarenessSystem\\src\\main\\webapp\\resources\\employees.dat");
+
 		FileReader file = new FileReader(employeesFile);
 
 		BufferedReader br = new BufferedReader(file);
@@ -497,7 +540,8 @@ public class EmployeeManager implements IEmployeeManager {
 		return employees;
 	}
 
-	public static void main(String... args) throws IOException, ServiceException, NotFoundAppointmentException,
+	public static void main(String... args) throws IOException,
+			ServiceException, NotFoundAppointmentException,
 			ClassNotFoundException {
 
 		IEmployeeManager em = new EmployeeManager();
@@ -518,7 +562,8 @@ public class EmployeeManager implements IEmployeeManager {
 
 		System.out.println("All free appointments:");
 		for (IAppointment a : listapp) {
-			System.out.println("Start:" + a.getStartTime() + " End: " + a.getEndTime());
+			System.out.println("Start:" + a.getStartTime() + " End: "
+					+ a.getEndTime());
 		}
 
 		/*
@@ -530,16 +575,16 @@ public class EmployeeManager implements IEmployeeManager {
 		 * ", " + empl.getPicturePath() + ", " + empl.getLink() + ";");
 		 */
 
-		// Test zum Favoriten-Speichern und -Laden
-		// User user = new User("Dany");
-		// user.addFavorite(list.get(0));
-		// user.addFavorite(list.get(1));
-		// user.logOff();
-		//
-		// user.logIn();
-		// for (IEmployee fav : user.getFavorites()) {
-		// System.out.println("Favorite: " + fav.getName());
-		// }
+		 //Test zum Favoriten-Speichern und -Laden
+		 User user = new User("Dany");
+		 user.addFavorite(list.get(0));
+		 user.addFavorite(list.get(1));
+		 user.logOff();
+		
+		 user.logIn();
+		 for (IEmployee fav : user.getFavorites()) {
+		 System.out.println("Favorite: " + fav.getName());
+		 }
 
 	}
 

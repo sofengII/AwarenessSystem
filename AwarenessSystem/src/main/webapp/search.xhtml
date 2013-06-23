@@ -7,7 +7,7 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:my="http://java.sun.com/jsf/composite/components">
-	<h:outputStylesheet name="css/search.css" />
+	<!-- <h:outputStylesheet name="css/search.css" />-->
 	<ui:define name="content">
 		<f:view>
 			<h:form>
@@ -15,15 +15,16 @@
 					<h:panelGrid columns="5" styleClass="rf-pg-labelComboBoxContainer">
 						<h:panelGroup styleClass="rf-pg-labelComboBoxPanel">
 							<h:outputLabel id="teamMemberCB" value="Mitarbeiter" for="teamMemberCB" styleClass="rf-pg-labelInPanelgroup"/>
-							<h:selectOneMenu value="Mitarbeiter" valueChangeListener="#{employeeList.changeCurrentSelectedEmployee}" styleClass="rf-pg-comboBoxInPanelgroup">
+							<h:selectOneMenu id="selectEmployeeMenu" value="#{employeeList.currentSelectedEmployee}" styleClass="rf-pg-comboBoxInPanelgroup">
 								<f:selectItems value="#{employeeList.employees}"/>
+								<f:ajax event="change" listener="#{employeeList.changeCurrentSelectedEmployee}" execute="selectEmployeeMenu"/>
 							</h:selectOneMenu>
 						</h:panelGroup>
 						<h:panelGroup styleClass="rf-pg-labelComboBoxPanel">
 							<h:outputLabel value="Teams" for="teamCB" styleClass="rf-pg-labelInPanelgroup"/>
 							<h:selectOneMenu id="teamCB" value="Teams" styleClass="rf-pg-comboBoxInPanelgroup"></h:selectOneMenu>
 						</h:panelGroup>
-						<a4j:commandButton action="#{memberList.addMember(employeeList.currentSelectedEmployee)}" value="Hinzufügen" reRender="teamMemberCB" styleClass="rf-cb-addButton"/>
+						<a4j:commandButton action="#{memberList.addMember(employeeList.currentSelectedEmployee)}" value="Hinzufügen" reRender="teamMemberList" styleClass="rf-cb-addButton"/>
 						<h:panelGroup styleClass="rf-pg-labelComboBoxPanel">
 							<h:outputLabel value="Start Tag" for="startDaysCB" styleClass="rf-pg-labelInPanelgroup"/>
 							<h:selectOneMenu id="startDaysCB" value="Start Tag" styleClass="rf-pg-comboBoxInPanelgroup">
@@ -36,10 +37,14 @@
 					</h:panelGrid>
 					<h:panelGrid columns="2" styleClass="rf-pg-membersAndDurationPanel">
 						<a4j:outputPanel id="teamMemberList" ajaxRendered="true">
-							<ui:repeat value="#{memberList.members}" var="member">
-								<h:graphicImage value="/resources/images/person_icon.png" width="50px" height="50px"/>
-								<h:outputText value="#{member.name}" />
-							</ui:repeat>
+							<h:dataTable value="#{memberList.members}" var="member" styleClass="">
+								<h:column>
+									<h:panelGrid id="memberColumn" columns="1">
+										<h:graphicImage value="/resources/images/person_icon.png" width="50px" height="50px"/>
+										<h:outputText value="#{member}" />
+									</h:panelGrid>
+								</h:column>
+							</h:dataTable>
 						</a4j:outputPanel>
 						<h:selectOneMenu value="Dauer">
 							<f:selectItems value="#{durationList.durations}" />
