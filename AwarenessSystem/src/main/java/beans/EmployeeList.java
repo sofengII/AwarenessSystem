@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.event.ValueChangeEvent;
+
 import core.EmployeeManager;
 import core.IEmployee;
 import core.IEmployeeManager;
@@ -12,9 +14,11 @@ public class EmployeeList {
 
 	private List<String> employees;
 	
+	private IEmployee currentSelectedEmployee = null;
+	
 	public EmployeeList() {
 		this.employees = new ArrayList<String>();
-		fillEmployees();
+		//fillEmployees();
 	}
 	
 	private void fillEmployees() {
@@ -31,5 +35,15 @@ public class EmployeeList {
 	
 	public List<String> getEmployees() {
 		return this.employees;
+	}
+	
+	public IEmployee getCurrentSelectedEmployee() {
+		System.out.println("CurrentSelectedEmployee gotten");
+		return this.currentSelectedEmployee;
+	}
+	
+	public void changeCurrentSelectedEmployee(ValueChangeEvent event) {
+		System.out.println("CurrentSelectedEmployee changed");
+		this.currentSelectedEmployee = (IEmployee) event.getNewValue();
 	}
 }

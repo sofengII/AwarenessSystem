@@ -19,21 +19,6 @@
 		</managed-property>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>appointmentTable</managed-bean-name>
-		<managed-bean-class>beans.AppointmentTable</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-		<managed-property>
-			<property-name>appointments</property-name>
-			<property-class>java.util.List</property-class>
-			<value></value>
-		</managed-property>
-		<managed-property>
-			<property-name>employeeManager</property-name>
-			<property-class>core.IEmployeeManager</property-class>
-			<value></value>
-		</managed-property>
-	</managed-bean>
-	<managed-bean>
 		<managed-bean-name>navigationController</managed-bean-name>
 		<managed-bean-class>beans.NavigationController</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
@@ -51,6 +36,26 @@
 	<managed-bean>
 		<managed-bean-name>startDayList</managed-bean-name>
 		<managed-bean-class>beans.StartDayList</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>appointmentTable</managed-bean-name>
+		<managed-bean-class>beans.AppointmentTable</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>appointments</property-name>
+			<property-class>java.util.List</property-class>
+			<value></value>
+		</managed-property>
+		<managed-property>
+			<property-name>employeeManager</property-name>
+			<property-class>core.IEmployeeManager</property-class>
+			<value></value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>memberList</managed-bean-name>
+		<managed-bean-class>beans.MemberList</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<navigation-rule>

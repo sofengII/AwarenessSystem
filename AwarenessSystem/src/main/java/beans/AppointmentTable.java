@@ -3,6 +3,8 @@ package beans;
 import google.Appointment;
 import google.IAppointment;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -13,9 +15,15 @@ import com.google.gdata.data.DateTime;
 import core.EmployeeManager;
 import core.IEmployeeManager;
 
-public class AppointmentTable {
+public class AppointmentTable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private List<IAppointment> appointments;
+	//private List<String> appointments;
 	
 	private IEmployeeManager employeeManager;
 	
@@ -41,6 +49,8 @@ public class AppointmentTable {
 	}
 	
 	public void setAppointments_Test() {
+		System.out.println("Test");
+		this.appointments = new ArrayList<IAppointment>();
 		for(int i = 0; i < 5; i++) {
 			Calendar calendarStart = Calendar.getInstance();
 			calendarStart.set(Calendar.DAY_OF_MONTH, calendarStart.get(Calendar.DAY_OF_MONTH) + i);
