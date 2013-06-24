@@ -42,33 +42,33 @@
 		<managed-bean-name>appointmentTable</managed-bean-name>
 		<managed-bean-class>beans.AppointmentTable</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
-		<managed-property>
-			<property-name>appointments</property-name>
-			<property-class>java.util.List</property-class>
-			<value></value>
-		</managed-property>
-		<managed-property>
-			<property-name>employeeManager</property-name>
-			<property-class>core.IEmployeeManager</property-class>
-			<value></value>
-		</managed-property>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>memberList</managed-bean-name>
 		<managed-bean-class>beans.MemberList</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>startDateBean</managed-bean-name>
+		<managed-bean-class>beans.StartDateBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>durationBean</managed-bean-name>
+		<managed-bean-class>beans.DurationBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 	<navigation-rule>
-		<display-name>WEB-INF/templates/backgroundTemplate.xhtml</display-name>
-		<from-view-id>/WEB-INF/templates/backgroundTemplate.xhtml</from-view-id>
+		<display-name>search.xhtml</display-name>
+		<from-view-id>/search.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>myFavorites</from-outcome>
 			<to-view-id>/home.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
-		<display-name>WEB-INF/templates/backgroundTemplate.xhtml</display-name>
-		<from-view-id>/WEB-INF/templates/backgroundTemplate.xhtml</from-view-id>
+		<display-name>home.xhtml</display-name>
+		<from-view-id>/home.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>search</from-outcome>
 			<to-view-id>/search.xhtml</to-view-id>

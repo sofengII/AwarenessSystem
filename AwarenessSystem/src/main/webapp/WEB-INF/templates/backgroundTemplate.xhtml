@@ -19,8 +19,12 @@
 	<div class="content">
 		<rich:panel styleClass="rf-p-containerPanel">
 			<rich:panel styleClass="rf-p-navigationPanel" id="navigation_panel">
-				<h:commandButton id="myFavoritesNavigationButton" styleClass="rf-cb-navigationButton" value="Meine Favoriten" action="myFavorites"/>
-				<h:commandButton id="searchNavigationButton" styleClass="rf-cb-navigationButton" value="Gezielte Suche" action="search"/>
+			<h:form>
+				<a4j:commandButton id="myFavoritesNavigationButton" styleClass="rf-cb-navigationButton" value="Meine Favoriten" action="#{navigationController.navigate('myFavorites')}"/>
+			</h:form>
+			<h:form>
+				<a4j:commandButton id="searchNavigationButton" styleClass="rf-cb-navigationButton" value="Gezielte Suche" action="#{navigationController.navigate('search')}"/>
+			</h:form>
 			</rich:panel>
 			<rich:panel styleClass="rf-p-contentPanel" id="content_panel">
 				<ui:insert name="content"/>

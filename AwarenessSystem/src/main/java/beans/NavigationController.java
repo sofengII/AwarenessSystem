@@ -15,4 +15,9 @@ public class NavigationController {
 	public void setNavigateTo(String navigateTo) {
 		this.navigateTo = navigateTo;
 	}
+	
+	public String navigate(String nav) {
+		System.out.println("drin: " + nav);
+		return nav;
+	}
 }

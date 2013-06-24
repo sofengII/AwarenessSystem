@@ -36,8 +36,9 @@ public class StartDayList {
 		}
 		String day = String.valueOf(date.getDate());
 		String month = String.valueOf(date.getMonth());
+		String year = String.valueOf(date.getYear() + 1900);
 		
-		return dayInWeek + " " + day + "." + month;
+		return dayInWeek + " " + day + "." + month + "." + year;
 	}
 	
 	public List<String> getStartDays() {

@@ -3,16 +3,18 @@ package beans;
 import google.Appointment;
 import google.IAppointment;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.google.gdata.data.DateTime;
 
 import core.EmployeeManager;
+import core.IEmployee;
 import core.IEmployeeManager;
 
 public class AppointmentTable{
@@ -26,6 +28,8 @@ public class AppointmentTable{
 	//private List<String> appointments;
 	
 	private IEmployeeManager employeeManager;
+	
+	private String startDay;
 	
 	public AppointmentTable() {
 		this.employeeManager = new EmployeeManager();
@@ -43,9 +47,41 @@ public class AppointmentTable{
 		return this.appointments;
 	}
 	
-	public void setAppointments(List<IAppointment> appointments) {
+	/*public void setAppointments(List<IAppointment> appointments) {
 		this.appointments = appointments;
 		 //this.appointmentBeginning = this.employeeManager.getAppointments(employees, startDate, duration);
+	}*/
+	
+	public void setAppointments(List<String> employeeNames, String startDateString, String durationString) {
+		try {
+			List<IEmployee> employees = this.employeeManager.getEmployees();
+			List<IEmployee> employeesToMatch = new ArrayList<IEmployee>();
+			for(IEmployee employee: employees) {
+				for(String name: employeeNames) {
+					if(employee.getName().equals(name)) {
+						employeesToMatch.add(employee);
+						System.out.println(name);
+						break;
+					}						
+				}
+			}
+			String[] splittedDate = startDateString.split(" ");
+			this.startDay = splittedDate[0];
+			String[] date = splittedDate[1].split("\\.");
+			int day = Integer.parseInt(date[0]);
+			int month = Integer.parseInt(date[1]);
+			int year = Integer.parseInt(date[2]);
+			Date tmpDate = new Date(0);
+			tmpDate.setDate(day);
+			tmpDate.setMonth(month);
+			tmpDate.setYear(year);
+			
+			DateTime startDate = new DateTime(tmpDate.getTime());
+			DateTime duration = new DateTime(Long.parseLong(durationString.split(" ")[0]));
+			this.appointments = this.employeeManager.getAppointments(employeesToMatch, startDate, duration);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public void setAppointments_Test() {
@@ -77,7 +113,7 @@ public class AppointmentTable{
 	
 	public List<String> getAppointmentStrings(int dayOfWeek) {
 		List<String> dailyAppointments = new LinkedList<String>();
-		Calendar calendar = new GregorianCalendar();
+		Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("CEST"));
 		for(IAppointment app: this.appointments) {
 			calendar.setTimeInMillis(app.getStartTime().getValue());
 			if(calendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek){

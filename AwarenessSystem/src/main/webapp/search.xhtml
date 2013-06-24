@@ -27,12 +27,13 @@
 						<a4j:commandButton action="#{memberList.addMember(employeeList.currentSelectedEmployee)}" value="Hinzufügen" reRender="teamMemberList" styleClass="rf-cb-addButton"/>
 						<h:panelGroup styleClass="rf-pg-labelComboBoxPanel">
 							<h:outputLabel value="Start Tag" for="startDaysCB" styleClass="rf-pg-labelInPanelgroup"/>
-							<h:selectOneMenu id="startDaysCB" value="Start Tag" styleClass="rf-pg-comboBoxInPanelgroup">
+							<h:selectOneMenu id="startDaysCB" value="#{startDateBean.chosenDate}" styleClass="rf-pg-comboBoxInPanelgroup">
 								<f:selectItems value="#{startDayList.startDays}"/>
+								<f:ajax event="change" listener="#{startDateBean.changeChosenStartDate}" execute="startDaysCB"/>
 							</h:selectOneMenu>
 						</h:panelGroup>
 						<h:form>
-							<a4j:commandButton value="Suchen" action="#{appointmentTable.setAppointments_Test}" reRender="table" styleClass="rf-cb-searchButton"/>
+							<a4j:commandButton value="Suchen" action="#{appointmentTable.setAppointments(memberList.members,startDateBean.chosenDate,durationBean.duration)}" reRender="table" styleClass="rf-cb-searchButton"/>
 						</h:form>
 					</h:panelGrid>
 					<h:panelGrid columns="2" styleClass="rf-pg-membersAndDurationPanel">
@@ -46,13 +47,14 @@
 								</h:column>
 							</h:dataTable>
 						</a4j:outputPanel>
-						<h:selectOneMenu value="Dauer">
+						<h:selectOneMenu id="Dauer" value="#{durationBean.duration}">
 							<f:selectItems value="#{durationList.durations}" />
+							<f:ajax event="change" listener="#{durationBean.changeDuration}" execute="Dauer"/>
 						</h:selectOneMenu>
 					</h:panelGrid>
 					<a4j:outputPanel id="table" ajaxRendered="true">
 						<h:panelGrid columns="5" styleClass="rf-pg-freeAppointmentTable" columnClasses="rf-pgc-tableColumn" rendered="#{not empty appointmentTable.appointments}">
-							<h:dataTable value="#{appointmentTable.getAppointmentStrings_Test(2)}" var="app">
+							<h:dataTable value="#{appointmentTable.getAppointmentStrings(2)}" var="app">
 								<h:column>
 									<f:facet name="columnHeader">
 										<h:outputText value="Mo" styleClass="rf-pgc-columnHeader"/>
@@ -60,7 +62,7 @@
 									<h:outputText value="#{app}"/>
 								</h:column>
 							</h:dataTable>
-							<h:dataTable value="#{appointmentTable.getAppointmentStrings_Test(3)}" var="app">
+							<h:dataTable value="#{appointmentTable.getAppointmentStrings(3)}" var="app">
 								<h:column>
 									<f:facet name="columnHeader">
 										<h:outputText value="Di" styleClass="rf-pgc-columnHeader"/>
@@ -68,7 +70,7 @@
 									<h:outputText value="#{app}"/>
 								</h:column>
 							</h:dataTable>
-							<h:dataTable value="#{appointmentTable.getAppointmentStrings_Test(4)}" var="app">
+							<h:dataTable value="#{appointmentTable.getAppointmentStrings(4)}" var="app">
 								<h:column>
 									<f:facet name="columnHeader">
 										<h:outputText value="Mi" styleClass="rf-pgc-columnHeader"/>
@@ -76,7 +78,7 @@
 									<h:outputText value="#{app}"/>
 								</h:column>
 							</h:dataTable>
-							<h:dataTable value="#{appointmentTable.getAppointmentStrings_Test(5)}" var="app">
+							<h:dataTable value="#{appointmentTable.getAppointmentStrings(5)}" var="app">
 								<h:column>
 									<f:facet name="columnHeader">
 										<h:outputText value="Do" styleClass="rf-pgc-columnHeader"/>
@@ -84,7 +86,7 @@
 									<h:outputText value="#{app}"/>
 								</h:column>
 							</h:dataTable>
-							<h:dataTable value="#{appointmentTable.getAppointmentStrings_Test(6)}" var="app">
+							<h:dataTable value="#{appointmentTable.getAppointmentStrings(6)}" var="app">
 								<h:column>
 									<f:facet name="columnHeader">
 										<h:outputText value="Fr" styleClass="rf-pgc-columnHeader"/>
