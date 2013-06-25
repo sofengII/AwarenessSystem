@@ -15,42 +15,31 @@
 					<h:panelGroup styleClass="rf-ot-myFavourites">
 						<h:outputText styleClass="rf-ot-myFavourites" value="Meine Favoriten" />
 					</h:panelGroup>
-					<h:panelGrid columns="3" cellpadding="5px">
-						<rich:panel styleClass="rf-p-favouritePanel">
-							<h:graphicImage value="resources/images/person_icon.png" />
-							<a4j:commandButton value="Entfernen"/>
-							<h:outputText value="Nachname" />
-							<h:outputText value="Vorname" />
-						</rich:panel>
-						<rich:panel styleClass="rf-p-favouritePanel">
-							<h:graphicImage value="resources/images/person_icon.png" />
-							<a4j:commandButton value="Entfernen"/>
-							<h:outputText value="Nachname" />
-							<h:outputText value="Vorname" />
-						</rich:panel>
-						<rich:panel styleClass="rf-p-favouritePanel">
-							<h:graphicImage value="resources/images/person_icon.png" />
-							<a4j:commandButton value="Entfernen"/>
-							<h:outputText value="Nachname" />
-							<h:outputText value="Vorname" />
-						</rich:panel>
-						<rich:panel styleClass="rf-p-favouritePanel">
-							<h:graphicImage value="resources/images/person_icon.png" />
-							<a4j:commandButton value="Entfernen"/>
-							<h:outputText value="Nachname" />
-							<h:outputText value="Vorname" />
-						</rich:panel>
-						<rich:panel styleClass="rf-p-favouritePanel">
-							<h:graphicImage value="resources/images/person_icon.png" />
-							<a4j:commandButton value="Entfernen"/>
-							<h:outputText value="Nachname" />
-							<h:outputText value="Vorname" />
-						</rich:panel>
-						<rich:panel styleClass="rf-p-favouritePanel">
-							<h:selectOneMenu value=""></h:selectOneMenu>
-							<a4j:commandButton value="Hinzufügen"/>
-						</rich:panel>
-					</h:panelGrid>
+					<a4j:outputPanel id="favoritePanel" ajaxRendered="true">
+						<h:panelGrid columns="3" cellpadding="5px">
+						<rich:list> value="#{user.favorites}" var="favorite">
+							<rich:panel styleClass="rf-p-favouritePanel">
+								<h:panelGrid columns="2">
+									<rich:panel>
+										<h:graphicImage value="resources/images/person_icon.png" />
+										<h:outputText value="#{favorite.name}" />
+										<h:outputText value="#{favorite.avaliable}" />
+									</rich:panel>
+									<a4j:commandButton value="Entfernen"/>
+								</h:panelGrid>
+							</rich:panel>
+						</rich:list>
+							<rich:panel styleClass="rf-p-favouritePanel">
+								<h:selectOneMenu id="addFavoriteCB" value="#{employeeList.currentSelectedEmployee}">
+									<f:selectItems value="#{employeeList.employees}"/>
+									<f:ajax event="change" listener="#{employeeList.changeCurrentSelectedEmployee}" execute="addFavoriteCB"/>
+								</h:selectOneMenu>							
+								<h:form>
+									<a4j:commandButton value="Hinzufügen" action="#{user.addFavorite(employeeList.currentSelectedEmployee)}" reRender="favoritePanel"/>
+								</h:form>
+							</rich:panel>
+						</h:panelGrid>
+					</a4j:outputPanel>
 				</rich:panel>
 			</h:form>
 		</f:view>

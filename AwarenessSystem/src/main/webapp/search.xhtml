@@ -24,7 +24,9 @@
 							<h:outputLabel value="Teams" for="teamCB" styleClass="rf-pg-labelInPanelgroup"/>
 							<h:selectOneMenu id="teamCB" value="Teams" styleClass="rf-pg-comboBoxInPanelgroup"></h:selectOneMenu>
 						</h:panelGroup>
-						<a4j:commandButton action="#{memberList.addMember(employeeList.currentSelectedEmployee)}" value="Hinzufügen" reRender="teamMemberList" styleClass="rf-cb-addButton"/>
+						<h:form>
+							<a4j:commandButton action="#{memberList.addMember(employeeList.currentSelectedEmployee)}" value="Hinzufügen" reRender="teamMemberList" styleClass="rf-cb-addButton"/>
+						</h:form>
 						<h:panelGroup styleClass="rf-pg-labelComboBoxPanel">
 							<h:outputLabel value="Start Tag" for="startDaysCB" styleClass="rf-pg-labelInPanelgroup"/>
 							<h:selectOneMenu id="startDaysCB" value="#{startDateBean.chosenDate}" styleClass="rf-pg-comboBoxInPanelgroup">

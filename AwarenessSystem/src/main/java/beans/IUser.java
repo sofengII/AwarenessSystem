@@ -46,13 +46,13 @@ public interface IUser {
 	 * @param empoyee favorite to add
 	 * @return true if successful, false otherwise
 	 */
-	public boolean addFavorite (IEmployee employee);
+	public boolean addFavorite (String employee);
 	
 	/**
 	 * Removes 
 	 * @param employee
 	 */
-	public void removeFavorite(IEmployee employee);
+	public void removeFavorite(String employee);
 	
 	/**
 	 * This method is used to get the favorites list

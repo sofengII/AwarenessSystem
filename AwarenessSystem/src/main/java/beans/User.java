@@ -53,7 +53,7 @@ public class User implements IUser{
 	
 	public User(String name){
 		this.name = name;
-		this.favoritesFile = name + "_favorites";
+		this.favoritesFile = "M:/codebase/AwarenessSystem1/AwarenessSystem/AwarenessSystem" + name + "_favorites";
 	}
 	
 	@Override
@@ -64,6 +64,7 @@ public class User implements IUser{
 	@Override
 	public void setName(String name) {
 		this.name = name;
+		this.favoritesFile = "M:/codebase/AwarenessSystem1/AwarenessSystem/AwarenessSystem/" + name + "_favorites";
 	}
 	
 	@Override
@@ -77,10 +78,22 @@ public class User implements IUser{
 	}
 
 	@Override
-	public boolean addFavorite(IEmployee employee) {
-		
+	public boolean addFavorite(String employeeName) {
+		System.out.println("in add favorite");
+		IEmployee employee = null;
+		List<IEmployee> employees = null;
+		try {
+			employees = (new EmployeeManager()).getEmployees();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		for(IEmployee e: employees) {
+			if(e.getName().equals(employeeName))
+				employee = e;
+		}
 		try {
 			if(this.favorites.size()<5){
+				System.out.println("Favorite added: " + employeeName);
 				this.favorites.add(employee);
 			}
 			else{
@@ -97,20 +110,26 @@ public class User implements IUser{
 
 	@Override
 	public List<IEmployee> getFavorites() {
-		for(IEmployee e: this.favorites) {
-			e.getAvaliable();
-		}
 		return this.favorites;
 	}
 
 	@Override
-	public void removeFavorite(IEmployee employee) {
+	public void removeFavorite(String employee) {
 		this.favorites.remove(employee);
 	}
 	
 	public String checkLogin() {
 		if(name.equals("") || password.equals(""))
 			return "fail";
+		try {
+			logIn();
+		} catch (ClassNotFoundException e) {
+			System.out.println("login failed: " + e.getStackTrace().toString());
+			return "fail";
+		} catch (IOException e) {
+			System.out.println("login failed: " + e.getStackTrace().toString());
+			return "fail";
+		}
 		return "success";
 	}
 	
@@ -152,12 +171,12 @@ public class User implements IUser{
 		FileWriter file = new FileWriter(favoritesFile);
 		BufferedWriter bw = new BufferedWriter(file);
 		
-		for(IEmployee favorite : favorites){
+		/*for(IEmployee favorite : favorites){
 			bw.write(favorite.getEmployeeID()+",");
 			bw.write(favorite.getName()+",");
 			bw.write(favorite.getPicturePath()+",");
 			bw.write(favorite.getLink()+"\n");
-		}
+		}*/
 		bw.flush();
 		bw.close();
 		file.close();

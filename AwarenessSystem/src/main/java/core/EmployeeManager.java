@@ -576,7 +576,7 @@ public class EmployeeManager implements IEmployeeManager {
 		 */
 
 		 //Test zum Favoriten-Speichern und -Laden
-		 User user = new User("Dany");
+		 /*User user = new User("Dany");
 		 user.addFavorite(list.get(0));
 		 user.addFavorite(list.get(1));
 		 user.logOff();
@@ -584,7 +584,7 @@ public class EmployeeManager implements IEmployeeManager {
 		 user.logIn();
 		 for (IEmployee fav : user.getFavorites()) {
 		 System.out.println("Favorite: " + fav.getName());
-		 }
+		 }*/
 
 	}
 
