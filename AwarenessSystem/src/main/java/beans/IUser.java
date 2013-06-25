@@ -74,4 +74,5 @@ public interface IUser {
 	 * @throws IOException 
 	 */
 	public void logOff() throws FileNotFoundException, IOException;
+	
 }

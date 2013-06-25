@@ -17,7 +17,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import beans.User;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import com.google.gdata.data.DateTime;
 import com.google.gdata.util.ServiceException;
@@ -505,8 +506,11 @@ public class EmployeeManager implements IEmployeeManager {
 
 		List<IEmployee> employees = new ArrayList<IEmployee>();
 
-		File employeesFile = new File(
-				"M:\\codebase\\AwarenessSystem1\\AwarenessSystem\\AwarenessSystem\\src\\main\\webapp\\resources\\employees.dat");
+		ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+	            .getExternalContext().getContext();
+		String realPath = ctx.getRealPath("/");
+
+		File employeesFile = new File(realPath + "/resources/employees.dat");
 
 		FileReader file = new FileReader(employeesFile);
 
