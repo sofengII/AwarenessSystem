@@ -136,18 +136,8 @@ public class EmployeeManager implements IEmployeeManager {
 				switch (dayEnd - dayStart) {
 
 				case 1:
-					c.setTime(dEnd);
-
-					c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
-					c.set(Calendar.MINUTE, 0);
-					c.set(Calendar.SECOND, 0);
-					c.set(Calendar.DAY_OF_MONTH,
-							c.get(Calendar.DAY_OF_MONTH) - 1);
-
-					System.out.println(c.getTime());
-
-					// newEnd = new DateTime();
-					app.setEndTime(new DateTime(c.getTimeInMillis() + 7200000));
+					System.out.println("Freie Zeit geht über einen Tag.");
+					changeFirstPartOfAppointment(app, dEnd, c);
 
 					c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
 					c.set(Calendar.MINUTE, 0);
@@ -160,49 +150,91 @@ public class EmployeeManager implements IEmployeeManager {
 							dEnd.getTime()));
 
 					if (newAppointment.getStartTime().getValue() < dEnd
-							.getTime()) {
+							.getTime() && ((dEnd.getTime() - newAppointment.getStartTime().getValue()) >= duration.getValue())) {
 						newAppointments.add(newAppointment);
 					}
 
 					break;
+					
 				case 2:
 
-					// c.setTime(dEnd);
-					//
-					// c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
-					// c.set(Calendar.MINUTE, 0);
-					// c.set(Calendar.SECOND, 0);
-					// c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH)
-					// - 1);
-					//
-					// System.out.println(c.getTime());
-					//
-					// // newEnd = new DateTime();
-					// app.setEndTime(new DateTime(c.getTimeInMillis() +
-					// 7200000));
-					//
-					// c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
-					// c.set(Calendar.MINUTE, 0);
-					// c.set(Calendar.SECOND, 0);
-					// c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH)
-					// + 1);
-					//
-					// newAppointment = new Appointment(new
-					// DateTime(c.getTimeInMillis() + 7200000), new DateTime(
-					// dEnd.getTime()));
-					//
-					// if(newAppointment.getStartTime().getValue() <
-					// dEnd.getTime()) {
-					// newAppointments.add(newAppointment);
-					// }
-					//
+					System.out.println("Freie Zeit geht über 2 Tage.");
+					changeFirstPartOfAppointment(app, dEnd, c);
+					
+					//create two more appointments
+					
+					//first one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					
+					//second one:
+					splitAppointment(newAppointments, c, dEnd, duration.getValue(),1);
+					
 					break;
+					
 				case 3:
+					
+					System.out.println("Freie Zeit geht über 3 Tage.");
+					
+					changeFirstPartOfAppointment(app, dEnd, c);
+					
+					//create two more appointments
+					
+					//first one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					
+					//second one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),1);
+					
+					//third one:
+					splitAppointment(newAppointments, c, dEnd, duration.getValue(),2);
+					
 					break;
+					
 				case 4:
+					System.out.println("Freie Zeit geht über 4 Tage.");
+
+					changeFirstPartOfAppointment(app, dEnd, c);
+					
+					//create two more appointments
+					
+					//first one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					
+					//second one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),1);
+					
+					//third one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),2);
+					
+					//fourth one:
+					splitAppointment(newAppointments, c, dEnd, duration.getValue(),3);
+					
 					break;
+					
 				case 5:
+					System.out.println("Freie Zeit geht über 5 Tage.");
+					
+					changeFirstPartOfAppointment(app, dEnd, c);
+					
+					//create two more appointments
+					
+					//first one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					
+					//second one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),1);
+					
+					//third one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),2);
+					
+					//fourth one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),3);
+					
+					//fith one:
+					splitAppointment(newAppointments, c, dEnd, duration.getValue(),4);
+					
 					break;
+					
 				}
 
 			}
@@ -221,46 +253,6 @@ public class EmployeeManager implements IEmployeeManager {
 			}
 		});
 
-		/*
-		 * Date dEnd; Date dStart; boolean changed = false;
-		 * 
-		 * // create boarders // TODO check whether the appointment is as long
-		 * as duration // TODO check whether a appointment exists at start date
-		 * // TODO altes noch nicht verändertes Ende speichern und ein neuen
-		 * Termin // erstellen, der von Anfang bis zum gepeicherten ende geht
-		 * for (int i = 0; i < allFreeAppointments.size(); i++) { IAppointment a
-		 * = allFreeAppointments.get(i);
-		 * 
-		 * dStart = new Date(a.getStartTime().getValue()); dEnd = new
-		 * Date(a.getEndTime().getValue());
-		 * 
-		 * int dayStart = Integer.valueOf(new SimpleDateFormat("dd")
-		 * .format(dStart)); int dayEnd = Integer.valueOf(new
-		 * SimpleDateFormat("dd") .format(dEnd)); System.out
-		 * .println("DayStart = " + dayStart + " DayEnd = " + dayEnd);
-		 * 
-		 * if (dayStart < dayEnd) {
-		 * 
-		 * Calendar cal = Calendar.getInstance(); cal.setTime(dEnd);
-		 * 
-		 * // +2 because of conversion cal.set(Calendar.HOUR_OF_DAY, END_OF_WORK
-		 * + 2); cal.set(Calendar.MINUTE, 0); cal.set(Calendar.DAY_OF_MONTH,
-		 * dayStart);
-		 * 
-		 * a.setEndTime(new DateTime(cal.getTimeInMillis())); changed = true; }
-		 * 
-		 * /* if (changed) {
-		 * 
-		 * Calendar cal = Calendar.getInstance(); cal.setTime(dEnd);
-		 * 
-		 * // +2 because of conversion cal.set(Calendar.HOUR_OF_DAY,
-		 * START_OF_WORK + 2); cal.set(Calendar.MINUTE, 0);
-		 * 
-		 * a.setEndTime(new DateTime(cal.getTimeInMillis())); changed = true; }
-		 * 
-		 * changed = false; }
-		 */
-
 		// in the end: reset all free appointment lists of the employees to
 		// guarantee
 		// a correct calculation for the next time
@@ -269,6 +261,71 @@ public class EmployeeManager implements IEmployeeManager {
 		}
 
 		return allFreeAppointments;
+	}
+
+	/**
+	 * Private methods splits the rest of the big Appointment by the end of a working day.
+	 * @param newAppointments
+	 * @param c
+	 * @param end
+	 * @param dur
+	 */
+	private void splitAppointment(List<IAppointment> newAppointments, Calendar c, Date end, long dur, int differenceOfDays) {
+		IAppointment newAppointment;
+		c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH)+differenceOfDays);
+		
+		DateTime startOfNewAppointment = new DateTime(c.getTimeInMillis() + 7200000);
+		
+		//last split
+		if(end != null){
+			newAppointment = new Appointment(new DateTime(
+					c.getTimeInMillis() + 7200000), new DateTime(
+					end.getTime()));
+			
+			//only add if the new Appointment's duration is still >= the required duration
+			if (newAppointment.getStartTime().getValue() < end
+					.getTime() && ((end.getTime() - newAppointment.getStartTime().getValue()) >= dur)) {
+				newAppointments.add(newAppointment);
+				System.out.println("Appointment was splitted: " + newAppointment.getStartTime() + " --- " + newAppointment.getEndTime());
+			}
+		}
+		
+		//"middle day" of the splits
+		else{
+			c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
+			c.set(Calendar.MINUTE, 0);
+			c.set(Calendar.SECOND, 0);
+			c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH)+differenceOfDays);
+			
+			DateTime endOfNewAppointment = new DateTime(c.getTimeInMillis() + 7200000);
+			
+			newAppointment = new Appointment(startOfNewAppointment, endOfNewAppointment);
+			
+			//only add if the new Appointment's duration is still >= the required duration
+			if ((newAppointment.getEndTime().getValue() - newAppointment.getStartTime().getValue()) >= dur) {
+				newAppointments.add(newAppointment);
+				System.out.println("Appointment was splitted: " + newAppointment.getStartTime() + " --- " + newAppointment.getEndTime());
+			}
+		}
+	}
+
+	private void changeFirstPartOfAppointment(IAppointment app, Date dEnd,
+			Calendar c) {
+		c.setTime(dEnd);
+
+		c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.DAY_OF_MONTH,
+				c.get(Calendar.DAY_OF_MONTH) - 1);
+
+		System.out.println(c.getTime());
+
+		// newEnd = new DateTime();
+		app.setEndTime(new DateTime(c.getTimeInMillis() + 7200000));
 	}
 
 	/**
@@ -370,12 +427,12 @@ public class EmployeeManager implements IEmployeeManager {
 			ServiceException {
 		List<IAppointment> appointments = new ArrayList<IAppointment>();
 
-		long sixDays = 518400000;
+		long fiveDays = 432000000;
 		long fifteenMinutes = 900000;
 		// timezone
 		long twoHours = 7200000;
 
-		DateTime endDate = new DateTime(startDate.getValue() + sixDays);
+		DateTime endDate = new DateTime(startDate.getValue() + fiveDays);
 		IAppointment app;
 
 		// For every employee...
@@ -506,12 +563,13 @@ public class EmployeeManager implements IEmployeeManager {
 
 		List<IEmployee> employees = new ArrayList<IEmployee>();
 
-		ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
-	            .getExternalContext().getContext();
-		String realPath = ctx.getRealPath("/");
+		//ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+	           // .getExternalContext().getContext();
+		//String realPath = ctx.getRealPath("/");
 
-		File employeesFile = new File(realPath + "/resources/employees.dat");
+		//File employeesFile = new File(realPath + "/src/main/webapp/resources/employees.dat");
 
+		File employeesFile = new File("employees.dat");
 		FileReader file = new FileReader(employeesFile);
 
 		BufferedReader br = new BufferedReader(file);
