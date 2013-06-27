@@ -563,13 +563,12 @@ public class EmployeeManager implements IEmployeeManager {
 
 		List<IEmployee> employees = new ArrayList<IEmployee>();
 
-		//ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
-	           // .getExternalContext().getContext();
-		//String realPath = ctx.getRealPath("/");
+		ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+		String realPath = ctx.getRealPath("/");
 
-		//File employeesFile = new File(realPath + "/src/main/webapp/resources/employees.dat");
-
-		File employeesFile = new File("employees.dat");
+		File employeesFile = new File(realPath + "/resources/employees.dat");
+		
+		//File employeesFile = new File("employees.dat");
 		FileReader file = new FileReader(employeesFile);
 
 		BufferedReader br = new BufferedReader(file);
