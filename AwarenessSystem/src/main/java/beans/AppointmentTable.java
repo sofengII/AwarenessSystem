@@ -74,10 +74,10 @@ public class AppointmentTable{
 			Date tmpDate = new Date(0);
 			tmpDate.setDate(day);
 			tmpDate.setMonth(month);
-			tmpDate.setYear(year);
+			tmpDate.setYear(year-1900);
 			
 			DateTime startDate = new DateTime(tmpDate.getTime());
-			DateTime duration = new DateTime(Long.parseLong(durationString.split(" ")[0]));
+			DateTime duration = new DateTime(1000 * Long.parseLong(durationString.split(" ")[0]));
 			this.appointments = this.employeeManager.getAppointments(employeesToMatch, startDate, duration);
 		} catch(Exception ex) {
 			ex.printStackTrace();

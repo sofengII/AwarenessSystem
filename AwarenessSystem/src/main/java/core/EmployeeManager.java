@@ -275,7 +275,8 @@ public class EmployeeManager implements IEmployeeManager {
 		c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);
-		c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH)+differenceOfDays);
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		c.set(Calendar.DAY_OF_MONTH, day+differenceOfDays);
 		
 		DateTime startOfNewAppointment = new DateTime(c.getTimeInMillis() + 7200000);
 		
@@ -298,7 +299,7 @@ public class EmployeeManager implements IEmployeeManager {
 			c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
 			c.set(Calendar.MINUTE, 0);
 			c.set(Calendar.SECOND, 0);
-			c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH)+differenceOfDays);
+			c.set(Calendar.DAY_OF_MONTH, day+differenceOfDays);
 			
 			DateTime endOfNewAppointment = new DateTime(c.getTimeInMillis() + 7200000);
 			
