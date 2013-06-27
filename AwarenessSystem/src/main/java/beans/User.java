@@ -4,6 +4,7 @@ import google.Appointment;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,6 +15,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import core.Employee;
 import core.EmployeeManager;
@@ -30,12 +34,10 @@ import core.IEmployee;
  */
 public class User implements IUser{
 	
-	//TODO Sollte final sein, Username über Ctor erstellen.
 	/**
 	 * name of the user
 	 */
 	private String name;
-	//TODO Sollte final sein, Userpassword über Ctor erstellen.
 	/**
 	 * password of the user
 	 */
@@ -53,7 +55,12 @@ public class User implements IUser{
 	
 	public User(String name){
 		this.name = name;
-		this.favoritesFile = "M:/codebase/AwarenessSystem1/AwarenessSystem/AwarenessSystem" + name + "_favorites";
+		
+		ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+	            .getExternalContext().getContext();
+		String realPath = ctx.getRealPath("/");
+		
+		this.favoritesFile = realPath + "/resources/" + name + "_favorites";
 	}
 	
 	@Override
@@ -64,7 +71,12 @@ public class User implements IUser{
 	@Override
 	public void setName(String name) {
 		this.name = name;
-		this.favoritesFile = "M:/codebase/AwarenessSystem1/AwarenessSystem/AwarenessSystem/" + name + "_favorites";
+		
+		ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+	            .getExternalContext().getContext();
+		String realPath = ctx.getRealPath("/");
+		
+		this.favoritesFile = realPath + "/resources/" + name + "_favorites";
 	}
 	
 	@Override
@@ -191,4 +203,5 @@ public class User implements IUser{
 	public String toString() {
 		return "User: " + this.name;
 	}
+
 }
