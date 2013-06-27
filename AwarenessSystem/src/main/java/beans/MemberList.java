@@ -21,8 +21,7 @@ public class MemberList {
 	}
 	
 	public void addMember(String name) {
-		System.out.println(name);
-		System.out.println("addMember");
+		System.out.println("addMember: " + name);
 		IEmployeeManager manager = new EmployeeManager();
 		boolean alreadyAdded = false;
 		for(String member: this.members) {
@@ -46,7 +45,6 @@ public class MemberList {
 		} else {
 			System.out.println(name + " already added.");
 		}
-		System.out.println("addMember left");
 		System.out.println("Member's size: " + this.members.size());
 	}
 }
