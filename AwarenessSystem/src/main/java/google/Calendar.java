@@ -2,6 +2,7 @@ package google;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +49,12 @@ public class Calendar implements ICalendar, Serializable {
 		try {
 			initializeConnection(startWeek, endWeek);
 		} catch (IOException | ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("An exception occured");
 		}
 	}
 
 	private void initializeConnection(DateTime start, DateTime end)
-			throws IOException, ServiceException, NoAppointmentsException {
+			throws IOException, ServiceException, NoAppointmentsException, MalformedURLException {
 
 		CalendarService service = new CalendarService("App1");
 

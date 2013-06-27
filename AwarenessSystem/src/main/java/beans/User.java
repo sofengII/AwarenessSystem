@@ -1,18 +1,10 @@
 package beans;
 
-import google.Appointment;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +13,6 @@ import javax.servlet.ServletContext;
 
 import core.Employee;
 import core.EmployeeManager;
-import core.Employee;
 import core.IEmployee;
 
 /**
@@ -91,7 +82,7 @@ public class User implements IUser{
 
 	@Override
 	public boolean addFavorite(String employeeName) {
-		System.out.println("in add favorite");
+		System.out.println("in add favorite with: " + employeeName);
 		IEmployee employee = null;
 		List<IEmployee> employees = null;
 		try {
@@ -125,9 +116,29 @@ public class User implements IUser{
 		return this.favorites;
 	}
 
+	public IEmployee getFavorite(int index) {
+		IEmployee employee;
+		try {
+			employee = this.favorites.get(index);
+		} catch (Exception ex) {
+			employee = new Employee(0, "Kein Favorit", "/resources/images/person_icon.png","");
+		}
+		return employee;
+	}
+	
 	@Override
-	public void removeFavorite(String employee) {
-		this.favorites.remove(employee);
+	public void removeFavorite(String employeeName) {
+		System.out.println("in remove with: " + employeeName);
+		IEmployee employee = null;
+		for(IEmployee favorite: this.favorites) {
+			if(favorite.getName().equals(employeeName)) {
+				System.out.println(employeeName + " removed.");
+				employee = favorite;
+				break;
+			}
+		}
+		if(employee != null)
+			this.favorites.remove(employee);
 	}
 	
 	public String checkLogin() {
@@ -136,10 +147,10 @@ public class User implements IUser{
 		try {
 			logIn();
 		} catch (ClassNotFoundException e) {
-			System.out.println("login failed: " + e.getStackTrace().toString());
+			System.out.println("login failed: " + e.getMessage());
 			return "fail";
 		} catch (IOException e) {
-			System.out.println("login failed: " + e.getStackTrace().toString());
+			System.out.println("login failed: " + e.getMessage());
 			return "fail";
 		}
 		return "success";
