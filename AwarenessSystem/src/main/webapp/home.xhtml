@@ -77,14 +77,16 @@
 									</h:form>
 								</h:panelGrid>
 							</rich:panel>
-							<rich:panel styleClass="rf-p-favouritePanel">
-								<h:selectOneMenu id="addFavoriteCB" value="#{employeeList.currentSelectedEmployee}">
-									<f:selectItems value="#{employeeList.employees}"/>
-									<f:ajax event="change" listener="#{employeeList.changeCurrentSelectedEmployee}" execute="addFavoriteCB"/>
-								</h:selectOneMenu>							
-								<h:form>
-									<a4j:commandButton value="Hinzufügen" action="#{user.addFavorite(employeeList.currentSelectedEmployee)}" reRender="favoritePanel"/>
-								</h:form>
+							<rich:panel styleClass="rf-cb-addFav">
+								<h:panelGrid columns="2" styleClass="rf-cb-addFavCell">
+									<h:selectOneMenu id="addFavoriteCB" value="#{employeeList.currentSelectedEmployee}">
+										<f:selectItems value="#{employeeList.employees}"/>
+										<f:ajax event="change" listener="#{employeeList.changeCurrentSelectedEmployee}" execute="addFavoriteCB"/>
+									</h:selectOneMenu>							
+									<h:form>
+										<a4j:commandButton value="Hinzufügen" action="#{user.addFavorite(employeeList.currentSelectedEmployee)}" reRender="favoritePanel"/>
+									</h:form>
+								</h:panelGrid>
 							</rich:panel>
 						</h:panelGrid>
 					</a4j:outputPanel>

@@ -47,4 +47,8 @@ public class MemberList {
 		}
 		System.out.println("Member's size: " + this.members.size());
 	}
+	
+	public void removeMember(String name) {
+		this.members.remove(name);
+	}
 }

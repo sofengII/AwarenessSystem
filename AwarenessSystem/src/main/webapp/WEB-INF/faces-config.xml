@@ -24,11 +24,6 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>appointmentTable</managed-bean-name>
-		<managed-bean-class>beans.AppointmentTable</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
 		<managed-bean-name>memberList</managed-bean-name>
 		<managed-bean-class>beans.MemberList</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
@@ -46,6 +41,11 @@
 	<managed-bean>
 		<managed-bean-name>employeeList</managed-bean-name>
 		<managed-bean-class>beans.EmployeeList</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>appointmentTable</managed-bean-name>
+		<managed-bean-class>beans.AppointmentTable</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<navigation-rule>

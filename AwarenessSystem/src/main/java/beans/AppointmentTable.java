@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import com.google.gdata.data.DateTime;
@@ -25,6 +27,7 @@ public class AppointmentTable{
 	private static final long serialVersionUID = 1L;
 
 	private List<IAppointment> appointments;
+	private Map<Integer, List<IAppointment>> appointmentMap = new HashMap<Integer, List<IAppointment>>(); 
 	//private List<String> appointments;
 	
 	private IEmployeeManager employeeManager;
@@ -47,12 +50,17 @@ public class AppointmentTable{
 		return this.appointments;
 	}
 	
+	public Map<Integer, List<IAppointment>> getAppointmentMap() {
+		return this.appointmentMap;
+	}
 	/*public void setAppointments(List<IAppointment> appointments) {
 		this.appointments = appointments;
 		 //this.appointmentBeginning = this.employeeManager.getAppointments(employees, startDate, duration);
 	}*/
 	
 	public void setAppointments(List<String> employeeNames, String startDateString, String durationString) {
+		System.out.println("Size of map: " + this.appointmentMap.size());
+		this.appointmentMap.clear();
 		try {
 			List<IEmployee> employees = this.employeeManager.getEmployees();
 			List<IEmployee> employeesToMatch = new ArrayList<IEmployee>();
@@ -99,8 +107,26 @@ public class AppointmentTable{
 				
 				duration = new DateTime(3600000 * Long.parseLong(durationString.split(" ")[0]));
 			}
-
-			this.appointments = this.employeeManager.getAppointments(employeesToMatch, startDate, duration);
+			
+			List<IAppointment> appointments = this.employeeManager.getAppointments(employeesToMatch, startDate, duration);
+			// Initialize map
+			for(int i = 1; i < 6; i++) {
+				List<IAppointment> defaultList = new ArrayList<IAppointment>();
+				this.appointmentMap.put(i, defaultList);
+			}
+			for(IAppointment appointment: appointments) {
+				Calendar date = Calendar.getInstance();
+				date.setTime(new Date(appointment.getStartTime().getValue()));
+				int day = date.get(Calendar.DAY_OF_WEEK);
+				// If Saturday or Sunday skip
+				if(day != 0 && day != 6) {
+					// TODO Needs to be checked
+					List<IAppointment> appointmentList = (List<IAppointment>)this.appointmentMap.get(day);
+					appointmentList.add(appointment);
+					this.appointmentMap.put(day, appointmentList);
+				}
+			}
+			
 			
 			/*if(this.appointments.get(this.appointments.size()-1).getEndTime().getValue() > startDate.getValue()+432000000){
 				System.out.println("Letztes Appointment der setAppointments-Methode dauert bis:");
@@ -109,10 +135,10 @@ public class AppointmentTable{
 				this.appointments.remove(this.appointments.size()-1);
 			}*/
 			
-			System.out.println("Appointments nach der setAppointments-Methode:");
+			/*System.out.println("Appointments nach der setAppointments-Methode:");
 			for(IAppointment test : this.appointments){
 				System.out.println(test.getStartTime().toUiString() + " --- " + test.getEndTime().toUiString());
-			}
+			}*/
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -148,6 +174,16 @@ public class AppointmentTable{
 	public List<String> getAppointmentStrings(int dayOfWeek) {
 		
 		System.out.println("getAppointmentStrings mit " + dayOfWeek + " aufgerufen...");
+		List<String> appointmentsAsString = new ArrayList<String>();
+		
+		for(IAppointment appointment: this.appointmentMap.get(dayOfWeek)) {
+			System.out.println("Appointment added");
+			String appointmentString = appointment.getStartTime().toUiString() + " - " + appointment.getEndTime().toUiString();
+			appointmentsAsString.add(appointmentString);
+		}
+			
+		return appointmentsAsString;
+		/*
 		List<String> dailyAppointments = new LinkedList<String>();
 		Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("CEST"));
 		
@@ -158,6 +194,7 @@ public class AppointmentTable{
 				dailyAppointments.add(timeSlot);
 			}
 		}
+		*/
 		
 		
 		/*Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("CEST"));
@@ -172,12 +209,14 @@ public class AppointmentTable{
 			}
 		}*/
 		
+		/*
 		System.out.println("Appointments nach der getAppointmentStrings-Methode:");
 		for(String s : dailyAppointments){
 			System.out.println(s);
 		}
 		
 		return dailyAppointments;
+		*/
 	}
 	
 	public List<String> getAppointmentStrings_Test(int dayOfWeek) {
@@ -189,5 +228,19 @@ public class AppointmentTable{
 				appointments.add(timeSlot);
 		}
 		return appointments;
+	}
+	
+	public int dayToInteger(String day) {
+		System.out.println("Day " + day + "was gotten.");
+		switch(day) {
+			case "So": return 0;
+			case "Mo": return 1;
+			case "Di": return 2;
+			case "Mi": return 3;
+			case "Do": return 4;
+			case "Fr": return 5;
+			case "Sa": return 6;
+			default: return -1;
+		}
 	}
 }

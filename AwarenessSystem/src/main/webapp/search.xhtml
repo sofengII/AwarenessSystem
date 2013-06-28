@@ -12,33 +12,51 @@
 		<f:view>
 			<h:form>
 				<rich:panel>
-					<h:panelGrid columns="5" styleClass="rf-pg-labelComboBoxContainer">
+					<h:panelGrid columns="6" styleClass="rf-pg-labelComboBoxContainer">
 						<h:panelGroup styleClass="rf-pg-labelComboBoxPanel">
-							<h:outputLabel id="teamMemberCB" value="Mitarbeiter" for="teamMemberCB" styleClass="rf-pg-labelInPanelgroup"/>
-							<h:selectOneMenu id="selectEmployeeMenu" value="#{employeeList.currentSelectedEmployee}" styleClass="rf-pg-comboBoxInPanelgroup">
-								<f:selectItems value="#{employeeList.employees}"/>
-								<f:ajax event="change" listener="#{employeeList.changeCurrentSelectedEmployee}" execute="selectEmployeeMenu"/>
+							<h:panelGrid columns="1">
+								<h:outputLabel id="teamMemberCB" value="Mitarbeiter" for="teamMemberCB" styleClass="rf-pg-labelInPanelgroup"/>
+								<h:selectOneMenu id="selectEmployeeMenu" value="#{employeeList.currentSelectedEmployee}" styleClass="rf-pg-comboBoxInPanelgroup">
+									<f:selectItems value="#{employeeList.employees}"/>
+									<f:ajax event="change" listener="#{employeeList.changeCurrentSelectedEmployee}" execute="selectEmployeeMenu"/>
+								</h:selectOneMenu>
+							</h:panelGrid>
+						</h:panelGroup>
+						<h:panelGroup styleClass="rf-pg-labelComboBoxPanel">
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Teams" for="teamCB" styleClass="rf-pg-labelInPanelgroup"/>
+								<h:selectOneMenu id="teamCB" value="Teams" styleClass="rf-pg-comboBoxInPanelgroup"></h:selectOneMenu>
+							</h:panelGrid>
+						</h:panelGroup>
+						<h:panelGrid columns="1">
+							<h:form>
+								<a4j:commandButton action="#{memberList.addMember(employeeList.currentSelectedEmployee)}" value="Hinzufügen" reRender="teamMemberList" styleClass="rf-cb-addButton"/>
+							</h:form>
+							<h:form>
+								<a4j:commandButton action="#{memberList.removeMember(employeeList.currentSelectedEmployee)}" value="Entfernen" reRender="teamMemberList" styleClass="rf-cb-addButton"/>
+							</h:form>
+						</h:panelGrid>
+						<h:panelGroup styleClass="rf-pg-labelComboBoxPanel">
+							<h:panelGrid columns="1">
+								<h:outputLabel value="Start Tag" for="startDaysCB" styleClass="rf-pg-labelInPanelgroup"/>
+								<h:selectOneMenu id="startDaysCB" value="#{startDateBean.chosenDate}" styleClass="rf-pg-comboBoxInPanelgroup">
+									<f:selectItems value="#{startDayList.startDays}"/>
+									<f:ajax event="change" listener="#{startDateBean.changeChosenStartDate}" execute="startDaysCB"/>
+								</h:selectOneMenu>
+							</h:panelGrid>
+						</h:panelGroup>
+						<h:panelGrid columns="1">
+							<h:outputText value="Dauer" />
+							<h:selectOneMenu id="Dauer" value="#{durationBean.duration}">
+								<f:selectItems value="#{durationList.durations}" />
+								<f:ajax event="change" listener="#{durationBean.changeDuration}" execute="Dauer"/>
 							</h:selectOneMenu>
-						</h:panelGroup>
-						<h:panelGroup styleClass="rf-pg-labelComboBoxPanel">
-							<h:outputLabel value="Teams" for="teamCB" styleClass="rf-pg-labelInPanelgroup"/>
-							<h:selectOneMenu id="teamCB" value="Teams" styleClass="rf-pg-comboBoxInPanelgroup"></h:selectOneMenu>
-						</h:panelGroup>
-						<h:form>
-							<a4j:commandButton action="#{memberList.addMember(employeeList.currentSelectedEmployee)}" value="Hinzufügen" reRender="teamMemberList" styleClass="rf-cb-addButton"/>
-						</h:form>
-						<h:panelGroup styleClass="rf-pg-labelComboBoxPanel">
-							<h:outputLabel value="Start Tag" for="startDaysCB" styleClass="rf-pg-labelInPanelgroup"/>
-							<h:selectOneMenu id="startDaysCB" value="#{startDateBean.chosenDate}" styleClass="rf-pg-comboBoxInPanelgroup">
-								<f:selectItems value="#{startDayList.startDays}"/>
-								<f:ajax event="change" listener="#{startDateBean.changeChosenStartDate}" execute="startDaysCB"/>
-							</h:selectOneMenu>
-						</h:panelGroup>
+						</h:panelGrid>
 						<h:form>
 							<a4j:commandButton value="Suchen" action="#{appointmentTable.setAppointments(memberList.members,startDateBean.chosenDate,durationBean.duration)}" reRender="table" styleClass="rf-cb-searchButton"/>
 						</h:form>
 					</h:panelGrid>
-					<h:panelGrid columns="2" styleClass="rf-pg-membersAndDurationPanel">
+					<h:panelGroup styleClass="rf-pg-membersPanel">
 						<a4j:outputPanel id="teamMemberList" ajaxRendered="true">
 							<h:dataTable value="#{memberList.members}" var="member" styleClass="">
 								<h:column>
@@ -49,54 +67,20 @@
 								</h:column>
 							</h:dataTable>
 						</a4j:outputPanel>
-						<h:selectOneMenu id="Dauer" value="#{durationBean.duration}">
-							<f:selectItems value="#{durationList.durations}" />
-							<f:ajax event="change" listener="#{durationBean.changeDuration}" execute="Dauer"/>
-						</h:selectOneMenu>
-					</h:panelGrid>
+					</h:panelGroup>
 					<a4j:outputPanel id="table" ajaxRendered="true">
-						<h:panelGrid columns="5" styleClass="rf-pg-freeAppointmentTable" columnClasses="rf-pgc-tableColumn" rendered="#{not empty appointmentTable.appointments}">
-							<h:dataTable value="#{appointmentTable.getAppointmentStrings(2)}" var="app">
-								<h:column>
-									<f:facet name="columnHeader">
-										<h:outputText value="Mo" styleClass="rf-pgc-columnHeader"/>
-									</f:facet>
-									<h:outputText value="#{app}"/>
-								</h:column>
-							</h:dataTable>
-							<h:dataTable value="#{appointmentTable.getAppointmentStrings(3)}" var="app">
-								<h:column>
-									<f:facet name="columnHeader">
-										<h:outputText value="Di" styleClass="rf-pgc-columnHeader"/>
-									</f:facet>
-									<h:outputText value="#{app}"/>
-								</h:column>
-							</h:dataTable>
-							<h:dataTable value="#{appointmentTable.getAppointmentStrings(4)}" var="app">
-								<h:column>
-									<f:facet name="columnHeader">
-										<h:outputText value="Mi" styleClass="rf-pgc-columnHeader"/>
-									</f:facet>
-									<h:outputText value="#{app}"/>
-								</h:column>
-							</h:dataTable>
-							<h:dataTable value="#{appointmentTable.getAppointmentStrings(5)}" var="app">
-								<h:column>
-									<f:facet name="columnHeader">
-										<h:outputText value="Do" styleClass="rf-pgc-columnHeader"/>
-									</f:facet>
-									<h:outputText value="#{app}"/>
-								</h:column>
-							</h:dataTable>
-							<h:dataTable value="#{appointmentTable.getAppointmentStrings(6)}" var="app">
-								<h:column>
-									<f:facet name="columnHeader">
-										<h:outputText value="Fr" styleClass="rf-pgc-columnHeader"/>
-									</f:facet>
-									<h:outputText value="#{app}"/>
-								</h:column>
-							</h:dataTable>
-						</h:panelGrid>
+						<h:panelGroup>
+							<ui:repeat values="#{appointmentTable.appointmentMap.keySet()}" var="key">
+								<h:panelGrid columns="1">
+									<h:outputText value="#{appointmentTable.dayToInteger(key)}" />
+									<h:dataTable value="#{appointmentTable.getAppointmentStrings(key)}" var="appointment">
+										<h:column>
+											<h:outputText value="#{appointment}" />
+										</h:column>
+									</h:dataTable>
+								</h:panelGrid>
+							</ui:repeat>
+						</h:panelGroup>
 					</a4j:outputPanel>
 				</rich:panel>
 			</h:form>
