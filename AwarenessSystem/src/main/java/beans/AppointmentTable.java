@@ -101,6 +101,18 @@ public class AppointmentTable{
 			}
 
 			this.appointments = this.employeeManager.getAppointments(employeesToMatch, startDate, duration);
+			
+			/*if(this.appointments.get(this.appointments.size()-1).getEndTime().getValue() > startDate.getValue()+432000000){
+				System.out.println("Letztes Appointment der setAppointments-Methode dauert bis:");
+				System.out.println(this.appointments.get(this.appointments.size()-1).getEndTime());
+				System.out.println("und wird deshalb aus der Liste entfernt.");
+				this.appointments.remove(this.appointments.size()-1);
+			}*/
+			
+			System.out.println("Appointments nach der setAppointments-Methode:");
+			for(IAppointment test : this.appointments){
+				System.out.println(test.getStartTime().toUiString() + " --- " + test.getEndTime().toUiString());
+			}
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -134,8 +146,21 @@ public class AppointmentTable{
 	}
 	
 	public List<String> getAppointmentStrings(int dayOfWeek) {
+		
+		System.out.println("getAppointmentStrings mit " + dayOfWeek + " aufgerufen...");
 		List<String> dailyAppointments = new LinkedList<String>();
 		Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("CEST"));
+		
+		for(IAppointment app : this.appointments){
+			calendar.setTimeInMillis(app.getStartTime().getValue());
+			if(calendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek){
+				String timeSlot = app.getStartTime().toUiString().substring(11) + " - " + app.getEndTime().toUiString().substring(11);
+				dailyAppointments.add(timeSlot);
+			}
+		}
+		
+		
+		/*Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("CEST"));
 		for(IAppointment app: this.appointments) {
 			calendar.setTimeInMillis(app.getStartTime().getValue());
 			if(calendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek){
@@ -145,7 +170,13 @@ public class AppointmentTable{
 				timeSlot += calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
 				dailyAppointments.add(timeSlot);
 			}
+		}*/
+		
+		System.out.println("Appointments nach der getAppointmentStrings-Methode:");
+		for(String s : dailyAppointments){
+			System.out.println(s);
 		}
+		
 		return dailyAppointments;
 	}
 	
