@@ -126,8 +126,6 @@ public class EmployeeManager implements IEmployeeManager {
 					.format(dStart));
 			int dayEnd = Integer.valueOf(new SimpleDateFormat("dd")
 					.format(dEnd));
-			// System.out.println("DayStart = " + dayStart + " DayEnd = " +
-			// dayEnd);
 
 			if (dayStart != dayEnd) {
 
@@ -234,7 +232,61 @@ public class EmployeeManager implements IEmployeeManager {
 					splitAppointment(newAppointments, c, dEnd, duration.getValue(),4);
 					
 					break;
+				case 6: 
+					System.out.println("Freie Zeit geht über 6 Tage.");
 					
+					changeFirstPartOfAppointment(app, dEnd, c);
+					
+					//create two more appointments
+					
+					//first one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					
+					//second one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),1);
+					
+					//third one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),2);
+					
+					//fourth one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),3);
+					
+					//fith one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),4);
+					
+					//sixth one:
+					splitAppointment(newAppointments, c, dEnd, duration.getValue(),5);
+					
+					break;
+				case 7:
+					System.out.println("Freie Zeit geht über 7 Tage.");
+					
+					changeFirstPartOfAppointment(app, dEnd, c);
+					
+					//create two more appointments
+					
+					//first one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					
+					//second one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),1);
+					
+					//third one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),2);
+					
+					//fourth one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),3);
+					
+					//fith one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),4);
+					
+					//sixth one:
+					splitAppointment(newAppointments, c, null, duration.getValue(),5);
+					
+					//seventh one:
+					splitAppointment(newAppointments, c, dEnd, duration.getValue(),6);
+					
+					break;
 				}
 
 			}
@@ -276,6 +328,7 @@ public class EmployeeManager implements IEmployeeManager {
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);
 		int day = c.get(Calendar.DAY_OF_MONTH);
+		System.out.println("Day: " + day);
 		c.set(Calendar.DAY_OF_MONTH, day+differenceOfDays);
 		
 		DateTime startOfNewAppointment = new DateTime(c.getTimeInMillis() + 7200000);
@@ -296,6 +349,7 @@ public class EmployeeManager implements IEmployeeManager {
 		
 		//"middle day" of the splits
 		else{
+			
 			c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
 			c.set(Calendar.MINUTE, 0);
 			c.set(Calendar.SECOND, 0);
@@ -428,20 +482,20 @@ public class EmployeeManager implements IEmployeeManager {
 			ServiceException {
 		List<IAppointment> appointments = new ArrayList<IAppointment>();
 
-		long fiveDays = 432000000;
+		long sevenDays = 604800000;
 		long fifteenMinutes = 900000;
 		// timezone
 		long twoHours = 7200000;
 
-		DateTime endDate = new DateTime(startDate.getValue() + fiveDays);
+		DateTime endDate = new DateTime(startDate.getValue() + sevenDays);
 		IAppointment app;
 
 		// For every employee...
 		for (IEmployee em : employees) {
 
 			try {
-				appointments = em.getAppointments(startDate, endDate);
-
+				appointments = em.getAppointments(startDate, endDate);				
+				
 				app = appointments.get(0);
 
 				IAppointment freeApp;
@@ -613,19 +667,19 @@ public class EmployeeManager implements IEmployeeManager {
 		List<IEmployee> list = new ArrayList<>();
 
 		// get the current time
-		//DateTime start = new DateTime(cal.getTimeInMillis());
-		
-		cal.set(2013, 6, 3, 0, 0, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		
 		DateTime start = new DateTime(cal.getTimeInMillis());
+		
+		//cal.set(2013, 6, 1, 0, 0, 0);
+		//cal.set(Calendar.MILLISECOND, 0);
+		
+		//DateTime start = new DateTime(cal.getTimeInMillis());
 		
 		System.out.println(start);
 		
 		// duration 1h
 		DateTime duration = new DateTime(3600000);
 
-		list.add(em.getEmployees().get(0));
+		list.addAll(em.getEmployees());
 
 		List<IAppointment> listapp = em.getAppointments(list, start, duration);
 
