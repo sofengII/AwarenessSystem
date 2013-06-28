@@ -65,19 +65,41 @@ public class AppointmentTable{
 					}						
 				}
 			}
-			String[] splittedDate = startDateString.split(" ");
-			this.startDay = splittedDate[0];
-			String[] date = splittedDate[1].split("\\.");
-			int day = Integer.parseInt(date[0]);
-			int month = Integer.parseInt(date[1]);
-			int year = Integer.parseInt(date[2]);
-			Date tmpDate = new Date(0);
-			tmpDate.setDate(day);
-			tmpDate.setMonth(month);
-			tmpDate.setYear(year-1900);
 			
-			DateTime startDate = new DateTime(tmpDate.getTime());
-			DateTime duration = new DateTime(1000 * Long.parseLong(durationString.split(" ")[0]));
+			DateTime startDate;
+			
+			if(startDateString.equalsIgnoreCase("") || startDateString.equalsIgnoreCase("Now")) {
+				
+				startDate = new DateTime(new Date().getTime());
+				
+			} else {
+				
+				Calendar c = Calendar.getInstance();
+
+				String[] splittedDate = startDateString.split(" ");
+				this.startDay = splittedDate[0];
+				String[] date = splittedDate[1].split("\\.");
+				int day = Integer.parseInt(date[0]);
+				int month = Integer.parseInt(date[1]);
+				int year = Integer.parseInt(date[2]);
+
+				c.set(year, month - 1, day, 0, 0, 0);
+				c.set(Calendar.MILLISECOND, 0);
+				
+				startDate = new DateTime(c.getTimeInMillis());
+			}	
+			
+			DateTime duration;
+			
+			if(durationString.split(" ")[0].equalsIgnoreCase("")) {
+				
+				duration = new DateTime(3600000);
+	
+			} else {
+				
+				duration = new DateTime(3600000 * Long.parseLong(durationString.split(" ")[0]));
+			}
+
 			this.appointments = this.employeeManager.getAppointments(employeesToMatch, startDate, duration);
 		} catch(Exception ex) {
 			ex.printStackTrace();

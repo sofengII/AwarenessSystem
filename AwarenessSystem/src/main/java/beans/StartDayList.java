@@ -16,6 +16,9 @@ public class StartDayList {
 	private void fillStartDaysList() {
 		Date today = new Date();
 		for(int i = 0; i < 14; i++) {
+			if(i == 0) {
+				startDays.add("Now");
+			}
 			Date nextDate = new Date();
 			nextDate.setDate(today.getDate() + i);
 			startDays.add(turnDateIntoRelevantString(nextDate));

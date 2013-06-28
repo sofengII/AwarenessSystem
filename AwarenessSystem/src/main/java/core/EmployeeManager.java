@@ -613,12 +613,19 @@ public class EmployeeManager implements IEmployeeManager {
 		List<IEmployee> list = new ArrayList<>();
 
 		// get the current time
+		//DateTime start = new DateTime(cal.getTimeInMillis());
+		
+		cal.set(2013, 6, 3, 0, 0, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		
 		DateTime start = new DateTime(cal.getTimeInMillis());
-
+		
+		System.out.println(start);
+		
 		// duration 1h
 		DateTime duration = new DateTime(3600000);
 
-		list.addAll(em.getEmployees());
+		list.add(em.getEmployees().get(0));
 
 		List<IAppointment> listapp = em.getAppointments(list, start, duration);
 
