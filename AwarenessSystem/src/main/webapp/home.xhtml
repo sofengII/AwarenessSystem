@@ -19,11 +19,17 @@
 						<h:panelGrid columns="3" cellpadding="5px">
 							<rich:panel styleClass="rf-p-favouritePanel">
 								<h:panelGrid columns="2">
-									<rich:panel>
+									<h:panelGrid columns="1">
 										<h:graphicImage value="resources/images/person_icon.png" />
-										<h:outputText value="#{user.getFavorite(0).name}" />
-										<h:outputText value="#{user.getFavorite(0).avaliable}" />
-									</rich:panel>
+										<rich:panel>
+											<h:outputText value="#{user.getFavorite(0).name}" />
+										</rich:panel>
+										<rich:panel>
+											<h:outputText value="frei" rendered="#{user.getFavorite(0).avaliable=='FREE'}" styleClass="rf-ot-free"/>
+											<h:outputText value="baldiger Termin" rendered="#{user.getFavorite(0).avaliable=='SHORTLYFREE'}" styleClass="rf-ot-shortlyFree"/>
+											<h:outputText value="beschäftigt" rendered="#{user.getFavorite(0).avaliable=='BUSY'}" styleClass="rf-ot-busy"/>
+										</rich:panel>
+									</h:panelGrid>
 									<h:form>
 										<a4j:commandButton value="Entfernen" action="#{user.removeFavorite(user.getFavorite(0).name)}" reRender="favoritePanel"/>
 									</h:form>
@@ -31,11 +37,17 @@
 							</rich:panel>
 							<rich:panel styleClass="rf-p-favouritePanel">
 								<h:panelGrid columns="2">
-									<rich:panel>
+									<h:panelGrid columns="1">
 										<h:graphicImage value="resources/images/person_icon.png" />
-										<h:outputText value="#{user.getFavorite(1).name}" />
-										<h:outputText value="#{user.getFavorite(1).avaliable}" />
-									</rich:panel>
+										<rich:panel>
+											<h:outputText value="#{user.getFavorite(1).name}" />
+										</rich:panel>
+										<rich:panel>
+											<h:outputText value="frei" rendered="#{user.getFavorite(1).avaliable=='FREE'}" styleClass="rf-ot-free"/>
+											<h:outputText value="baldiger Termin" rendered="#{user.getFavorite(1).avaliable=='SHORTLYFREE'}" styleClass="rf-ot-shortlyFree"/>
+											<h:outputText value="beschäftigt" rendered="#{user.getFavorite(1).avaliable=='BUSY'}" styleClass="rf-ot-busy"/>
+										</rich:panel>
+									</h:panelGrid>
 									<h:form>
 										<a4j:commandButton value="Entfernen" action="#{user.removeFavorite(user.getFavorite(1).name)}" reRender="favoritePanel"/>
 									</h:form>
@@ -43,11 +55,17 @@
 							</rich:panel>
 							<rich:panel styleClass="rf-p-favouritePanel">
 								<h:panelGrid columns="2">
-									<rich:panel>
+									<h:panelGrid columns="1">
 										<h:graphicImage value="resources/images/person_icon.png" />
-										<h:outputText value="#{user.getFavorite(2).name}" />
-										<h:outputText value="#{user.getFavorite(2).avaliable}" />
-									</rich:panel>
+										<rich:panel>
+											<h:outputText value="#{user.getFavorite(2).name}" />
+										</rich:panel>
+										<rich:panel>
+											<h:outputText value="frei" rendered="#{user.getFavorite(2).avaliable=='FREE'}" styleClass="rf-ot-free"/>
+											<h:outputText value="baldiger Termin" rendered="#{user.getFavorite(2).avaliable=='SHORTLYFREE'}" styleClass="rf-ot-shortlyFree"/>
+											<h:outputText value="beschäftigt" rendered="#{user.getFavorite(2).avaliable=='BUSY'}" styleClass="rf-ot-busy"/>
+										</rich:panel>
+									</h:panelGrid>
 									<h:form>
 										<a4j:commandButton value="Entfernen" action="#{user.removeFavorite(user.getFavorite(2).name)}" reRender="favoritePanel"/>
 									</h:form>
@@ -55,11 +73,17 @@
 							</rich:panel>
 							<rich:panel styleClass="rf-p-favouritePanel">
 								<h:panelGrid columns="2">
-									<rich:panel>
+									<h:panelGrid columns="1">
 										<h:graphicImage value="resources/images/person_icon.png" />
-										<h:outputText value="#{user.getFavorite(3).name}" />
-										<h:outputText value="#{user.getFavorite(3).avaliable}" />
-									</rich:panel>
+										<rich:panel>
+											<h:outputText value="#{user.getFavorite(3).name}" />
+										</rich:panel>
+										<rich:panel>
+											<h:outputText value="frei" rendered="#{user.getFavorite(3).avaliable=='FREE'}" styleClass="rf-ot-free"/>
+											<h:outputText value="baldiger Termin" rendered="#{user.getFavorite(3).avaliable=='SHORTLYFREE'}" styleClass="rf-ot-shortlyFree"/>
+											<h:outputText value="beschäftigt" rendered="#{user.getFavorite(3).avaliable=='BUSY'}" styleClass="rf-ot-busy"/>
+										</rich:panel>
+									</h:panelGrid>
 									<h:form>
 										<a4j:commandButton value="Entfernen" action="#{user.removeFavorite(user.getFavorite(3).name)}" reRender="favoritePanel"/>
 									</h:form>
@@ -67,11 +91,17 @@
 							</rich:panel>
 							<rich:panel styleClass="rf-p-favouritePanel">
 								<h:panelGrid columns="2">
-									<rich:panel>
+									<h:panelGrid columns="1">
 										<h:graphicImage value="resources/images/person_icon.png" />
-										<h:outputText value="#{user.getFavorite(4).name}" />
-										<h:outputText value="#{user.getFavorite(4).avaliable}" />
-									</rich:panel>
+										<rich:panel>
+											<h:outputText value="#{user.getFavorite(4).name}" />
+										</rich:panel>
+										<rich:panel>
+											<h:outputText value="frei" rendered="#{user.getFavorite(4).avaliable=='FREE'}" styleClass="rf-ot-free"/>
+											<h:outputText value="baldiger Termin" rendered="#{user.getFavorite(4).avaliable=='SHORTLYFREE'}" styleClass="rf-ot-shortlyFree"/>
+											<h:outputText value="beschäftigt" rendered="#{user.getFavorite(4).avaliable=='BUSY'}" styleClass="rf-ot-busy"/>
+										</rich:panel>
+									</h:panelGrid>
 									<h:form>
 										<a4j:commandButton value="Entfernen" action="#{user.removeFavorite(user.getFavorite(4).name)}" reRender="favoritePanel"/>
 									</h:form>

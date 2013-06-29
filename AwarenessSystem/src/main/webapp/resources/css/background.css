@@ -70,6 +70,22 @@ div.content {
 	text-align: center !important;
 }
 
+.rf-ot-free {
+	display: inline-block !important;
+	font-weight: bold !important;
+	color: lime !important;
+}
+
+.rf-ot-shortlyFree {
+	font-weight: bold !important;
+	color: yellow !important;
+}
+
+.rf-ot-busy {
+	font-weight: bold !important;
+	color: yellow !important;
+}
+
 .rf-p-favouritePanel {
 	background-color: #C9C9C9 !important;
 	float:none !important;
