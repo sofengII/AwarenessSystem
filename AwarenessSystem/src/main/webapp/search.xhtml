@@ -56,32 +56,38 @@
 							<a4j:commandButton value="Suchen" action="#{appointmentTable.setAppointments(memberList.members,startDateBean.chosenDate,durationBean.duration)}" reRender="table" styleClass="rf-cb-searchButton"/>
 						</h:form>
 					</h:panelGrid>
-					<h:panelGroup styleClass="rf-pg-membersPanel">
+					<h:form>
 						<a4j:outputPanel id="teamMemberList" ajaxRendered="true">
-							<h:dataTable value="#{memberList.members}" var="member" styleClass="">
-								<h:column>
-									<h:panelGrid id="memberColumn" columns="1">
-										<h:graphicImage value="/resources/images/person_icon.png" width="50px" height="50px"/>
-										<h:outputText value="#{member}" />
-									</h:panelGrid>
-								</h:column>
-							</h:dataTable>
+							<h:panelGroup styleClass="rf-pg-membersPanel">
+								<h:dataTable value="#{memberList.members}" var="member">
+									<h:column>
+										<h:panelGrid id="memberColumn" columns="1">
+											<h:graphicImage value="/resources/images/person_icon.png" width="50px" height="50px"/>
+											<h:outputText value="#{member}" />
+										</h:panelGrid>
+									</h:column>
+								</h:dataTable>
+							</h:panelGroup>
 						</a4j:outputPanel>
-					</h:panelGroup>
-					<a4j:outputPanel id="table" ajaxRendered="true">
-						<h:panelGroup>
-							<ui:repeat values="#{appointmentTable.appointmentMap.keySet()}" var="key">
-								<h:panelGrid columns="1">
-									<h:outputText value="#{appointmentTable.dayToInteger(key)}" />
-									<h:dataTable value="#{appointmentTable.getAppointmentStrings(key)}" var="appointment">
-										<h:column>
-											<h:outputText value="#{appointment}" />
-										</h:column>
-									</h:dataTable>
-								</h:panelGrid>
-							</ui:repeat>
-						</h:panelGroup>
-					</a4j:outputPanel>
+					</h:form>
+					<h:form>
+						<a4j:outputPanel id="table" ajaxRendered="true">
+							<h:panelGroup rendered="#{appointmentTable.appointmentMap.size() == 5}">
+								<h:dataTable value="#{appointmentTable.getSortedKeys(startDateBean.chosenDate)}" var="key">
+									<h:column>
+										<h:panelGrid columns="1">
+											<h:outputText value="#{appointmentTable.integerToDay(key)}" />
+											<h:dataTable value="#{appointmentTable.getAppointmentStrings(key)}" var="appointment">
+												<h:column>
+													<h:outputText value="#{appointment}" />
+												</h:column>
+											</h:dataTable>
+										</h:panelGrid>
+									</h:column>
+								</h:dataTable>
+							</h:panelGroup>
+						</a4j:outputPanel>
+					</h:form>
 				</rich:panel>
 			</h:form>
 		</f:view>

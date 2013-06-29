@@ -4,14 +4,15 @@ import google.Appointment;
 import google.IAppointment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
+import java.util.Set;
 
 import com.google.gdata.data.DateTime;
 
@@ -52,6 +53,37 @@ public class AppointmentTable{
 	
 	public Map<Integer, List<IAppointment>> getAppointmentMap() {
 		return this.appointmentMap;
+	}
+	
+	public List<Integer> getSortedKeys(String startDate) {
+		System.out.println("Keys sorted");
+		int startDay = extractDay(startDate);
+		if(startDay == -1)
+			startDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
+		Integer[] keys = new Integer[5];
+		int index = 0;
+		for(int i = 0; i < 7; i++) {
+			int tmpDay = (startDay + i) % 7;
+			if(tmpDay != 0 && tmpDay != 6) {
+				keys[index] = tmpDay;
+				index++;
+			}
+		}
+		return Arrays.asList(keys);
+	}
+	
+	private int extractDay(String startDate) {
+		String dayAsString = startDate.split(" ")[0];
+		switch(dayAsString){
+			case "So": return 0;
+			case "Mo": return 1;
+			case "Di": return 2;
+			case "Mi": return 3;
+			case "Do": return 4;
+			case "Fr": return 5;
+			case "Sa": return 6;
+			default: return -1;
+		}
 	}
 	/*public void setAppointments(List<IAppointment> appointments) {
 		this.appointments = appointments;
@@ -117,10 +149,9 @@ public class AppointmentTable{
 			for(IAppointment appointment: appointments) {
 				Calendar date = Calendar.getInstance();
 				date.setTime(new Date(appointment.getStartTime().getValue()));
-				int day = date.get(Calendar.DAY_OF_WEEK);
+				int day = date.get(Calendar.DAY_OF_WEEK) - 1;
 				// If Saturday or Sunday skip
 				if(day != 0 && day != 6) {
-					// TODO Needs to be checked
 					List<IAppointment> appointmentList = (List<IAppointment>)this.appointmentMap.get(day);
 					appointmentList.add(appointment);
 					this.appointmentMap.put(day, appointmentList);
@@ -178,7 +209,7 @@ public class AppointmentTable{
 		
 		for(IAppointment appointment: this.appointmentMap.get(dayOfWeek)) {
 			System.out.println("Appointment added");
-			String appointmentString = appointment.getStartTime().toUiString() + " - " + appointment.getEndTime().toUiString();
+			String appointmentString = appointment.getStartTime().toUiString().split(" ")[1] + " - " + appointment.getEndTime().toUiString().split(" ")[1];
 			appointmentsAsString.add(appointmentString);
 		}
 			
@@ -241,6 +272,20 @@ public class AppointmentTable{
 			case "Fr": return 5;
 			case "Sa": return 6;
 			default: return -1;
+		}
+	}
+	
+	public String integerToDay(int day) {
+		System.out.println("Day " + day + "was gotten.");
+		switch(day) {
+			case 0: return "So";
+			case 1: return "Mo";
+			case 2: return "Di";
+			case 3: return "Mi";
+			case 4: return "Do";
+			case 5: return "Fr";
+			case 6: return "Sa";
+			default: return "Undefined";
 		}
 	}
 }
