@@ -127,6 +127,9 @@ public class EmployeeManager implements IEmployeeManager {
 			int dayEnd = Integer.valueOf(new SimpleDateFormat("dd")
 					.format(dEnd));
 
+			// System.out.println("DayStart = " + dayStart + ", DayEnd = " + dayEnd);
+			
+			
 			if (dayStart != dayEnd) {
 
 				IAppointment newAppointment;
@@ -157,15 +160,15 @@ public class EmployeeManager implements IEmployeeManager {
 				case 2:
 
 					System.out.println("Freie Zeit geht über 2 Tage.");
-					changeFirstPartOfAppointment(app, dEnd, c);
+					changeFirstPartOfAppointment(app, dStart, c);
 					
 					//create two more appointments
 					
 					//first one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
 					
 					//second one:
-					splitAppointment(newAppointments, c, dEnd, duration.getValue(),1);
+					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),2);
 					
 					break;
 					
@@ -173,118 +176,118 @@ public class EmployeeManager implements IEmployeeManager {
 					
 					System.out.println("Freie Zeit geht über 3 Tage.");
 					
-					changeFirstPartOfAppointment(app, dEnd, c);
+					changeFirstPartOfAppointment(app, dStart, c);
 					
-					//create two more appointments
+					//create three more appointments
 					
 					//first one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
 					
 					//second one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),1);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),2);
 					
 					//third one:
-					splitAppointment(newAppointments, c, dEnd, duration.getValue(),2);
+					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),3);
 					
 					break;
 					
 				case 4:
 					System.out.println("Freie Zeit geht über 4 Tage.");
 
-					changeFirstPartOfAppointment(app, dEnd, c);
+					changeFirstPartOfAppointment(app, dStart, c);
 					
-					//create two more appointments
+					//create four more appointments
 					
 					//first one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
 					
 					//second one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),1);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),2);
 					
 					//third one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),2);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),3);
 					
 					//fourth one:
-					splitAppointment(newAppointments, c, dEnd, duration.getValue(),3);
+					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),4);
 					
 					break;
 					
 				case 5:
 					System.out.println("Freie Zeit geht über 5 Tage.");
 					
-					changeFirstPartOfAppointment(app, dEnd, c);
+					changeFirstPartOfAppointment(app, dStart, c);
 					
-					//create two more appointments
+					//create five more appointments
 					
 					//first one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
 					
 					//second one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),1);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),2);
 					
 					//third one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),2);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),3);
 					
 					//fourth one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),3);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),4);
 					
 					//fith one:
-					splitAppointment(newAppointments, c, dEnd, duration.getValue(),4);
+					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),5);
 					
 					break;
 				case 6: 
 					System.out.println("Freie Zeit geht über 6 Tage.");
 					
-					changeFirstPartOfAppointment(app, dEnd, c);
+					changeFirstPartOfAppointment(app, dStart, c);
 					
-					//create two more appointments
+					//create six more appointments
 					
 					//first one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
 					
 					//second one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),1);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),2);
 					
 					//third one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),2);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),3);
 					
 					//fourth one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),3);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),4);
 					
 					//fith one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),4);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),5);
 					
 					//sixth one:
-					splitAppointment(newAppointments, c, dEnd, duration.getValue(),5);
+					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),6);
 					
 					break;
 				case 7:
 					System.out.println("Freie Zeit geht über 7 Tage.");
 					
-					changeFirstPartOfAppointment(app, dEnd, c);
+					changeFirstPartOfAppointment(app, dStart, c);
 					
-					//create two more appointments
+					//create seven more appointments
 					
 					//first one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),0);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
 					
 					//second one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),1);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),2);
 					
 					//third one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),2);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),3);
 					
 					//fourth one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),3);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),4);
 					
 					//fith one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),4);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),5);
 					
 					//sixth one:
-					splitAppointment(newAppointments, c, null, duration.getValue(),5);
+					splitAppointment(newAppointments, dStart, null, duration.getValue(),6);
 					
 					//seventh one:
-					splitAppointment(newAppointments, c, dEnd, duration.getValue(),6);
+					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),7);
 					
 					break;
 				}
@@ -322,62 +325,67 @@ public class EmployeeManager implements IEmployeeManager {
 	 * @param end
 	 * @param dur
 	 */
-	private void splitAppointment(List<IAppointment> newAppointments, Calendar c, Date end, long dur, int differenceOfDays) {
+	
+
+	
+	private void splitAppointment(List<IAppointment> newAppointments,Date start, Date end, long dur, int differenceOfDays) {
 		IAppointment newAppointment;
-		c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
-		c.set(Calendar.MINUTE, 0);
-		c.set(Calendar.SECOND, 0);
-		int day = c.get(Calendar.DAY_OF_MONTH);
-		System.out.println("Day: " + day);
-		c.set(Calendar.DAY_OF_MONTH, day+differenceOfDays);
 		
-		DateTime startOfNewAppointment = new DateTime(c.getTimeInMillis() + 7200000);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(start);
+		
+		cal.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		
+		cal.set(Calendar.DAY_OF_MONTH, day+differenceOfDays);
+		
+		DateTime startOfNewAppointment = new DateTime(cal.getTimeInMillis() + 7200000);
 		
 		//last split
 		if(end != null){
 			newAppointment = new Appointment(new DateTime(
-					c.getTimeInMillis() + 7200000), new DateTime(
+					cal.getTimeInMillis() + 7200000), new DateTime(
 					end.getTime()));
 			
 			//only add if the new Appointment's duration is still >= the required duration
 			if (newAppointment.getStartTime().getValue() < end
 					.getTime() && ((end.getTime() - newAppointment.getStartTime().getValue()) >= dur)) {
 				newAppointments.add(newAppointment);
-				System.out.println("Appointment was splitted: " + newAppointment.getStartTime() + " --- " + newAppointment.getEndTime());
+				//System.out.println("Appointment was splitted: " + newAppointment.getStartTime() + " --- " + newAppointment.getEndTime());
 			}
 		}
 		
 		//"middle day" of the splits
 		else{
 			
-			c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
-			c.set(Calendar.MINUTE, 0);
-			c.set(Calendar.SECOND, 0);
-			c.set(Calendar.DAY_OF_MONTH, day+differenceOfDays);
+			cal.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.DAY_OF_MONTH, day+differenceOfDays);
 			
-			DateTime endOfNewAppointment = new DateTime(c.getTimeInMillis() + 7200000);
+			DateTime endOfNewAppointment = new DateTime(cal.getTimeInMillis() + 7200000);
 			
 			newAppointment = new Appointment(startOfNewAppointment, endOfNewAppointment);
 			
 			//only add if the new Appointment's duration is still >= the required duration
 			if ((newAppointment.getEndTime().getValue() - newAppointment.getStartTime().getValue()) >= dur) {
 				newAppointments.add(newAppointment);
-				System.out.println("Appointment was splitted: " + newAppointment.getStartTime() + " --- " + newAppointment.getEndTime());
+				//System.out.println("Appointment was splitted: " + newAppointment.getStartTime() + " --- " + newAppointment.getEndTime());
 			}
 		}
 	}
 
-	private void changeFirstPartOfAppointment(IAppointment app, Date dEnd,
+	private void changeFirstPartOfAppointment(IAppointment app, Date dStart,
 			Calendar c) {
-		c.setTime(dEnd);
+		
+		c.setTime(dStart);
 
 		c.set(Calendar.HOUR_OF_DAY, END_OF_WORK);
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);
-		c.set(Calendar.DAY_OF_MONTH,
-				c.get(Calendar.DAY_OF_MONTH) - 1);
-
-		System.out.println(c.getTime());
+		//c.set(Calendar.DAY_OF_MONTH,c.get(Calendar.DAY_OF_MONTH) - 1);
 
 		// newEnd = new DateTime();
 		app.setEndTime(new DateTime(c.getTimeInMillis() + 7200000));
@@ -667,12 +675,12 @@ public class EmployeeManager implements IEmployeeManager {
 		List<IEmployee> list = new ArrayList<>();
 
 		// get the current time
-		DateTime start = new DateTime(cal.getTimeInMillis());
-		
-		//cal.set(2013, 6, 1, 0, 0, 0);
-		//cal.set(Calendar.MILLISECOND, 0);
-		
 		//DateTime start = new DateTime(cal.getTimeInMillis());
+		
+		cal.set(2013, 6, 1, 10, 0, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		
+		DateTime start = new DateTime(cal.getTimeInMillis());
 		
 		System.out.println(start);
 		
