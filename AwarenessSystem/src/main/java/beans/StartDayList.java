@@ -38,7 +38,7 @@ public class StartDayList {
 			default: dayInWeek = "";
 		}
 		String day = String.valueOf(date.getDate());
-		String month = String.valueOf(date.getMonth());
+		String month = String.valueOf(date.getMonth() + 1);
 		String year = String.valueOf(date.getYear() + 1900);
 		
 		return dayInWeek + " " + day + "." + month + "." + year;

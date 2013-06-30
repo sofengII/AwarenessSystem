@@ -123,7 +123,7 @@ public class AppointmentTable{
 				int month = Integer.parseInt(date[1]);
 				int year = Integer.parseInt(date[2]);
 
-				c.set(year, month - 1, day, 0, 0, 0);
+				c.set(year, month - 1, day, 8, 0, 0);
 				c.set(Calendar.MILLISECOND, 0);
 				
 				startDate = new DateTime(c.getTimeInMillis());
@@ -141,6 +141,11 @@ public class AppointmentTable{
 			}
 			
 			List<IAppointment> appointments = this.employeeManager.getAppointments(employeesToMatch, startDate, duration);
+			for(IAppointment a: appointments) {
+				System.out.println("StartDate = " + a.getStartTime() + ", EndDate = " + a.getEndTime());
+			}
+			
+			
 			// Initialize map
 			for(int i = 1; i < 6; i++) {
 				List<IAppointment> defaultList = new ArrayList<IAppointment>();

@@ -138,7 +138,7 @@ public class EmployeeManager implements IEmployeeManager {
 
 				case 1:
 					System.out.println("Freie Zeit geht über einen Tag.");
-					changeFirstPartOfAppointment(app, dEnd, c);
+					changeFirstPartOfAppointment(app, dStart, c);
 
 					c.set(Calendar.HOUR_OF_DAY, START_OF_WORK);
 					c.set(Calendar.MINUTE, 0);
@@ -595,7 +595,7 @@ public class EmployeeManager implements IEmployeeManager {
 							.getValue()
 							- fifteenMinutes
 							+ twoHours
-							- duration.getValue());
+							- duration.getValue() + 3600000);
 
 					// endOfFreeApp is equal to startOfFreeApp, if the duration
 					// matches exactly the free time between two Appointments
