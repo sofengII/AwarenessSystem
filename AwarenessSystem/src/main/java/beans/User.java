@@ -194,12 +194,12 @@ public class User implements IUser{
 		FileWriter file = new FileWriter(favoritesFile);
 		BufferedWriter bw = new BufferedWriter(file);
 		
-		/*for(IEmployee favorite : favorites){
+		for(IEmployee favorite : favorites){
 			bw.write(favorite.getEmployeeID()+",");
 			bw.write(favorite.getName()+",");
 			bw.write(favorite.getPicturePath()+",");
 			bw.write(favorite.getLink()+"\n");
-		}*/
+		}
 		bw.flush();
 		bw.close();
 		file.close();
