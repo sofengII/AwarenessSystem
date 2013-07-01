@@ -26,6 +26,9 @@
 			<h:form>
 				<a4j:commandButton id="searchNavigationButton" styleClass="rf-cb-navigationButton" value="Gezielte Suche" action="#{navigationController.navigate('search')}"/>
 			</h:form>
+			<h:form>
+				<a4j:commandButton id="logOutButton" styleClass="rf-cb-navigationButton" value="Ausloggen" action="#{user.logOff()}"/>
+			</h:form>
 			</rich:panel>
 			<rich:panel styleClass="rf-p-contentPanel" id="content_panel">
 				<ui:insert name="content"/>

@@ -72,4 +72,20 @@
 			<to-view-id>/home.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<display-name>home.xhtml</display-name>
+		<from-view-id>/home.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>logOut</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>search.xhtml</display-name>
+		<from-view-id>/search.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>logOut</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 </faces-config>

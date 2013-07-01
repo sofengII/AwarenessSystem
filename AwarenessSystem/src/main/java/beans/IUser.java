@@ -73,6 +73,6 @@ public interface IUser {
 	 * It saves his favorites list into a file.
 	 * @throws IOException 
 	 */
-	public void logOff() throws FileNotFoundException, IOException;
+	public String logOff() throws FileNotFoundException, IOException;
 	
 }

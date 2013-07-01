@@ -187,7 +187,7 @@ public class User implements IUser{
 	}
 	
 	@Override
-	public void logOff() throws IOException {
+	public String logOff() throws IOException {
 		
 		
 		
@@ -208,6 +208,7 @@ public class User implements IUser{
 		this.favorites.clear();
 				
 		System.out.println("Favorites were saved in the file.");
+		return "logOut";
 	}
 	
 	@Override

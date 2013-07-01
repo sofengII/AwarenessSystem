@@ -116,6 +116,13 @@ div.content {
 
 .rf-pg-appointments {
 	display: inline-block !important;
+	vertical-align: top !important;
+}
+
+.rf-ot-tableHeader {
+	font: bold !important;
+	color: #008080 !important;
+	text-align: center !important;
 }
 
 .rf-pg-labelInPanelgroup{

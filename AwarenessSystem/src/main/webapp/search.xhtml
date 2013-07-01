@@ -70,10 +70,10 @@
 					</h:form>
 					<h:form>
 						<a4j:outputPanel id="table" ajaxRendered="true">
-							<h:panelGroup rendered="#{appointmentTable.appointmentMap.size() == 5}">
+							<h:panelGroup id="tableContainer" rendered="#{appointmentTable.appointmentMap.size() == 5}">
 								<ui:repeat value="#{appointmentTable.getSortedKeys(startDateBean.chosenDate)}" var="key">
 									<h:panelGrid columns="1" styleClass="rf-pg-appointments">
-										<h:outputText value="#{appointmentTable.integerToDay(key)}" />
+										<h:outputText value="#{appointmentTable.integerToDay(key)}" styleClass="rf-ot-tableHeader"/>
 										<h:dataTable value="#{appointmentTable.getAppointmentStrings(key)}" var="appointment">
 											<h:column>
 												<h:outputText value="#{appointment}" />
