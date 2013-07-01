@@ -28,6 +28,10 @@ div.content {
   padding-top: 0%;
 }
 
+.rf-pg-teamMember {
+	display: inline !important;
+}
+
 .rf-ot-header {
 	font-size: 20pt;
 	font-style: italic;
@@ -104,6 +108,10 @@ div.content {
 
 .rf-pg-labelComboBoxPanel{
 	display: table !important;
+}
+
+.rf-pg-teamMember {
+	display: inline-block !important;	
 }
 
 .rf-pg-labelInPanelgroup{

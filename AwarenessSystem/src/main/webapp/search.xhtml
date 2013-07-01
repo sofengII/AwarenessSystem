@@ -59,14 +59,12 @@
 					<h:form>
 						<a4j:outputPanel id="teamMemberList" ajaxRendered="true">
 							<h:panelGroup styleClass="rf-pg-membersPanel">
-								<h:dataTable value="#{memberList.members}" var="member">
-									<h:column>
-										<h:panelGrid id="memberColumn" columns="1">
-											<h:graphicImage value="/resources/images/person_icon.png" width="50px" height="50px"/>
-											<h:outputText value="#{member}" />
-										</h:panelGrid>
-									</h:column>
-								</h:dataTable>
+								<ui:repeat value="#{memberList.members}" var="member">
+									<h:panelGrid id="memberColumn" columns="1" styleClass="rf-pg-teamMember">
+										<h:graphicImage value="/resources/images/person_icon.png" width="50px" height="50px"/>
+										<h:outputText value="#{member}" />
+									</h:panelGrid>
+								</ui:repeat>
 							</h:panelGroup>
 						</a4j:outputPanel>
 					</h:form>
