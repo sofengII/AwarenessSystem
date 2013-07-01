@@ -108,9 +108,15 @@ public class AppointmentTable{
 			
 			DateTime startDate;
 			
-			if(startDateString.equalsIgnoreCase("") || startDateString.equalsIgnoreCase("Now")) {
+			if(startDateString.equalsIgnoreCase("")) {
 				
-				startDate = new DateTime(new Date().getTime());
+				Calendar c = Calendar.getInstance();
+
+				c.set(Calendar.SECOND, 0);
+				c.set(Calendar.MINUTE,0);
+				c.set(Calendar.HOUR_OF_DAY, 8);
+				
+				startDate = new DateTime(c.getTimeInMillis());
 				
 			} else {
 				
@@ -141,9 +147,17 @@ public class AppointmentTable{
 			}
 			
 			List<IAppointment> appointments = this.employeeManager.getAppointments(employeesToMatch, startDate, duration);
-			for(IAppointment a: appointments) {
+			List<IAppointment> tmpApp = appointments;
+			
+			System.out.println("First:");
+			for(IAppointment a: tmpApp) {
+				/*if(a.getEndTime().getValue() <= startDate.getValue()) {
+					System.out.println("in if - AppointmentTable");
+					appointments.remove(a);
+				}*/
 				System.out.println("StartDate = " + a.getStartTime() + ", EndDate = " + a.getEndTime());
 			}
+			
 			
 			
 			// Initialize map
@@ -151,7 +165,9 @@ public class AppointmentTable{
 				List<IAppointment> defaultList = new ArrayList<IAppointment>();
 				this.appointmentMap.put(i, defaultList);
 			}
+			
 			for(IAppointment appointment: appointments) {
+				
 				Calendar date = Calendar.getInstance();
 				date.setTime(new Date(appointment.getStartTime().getValue()));
 				int day = date.get(Calendar.DAY_OF_WEEK) - 1;
