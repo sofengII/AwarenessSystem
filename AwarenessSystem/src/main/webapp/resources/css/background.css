@@ -83,7 +83,7 @@ div.content {
 
 .rf-ot-busy {
 	font-weight: bold !important;
-	color: yellow !important;
+	color: red !important;
 }
 
 .rf-p-favouritePanel {
