@@ -71,18 +71,16 @@
 					<h:form>
 						<a4j:outputPanel id="table" ajaxRendered="true">
 							<h:panelGroup rendered="#{appointmentTable.appointmentMap.size() == 5}">
-								<h:dataTable value="#{appointmentTable.getSortedKeys(startDateBean.chosenDate)}" var="key">
-									<h:column>
-										<h:panelGrid columns="1">
-											<h:outputText value="#{appointmentTable.integerToDay(key)}" />
-											<h:dataTable value="#{appointmentTable.getAppointmentStrings(key)}" var="appointment">
-												<h:column>
-													<h:outputText value="#{appointment}" />
-												</h:column>
-											</h:dataTable>
-										</h:panelGrid>
-									</h:column>
-								</h:dataTable>
+								<ui:repeat value="#{appointmentTable.getSortedKeys(startDateBean.chosenDate)}" var="key">
+									<h:panelGrid columns="1" styleClass="rf-pg-appointments">
+										<h:outputText value="#{appointmentTable.integerToDay(key)}" />
+										<h:dataTable value="#{appointmentTable.getAppointmentStrings(key)}" var="appointment">
+											<h:column>
+												<h:outputText value="#{appointment}" />
+											</h:column>
+										</h:dataTable>
+									</h:panelGrid>
+								</ui:repeat>
 							</h:panelGroup>
 						</a4j:outputPanel>
 					</h:form>

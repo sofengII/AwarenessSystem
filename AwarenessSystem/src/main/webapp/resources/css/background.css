@@ -114,6 +114,10 @@ div.content {
 	display: inline-block !important;	
 }
 
+.rf-pg-appointments {
+	display: inline-block !important;
+}
+
 .rf-pg-labelInPanelgroup{
 	display: table-header-group !important;
 }
