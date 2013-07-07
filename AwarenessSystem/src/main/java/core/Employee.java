@@ -119,6 +119,7 @@ public class Employee implements IEmployee, Serializable {
 
 	@Override
 	public avaliable getAvaliable() {
+		System.out.println("availability gotten");
 		updateAvaliability();
 		return avaliable;
 	}
