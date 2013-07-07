@@ -180,13 +180,8 @@ public class EmployeeManager implements IEmployeeManager {
 					
 					//create three more appointments
 					
-					//first one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
-					
-					//second one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),2);
-					
-					//third one:
 					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),3);
 					
 					break;
@@ -198,16 +193,9 @@ public class EmployeeManager implements IEmployeeManager {
 					
 					//create four more appointments
 					
-					//first one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
-					
-					//second one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),2);
-					
-					//third one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),3);
-					
-					//fourth one:
 					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),4);
 					
 					break;
@@ -219,19 +207,10 @@ public class EmployeeManager implements IEmployeeManager {
 					
 					//create five more appointments
 					
-					//first one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
-					
-					//second one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),2);
-					
-					//third one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),3);
-					
-					//fourth one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),4);
-					
-					//fith one:
 					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),5);
 					
 					break;
@@ -242,22 +221,11 @@ public class EmployeeManager implements IEmployeeManager {
 					
 					//create six more appointments
 					
-					//first one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
-					
-					//second one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),2);
-					
-					//third one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),3);
-					
-					//fourth one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),4);
-					
-					//fith one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),5);
-					
-					//sixth one:
 					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),6);
 					
 					break;
@@ -268,25 +236,12 @@ public class EmployeeManager implements IEmployeeManager {
 					
 					//create seven more appointments
 					
-					//first one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),1);
-					
-					//second one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),2);
-					
-					//third one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),3);
-					
-					//fourth one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),4);
-					
-					//fith one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),5);
-					
-					//sixth one:
 					splitAppointment(newAppointments, dStart, null, duration.getValue(),6);
-					
-					//seventh one:
 					splitAppointment(newAppointments, dStart, dEnd, duration.getValue(),7);
 					
 					break;
@@ -309,8 +264,7 @@ public class EmployeeManager implements IEmployeeManager {
 		});
 
 		// in the end: reset all free appointment lists of the employees to
-		// guarantee
-		// a correct calculation for the next time
+		// guarantee a correct calculation for the next time
 		for (IEmployee reset : employees) {
 			reset.resetFreeAppointments();
 		}
@@ -325,9 +279,6 @@ public class EmployeeManager implements IEmployeeManager {
 	 * @param end
 	 * @param dur
 	 */
-	
-
-	
 	private void splitAppointment(List<IAppointment> newAppointments,Date start, Date end, long dur, int differenceOfDays) {
 		IAppointment newAppointment;
 		
@@ -353,7 +304,6 @@ public class EmployeeManager implements IEmployeeManager {
 			if (newAppointment.getStartTime().getValue() < end
 					.getTime() && ((end.getTime() - newAppointment.getStartTime().getValue()) >= dur)) {
 				newAppointments.add(newAppointment);
-				//System.out.println("Appointment was splitted: " + newAppointment.getStartTime() + " --- " + newAppointment.getEndTime());
 			}
 		}
 		
@@ -414,60 +364,34 @@ public class EmployeeManager implements IEmployeeManager {
 
 			boolean match = true;
 
-			for (IEmployee em : remaining) { // Check for all the other
-												// employees...
+			for (IEmployee em : remaining) { // Check for all the other employees...
 
 				boolean emMatch = false;
 
-				for (IAppointment emFree : em.getFreeAppointments()) { // ...
-																		// for
-																		// all
-																		// of
-																		// his
-																		// free
-																		// appointments...
+				for (IAppointment emFree : em.getFreeAppointments()) { // ... for all of his free appointments...
 
-					if (free.matches(emFree, duration)) { // ... if there is a
-															// match, remember
-															// it
+					if (free.matches(emFree, duration)) { // ... if there is a match, remember it
 						emMatch = true;
 						if (emFree.getStartTime().getValue() > latestStartTime
-								.getValue()) { // if
-												// emFree
-												// begins
-												// later
-							latestStartTime = emFree.getStartTime(); // its
-																		// startTime
-																		// is
-																		// the
-																		// new
-																		// latestStartTime
+								.getValue()) { // if emFree begins later
+							latestStartTime = emFree.getStartTime(); // its startTime is the new latestStartTime
 						}
 						if (emFree.getEndTime().getValue() < earliestEndTime
-								.getValue()) { // if
-												// emFree
-												// ends
-												// earlier
-							earliestEndTime = emFree.getEndTime(); // its
-																	// endTime
-																	// is the
-																	// new
-																	// earliestEndTime
+								.getValue()) { // if emFree ends earlier
+							earliestEndTime = emFree.getEndTime(); // its endTime is the new earliestEndTime
 						}
 						break;
 					}
 				}
 
-				if (!emMatch) { // if there weren't any matches with this
-								// employee's free appointments
+				if (!emMatch) { // if there weren't any matches with this employee's free appointments
 					match = false;
 					break; // the loop of this free appointment can be left
 				}
 			}
 
 			if (match) { // if the appointment free matches with every employee
-							// add a new appointment to the freeAppointments
-							// list
+							// add a new appointment to the freeAppointments list
 
 				freeAppointments.add(new Appointment(latestStartTime,
 						earliestEndTime));
@@ -508,8 +432,7 @@ public class EmployeeManager implements IEmployeeManager {
 
 				IAppointment freeApp;
 
-				// If there is only one appointment, this takes care of the free
-				// times
+				// If there is only one appointment, this takes care of the free times
 				if (appointments.size() == 1) {
 
 					if (app.getStartTime().getValue() - fifteenMinutes
@@ -663,60 +586,4 @@ public class EmployeeManager implements IEmployeeManager {
 
 		return employees;
 	}
-
-	public static void main(String... args) throws IOException,
-			ServiceException, NotFoundAppointmentException,
-			ClassNotFoundException {
-
-		IEmployeeManager em = new EmployeeManager();
-
-		Calendar cal = Calendar.getInstance();
-
-		List<IEmployee> list = new ArrayList<>();
-
-		// get the current time
-		//DateTime start = new DateTime(cal.getTimeInMillis());
-		
-		cal.set(2013, 6, 1, 10, 0, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		
-		DateTime start = new DateTime(cal.getTimeInMillis());
-		
-		System.out.println(start);
-		
-		// duration 1h
-		DateTime duration = new DateTime(3600000);
-
-		list.addAll(em.getEmployees());
-
-		List<IAppointment> listapp = em.getAppointments(list, start, duration);
-
-		System.out.println("All free appointments:");
-		for (IAppointment a : listapp) {
-			System.out.println("Start:" + a.getStartTime() + " End: "
-					+ a.getEndTime());
-		}
-
-		/*
-		 * for (IEmployee empl : list) { System.out.println("ID: " +
-		 * empl.getEmployeeID() + " Avaliable? " + empl.getAvaliable()); }
-		 * 
-		 * for (IEmployee empl : em.getEmployees())
-		 * System.out.println(empl.getEmployeeID() + ", " + empl.getName() +
-		 * ", " + empl.getPicturePath() + ", " + empl.getLink() + ";");
-		 */
-
-		 //Test zum Favoriten-Speichern und -Laden
-		 /*User user = new User("Dany");
-		 user.addFavorite(list.get(0));
-		 user.addFavorite(list.get(1));
-		 user.logOff();
-		
-		 user.logIn();
-		 for (IEmployee fav : user.getFavorites()) {
-		 System.out.println("Favorite: " + fav.getName());
-		 }*/
-
-	}
-
 }
